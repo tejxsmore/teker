@@ -1,165 +1,123 @@
-# TEKER - Tech Marketplace and Comparison website
-==========================
+# TEKER - Tech Products Ecommerce Website
 
-A modern Next.js ecommerce platform specializing in technology products, featuring secure authentication with Clerk and scalable data management using Neon PostgreSQL.
+Welcome to **TEKER**, an ecommerce website dedicated to selling cutting-edge tech products such as smartphones, laptops, headphones, cameras, and more. Built with modern web technologies, TEKER provides a seamless shopping experience for tech enthusiasts.
 
-## Overview
---------
+## Live Demo
 
-TechHub is an ecommerce solution specifically designed for tech enthusiasts, offering a curated selection of premium technology products including smartphones, laptops, gaming peripherals, smart devices, and professional equipment. Built with scalability and performance in mind, the platform leverages Next.js for optimal user experience, Clerk for robust authentication, and Neon's serverless PostgreSQL for reliable data persistence.
+Visit the live website: [TEKER](https://teker.vercel.app)
+
+---
 
 ## Features
-------------
 
-### Core Functionality
+- **Next.js Framework**: Fast and scalable React-based framework for building web applications.
+- **Clerk Authentication**: Secure user authentication and management, including social login options.
+- **Neon Serverless Postgres Database**: Efficient and scalable database management with serverless architecture.
+- **Responsive Design**: Optimized for all devices—desktop, tablet, and mobile.
+- **Product Management**: Browse, search, and purchase tech products easily.
+- **User Accounts**: Manage personal profiles, view order history, and save favorite items.
 
-✓ Product catalog with detailed specifications
-✓ Secure user authentication and profiles
-✓ Shopping cart with persistent sessions
-✓ Order management system
-✓ Real-time inventory tracking
-✓ Payment processing integration
+---
 
-### Technical Stack
+## Tech Stack
 
-* Frontend: Next.js 14+
-* Authentication: Clerk
-* Database: Neon PostgreSQL
-* ORM: Drizzle
-* Styling: Tailwind CSS
+- **Frontend**: [Next.js](https://nextjs.org/)
+- **Authentication**: [Clerk](https://clerk.dev/)
+- **Database**: [Neon Serverless Postgres](https://neon.tech/)
+- **ORM**: Drizzle ORM for type-safe database operations
+- **Hosting**: [Vercel](https://vercel.com/)
+
+---
 
 ## Prerequisites
----------------
 
-Before setting up the project, ensure you have:
+To set up TEKER locally, ensure you have:
 
-1. Node.js 18.x or higher
-2. npm or yarn package manager
-3. Git version control
-4. Clerk account for authentication
-5. Neon PostgreSQL database
+1. Node.js (v18 or newer) installed.
+2. A Neon account with a configured Postgres database.
+3. A Clerk account with an application set up for authentication.
 
-## Getting Started
------------------
+---
 
-### Clone Repository
+## Local Development Setup
 
-```bash
-git clone https://github.com/yourusername/techhub-ecommerce.git
-cd techhub-ecommerce
-```
+Follow these steps to run TEKER locally:
 
-### Environment Configuration
+1. Clone the repository:
+   ```
+   git clone https://github.com/yourusername/teker.git
+   cd teker
+   ```
 
-Create a `.env` file in the project root with your credentials:
+2. Install dependencies:
+   ```
+   npm install
+   ```
 
-```plaintext
-# Clerk Configuration
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_publishable_key
-CLERK_SECRET_KEY=your_secret_key
+3. Set up environment variables:
+   - Copy `.env.example` to `.env.local`.
+   - Replace placeholders with your Neon database URL and Clerk API keys:
+     ```
+     DATABASE_URL=YOUR_NEON_DATABASE_URL
+     NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=YOUR_CLERK_PUBLISHABLE_KEY
+     CLERK_SECRET_KEY=YOUR_CLERK_SECRET_KEY
+     ```
 
-# Neon Database
-DATABASE_URL=postgresql://user:password@host:port/database?sslmode=require
+4. Run database migrations using Drizzle ORM:
+   ```
+   npx drizzle-kit push:pg
+   ```
 
-# Additional Configurations
-NEXT_PUBLIC_BASE_URL=http://localhost:3000
-STRIPE_PUBLIC_KEY=your_stripe_public_key
-STRIPE_SECRET_KEY=your_stripe_secret_key
-```
+5. Start the development server:
+   ```
+   npm run dev
+   ```
 
-### Install Dependencies
+6. Open your browser and navigate to `http://localhost:3000`.
 
-```bash
-npm install
-# or
-yarn install
-```
+---
 
-### Initialize Database
+## Deployment
 
-```bash
-# Generate migrations
-npx drizzle-kit generate:pg
+TEKER is hosted on Vercel. To deploy your own instance:
 
-# Apply migrations
-npx drizzle-kit push:pg
-```
+1. Push your code to a GitHub repository.
+2. Connect the repository to Vercel.
+3. Add your environment variables in Vercel's project settings.
 
-### Start Development Server
-
-```bash
-npm run dev
-# or
-yarn dev
-```
-
-The application will be available at http://localhost:3000
-
-## Project Structure
--------------------
-
-```plaintext
-├── app/
-│   ├── pages/
-│   │   ├── product/
-│   │   └── cart/
-│   ├── components/
-│   │   ├── ProductCard/
-│   │   └── CartItem/
-│   └── lib/
-│       ├── db/
-│       └── utils/
-├── public/
-├── src/
-│   ├── assets/
-│   └── styles/
-└── prisma/
-```
+---
 
 ## Contributing
-------------
 
-Contributions are welcome! To contribute:
+We welcome contributions! To contribute:
 
-1. Fork the repository
-2. Create a feature branch
-3. Implement your changes
-4. Submit a pull request
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Submit a pull request detailing your changes.
 
-Please include tests for any new functionality and maintain consistent coding style.
+---
 
 ## License
--------
 
-MIT License
+This project is licensed under the MIT License.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+---
 
-[Full MIT license terms]
+## Contact
 
-## Acknowledgments
----------------
+For any inquiries or support, please reach out at [support@teker.com](mailto:support@teker.com).
+```
 
-Special thanks to:
+Citations:
+[1] https://app.daily.dev/posts/next-js-authentication-using-clerk-drizzle-orm-and-neon-mapqx7vbq
+[2] https://github.com/neondatabase-labs/guide-neon-next-clerk/blob/main/README.md
+[3] https://neon.tech/blog/nextjs-authentication-using-clerk-drizzle-orm-and-neon
+[4] https://github.com/Marktawa/medusa-neon
+[5] https://app.daily.dev/posts/full-stack-development-with-next-js-clerk-and-neon-postgres-quowceyls
+[6] https://github.com/evanshortiss/neon-clerk-drizzle-nextjs
+[7] https://clerk.com/docs/integrations/databases/neon
+[8] https://github.com/Kizmelvin/neon-ecommerce-app
+[9] https://www.freecodecamp.org/news/nextjs-clerk-neon-fullstack-development/
 
-* [Neon](https://neon.tech/) for providing the serverless PostgreSQL database
-* [Clerk](https://clerk.dev/) for the authentication solution
-* [Next.js](https://nextjs.org/) for the React framework
-
-## Roadmap
----------
-
-🎯 Short-term Goals:
-- Add support for multiple payment gateways
-- Implement product reviews system
-- Enhance search functionality with Elasticsearch
-
-🏃 Long-term Goals:
-- Add admin panel for inventory management
-- Implement recommendation engine
-- Develop mobile application
+---
+Answer from Perplexity: pplx.ai/share
