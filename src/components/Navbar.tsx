@@ -1,5 +1,6 @@
 import {
     SignInButton,
+    SignOutButton,
     SignedIn,
     SignedOut,
   } from '@clerk/nextjs'
@@ -11,12 +12,12 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
   
-import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/ThemeToggle"
 import { currentUser } from '@clerk/nextjs/server'
 
 import { ShoppingCart } from 'lucide-react';
 import { User } from 'lucide-react';
+import Link from 'next/link'
 
 export default async function Navbar(){
     const user = await currentUser()
@@ -31,30 +32,31 @@ export default async function Navbar(){
         <div className="flex items-center gap-5">
             <ThemeToggle />
 
-            <Button className="rounded-full bg-light text-dark border border-[#D8D9CF] 
-            hover:bg-light dark:border-[#404258] cursor-pointer">
-                <span><ShoppingCart size={10} /></span>
-                <p>Cart</p>
-            </Button>
+            <Link href={'/cart'} className="bg-light text-dark border border-[#D8D9CF] 
+            hover:bg-light dark:border-[#404258] px-4 py-1.5 rounded-[20px]
+            cursor-pointer focus:outline-none flex items-center gap-3">
+                <span><ShoppingCart size={16} /></span>
+                Cart
+            </Link>
 
-            <div className='flex items-center'>
+            <div>
                 <SignedOut>
-                    <div className="py-[7px] px-5 border border-[#D8D9CF] flex items-center gap-2
-                        dark:border-[#404258] rounded-full cursor-pointer text-sm font-medium">
-                        <span><User size={16} /></span>
-                        <SignInButton>Login</SignInButton>
-                    </div>
+                    <SignInButton className="bg-light text-dark border border-[#D8D9CF] 
+                        hover:bg-light dark:border-[#404258] px-4 py-1.5 rounded-[20px]
+                        cursor-pointer focus:outline-none flex items-center gap-3">
+                            Login
+                    </SignInButton>
                 </SignedOut>
 
                 <SignedIn>
                     <DropdownMenu>
-                        <DropdownMenuTrigger className='focus:outline-none'>
-                            <Button className="rounded-full bg-light text-dark border border-[#D8D9CF] 
-                            hover:bg-light dark:border-[#404258] cursor-pointer">
-                                <span><User size={15} /></span>
-                                <p>Profile</p>
-                            </Button>
+                        <DropdownMenuTrigger className="bg-light text-dark border border-[#D8D9CF] 
+                        hover:bg-light dark:border-[#404258] px-4 py-1.5 rounded-[20px]
+                        cursor-pointer focus:outline-none flex items-center gap-3">
+                            <span><User size={16} /></span>
+                            Profile
                         </DropdownMenuTrigger>
+
                         <DropdownMenuContent className='m-5 dark:bg-dark dark:text-white border 
                         border-[#D8D9CF] dark:border-[#404258] rounded-[16px] tracking-wide'>
                             <DropdownMenuLabel>{userFullName}</DropdownMenuLabel>
@@ -64,8 +66,11 @@ export default async function Navbar(){
                                 {userEmail}
                             </DropdownMenuLabel>
 
-                            <DropdownMenuItem className='pt-[8px]s'>Settings</DropdownMenuItem>
-                            <DropdownMenuItem className=''>Help and Support</DropdownMenuItem>                            
+                            <DropdownMenuItem className='pt-[8px]'>Settings</DropdownMenuItem>                            
+                            <DropdownMenuItem className=''>Help and Support</DropdownMenuItem>
+
+                            <SignOutButton className="p-2 text-sm w-full text-start 
+                            border-t border-[#D8D9CF] dark:border-[#404258]">Logout</SignOutButton>                            
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </SignedIn>
