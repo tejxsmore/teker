@@ -1,36 +1,165 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TEKER - Tech Marketplace and Comparison website
+==========================
+
+A modern Next.js ecommerce platform specializing in technology products, featuring secure authentication with Clerk and scalable data management using Neon PostgreSQL.
+
+## Overview
+--------
+
+TechHub is an ecommerce solution specifically designed for tech enthusiasts, offering a curated selection of premium technology products including smartphones, laptops, gaming peripherals, smart devices, and professional equipment. Built with scalability and performance in mind, the platform leverages Next.js for optimal user experience, Clerk for robust authentication, and Neon's serverless PostgreSQL for reliable data persistence.
+
+## Features
+------------
+
+### Core Functionality
+
+✓ Product catalog with detailed specifications
+✓ Secure user authentication and profiles
+✓ Shopping cart with persistent sessions
+✓ Order management system
+✓ Real-time inventory tracking
+✓ Payment processing integration
+
+### Technical Stack
+
+* Frontend: Next.js 14+
+* Authentication: Clerk
+* Database: Neon PostgreSQL
+* ORM: Drizzle
+* Styling: Tailwind CSS
+
+## Prerequisites
+---------------
+
+Before setting up the project, ensure you have:
+
+1. Node.js 18.x or higher
+2. npm or yarn package manager
+3. Git version control
+4. Clerk account for authentication
+5. Neon PostgreSQL database
 
 ## Getting Started
+-----------------
 
-First, run the development server:
+### Clone Repository
+
+```bash
+git clone https://github.com/yourusername/techhub-ecommerce.git
+cd techhub-ecommerce
+```
+
+### Environment Configuration
+
+Create a `.env` file in the project root with your credentials:
+
+```plaintext
+# Clerk Configuration
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_publishable_key
+CLERK_SECRET_KEY=your_secret_key
+
+# Neon Database
+DATABASE_URL=postgresql://user:password@host:port/database?sslmode=require
+
+# Additional Configurations
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+STRIPE_PUBLIC_KEY=your_stripe_public_key
+STRIPE_SECRET_KEY=your_stripe_secret_key
+```
+
+### Install Dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### Initialize Database
+
+```bash
+# Generate migrations
+npx drizzle-kit generate:pg
+
+# Apply migrations
+npx drizzle-kit push:pg
+```
+
+### Start Development Server
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
+-------------------
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```plaintext
+├── app/
+│   ├── pages/
+│   │   ├── product/
+│   │   └── cart/
+│   ├── components/
+│   │   ├── ProductCard/
+│   │   └── CartItem/
+│   └── lib/
+│       ├── db/
+│       └── utils/
+├── public/
+├── src/
+│   ├── assets/
+│   └── styles/
+└── prisma/
+```
 
-## Learn More
+## Contributing
+------------
 
-To learn more about Next.js, take a look at the following resources:
+Contributions are welcome! To contribute:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. Fork the repository
+2. Create a feature branch
+3. Implement your changes
+4. Submit a pull request
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Please include tests for any new functionality and maintain consistent coding style.
 
-## Deploy on Vercel
+## License
+-------
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+MIT License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+[Full MIT license terms]
+
+## Acknowledgments
+---------------
+
+Special thanks to:
+
+* [Neon](https://neon.tech/) for providing the serverless PostgreSQL database
+* [Clerk](https://clerk.dev/) for the authentication solution
+* [Next.js](https://nextjs.org/) for the React framework
+
+## Roadmap
+---------
+
+🎯 Short-term Goals:
+- Add support for multiple payment gateways
+- Implement product reviews system
+- Enhance search functionality with Elasticsearch
+
+🏃 Long-term Goals:
+- Add admin panel for inventory management
+- Implement recommendation engine
+- Develop mobile application

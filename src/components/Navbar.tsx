@@ -1,5 +1,4 @@
 import {
-    SignIn,
     SignInButton,
     SignOutButton,
     SignedIn,
@@ -10,7 +9,6 @@ import {
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
   
@@ -18,9 +16,8 @@ import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/ThemeToggle"
 import { currentUser } from '@clerk/nextjs/server'
 
-import { Link, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { User } from 'lucide-react';
-import { LogOut } from 'lucide-react';
 
 export default async function Navbar(){
     const user = await currentUser()
