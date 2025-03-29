@@ -41,10 +41,8 @@ export default async function Navbar(){
 
             <div>
                 <SignedOut>
-                    <SignInButton className="bg-light text-dark border border-[#D8D9CF] 
-                        hover:bg-light dark:border-[#404258] px-4 py-1.5 rounded-[20px]
-                        cursor-pointer focus:outline-none flex items-center gap-3">
-                            Login
+                    <SignInButton>
+                        Login
                     </SignInButton>
                 </SignedOut>
 
@@ -67,10 +65,7 @@ export default async function Navbar(){
                             </DropdownMenuLabel>
 
                             <DropdownMenuItem className='pt-[8px]'>Settings</DropdownMenuItem>                            
-                            <DropdownMenuItem className=''>Help and Support</DropdownMenuItem>
-
-                            <SignOutButton className="p-2 text-sm w-full text-start 
-                            border-t border-[#D8D9CF] dark:border-[#404258]">Logout</SignOutButton>                            
+                            <DropdownMenuItem className='rounded-b-[10px]'>Help and Support</DropdownMenuItem>                            
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </SignedIn>
