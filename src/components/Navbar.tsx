@@ -1,6 +1,5 @@
 import {
     SignInButton,
-    SignOutButton,
     SignedIn,
     SignedOut,
   } from '@clerk/nextjs'
@@ -15,7 +14,6 @@ import {
 import { Button } from "@/components/ui/button"
 import ThemeToggle from "@/components/ThemeToggle"
 import { currentUser } from '@clerk/nextjs/server'
-import Link from 'next/link'
 
 import { ShoppingCart } from 'lucide-react';
 import { User } from 'lucide-react';
@@ -66,7 +64,7 @@ export default async function Navbar(){
                                 {userEmail}
                             </DropdownMenuLabel>
 
-                            <DropdownMenuItem className='pt-[8px] rounded-lg'>Settings</DropdownMenuItem>
+                            <DropdownMenuItem className='pt-[8px]s'>Settings</DropdownMenuItem>
                             <DropdownMenuItem className=''>Help and Support</DropdownMenuItem>                            
                         </DropdownMenuContent>
                     </DropdownMenu>
