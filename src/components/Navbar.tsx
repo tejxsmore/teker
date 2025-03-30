@@ -11,7 +11,7 @@ import {
 //     DropdownMenuTrigger,
 //   } from "@/components/ui/dropdown-menu"
   
-import { currentUser } from '@clerk/nextjs/server'
+// import { currentUser } from '@clerk/nextjs/server'
 
 import { ShoppingCart } from 'lucide-react';
 // import { User } from 'lucide-react';
