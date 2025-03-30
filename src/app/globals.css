@@ -4,8 +4,35 @@
 @theme {
   --color-dark: hsl(231, 37%, 14%)
   --color-light: hsl(35, 100%, 96%)
-  --color-orange: hsl(11, 87%, 60%)
+  --color-brick: hsl(11, 87%, 60%)
 }
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: transparent;
+}
+
 
 @custom-variant dark (&:is(.dark *));
 

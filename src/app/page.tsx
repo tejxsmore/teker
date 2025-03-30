@@ -11,8 +11,10 @@
 //   return <>{data}</>;
 // }
 
+import Categories from "@/components/Categories"
+
 export default function Home(){
-  return <div className="p-5">
-    <h1>Home</h1>
+  return <div className="">
+    <Categories />
   </div>
 }

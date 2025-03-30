@@ -5,6 +5,7 @@ import ThemeWrapper from './ThemeProvider';
 import { type Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
 import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Teker Dashboard',
@@ -22,8 +23,9 @@ export default function RootLayout({
         <body>
           <ThemeWrapper>
             <div className="bg-[#F2613F] h-6"></div>
-            <Navbar />
+              <Navbar />
               {children}
+              <Footer />
           </ThemeWrapper>
         </body>
       </html>
