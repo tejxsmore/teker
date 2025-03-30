@@ -1,29 +1,27 @@
 import {
     SignInButton,
-    SignedIn,
+    // SignedIn,
     SignedOut,
   } from '@clerk/nextjs'
-  import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
+// import {
+//     DropdownMenu,
+//     DropdownMenuContent,
+//     DropdownMenuItem,
+//     DropdownMenuLabel,
+//     DropdownMenuTrigger,
+//   } from "@/components/ui/dropdown-menu"
   
 import { currentUser } from '@clerk/nextjs/server'
 
 import { ShoppingCart } from 'lucide-react';
-import { User } from 'lucide-react';
+// import { User } from 'lucide-react';
 import Link from 'next/link'
 
 export default async function Navbar(){
 
-    const user = await currentUser()
-    const userFullName = user?.fullName
-    const userEmail = user?.emailAddresses[0].emailAddress
-
-    let cartCount = 0
+    // const user = await currentUser()
+    // const userFullName = user?.fullName
+    // const userEmail = user?.emailAddresses[0].emailAddress
 
     return <div className="flex justify-between items-center p-5 
     border-b border-[#D8D9CF] dark:border-[#404258]">
@@ -36,7 +34,7 @@ export default async function Navbar(){
             hover:bg-light dark:border-[#404258] px-4 py-1.5 rounded-[20px]
             cursor-pointer focus:outline-none flex items-center gap-3">
                 <span><ShoppingCart size={16} /></span>
-                {cartCount}
+                0
             </Link>
 
             <div>
@@ -68,7 +66,7 @@ export default async function Navbar(){
                             <DropdownMenuItem className='rounded-b-[10px]'>Help and Support</DropdownMenuItem>                            
                         </DropdownMenuContent>
                     </DropdownMenu>
-                </SignedIn> */}
+                </SignedIn>  */}
             </div>
         </div>
     </div>
