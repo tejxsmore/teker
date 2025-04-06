@@ -22,7 +22,7 @@ export default async function Navbar(){
     const userFullName = user?.fullName
     const userEmail = user?.emailAddresses[0].emailAddress
 
-    return <div className="flex justify-between items-center p-5 
+    return <div className="flex justify-between items-center p-5 gap-10
     border-b border-[#D8D9CF] dark:border-[#404258]">
         <div className="flex items-center gap-10">
             <Link href={'/'} className="text-4xl font-bold">TEKER</Link>
@@ -33,11 +33,11 @@ export default async function Navbar(){
 
             <div 
             className='flex items-center gap-5 px-4 py-1.5 rounded-[20px] 
-            bg-[#F8F4E1] dark:bg-[#030303] border border-[#D8D9CF] dark:border-[#404258]'>
+            bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] dark:border-[#404258]'>
                 <input 
                     type="text" 
                     placeholder='Search anything...'
-                    className='bg-[#F8F4E1] dark:bg-[#030303] focus:outline-none' />
+                    className='bg-[#F7F7F7] dark:bg-[#030303] focus:outline-none' />
                 <Search size={16} className='' />
             </div>
 
@@ -45,7 +45,7 @@ export default async function Navbar(){
         
         <div className="flex items-center gap-10">
 
-            <Link href={'/cart'} className="bg-[#F8F4E1] dark:bg-[#030303] 
+            <Link href={'/cart'} className="bg-[#F7F7F7] dark:bg-[#030303] 
             border border-[#D8D9CF] dark:border-[#404258] px-4 py-1.5 rounded-[20px]
             cursor-pointer focus:outline-none flex items-center gap-3">
                 <span><ShoppingCart size={16} /></span>
@@ -71,7 +71,7 @@ export default async function Navbar(){
                         </DropdownMenuTrigger>
 
                         <DropdownMenuContent 
-                        className='mx-5 my-2 bg-[#F8F4E1] dark:bg-[#030303] dark:text-white border 
+                        className='mx-5 my-2 bg-[#F7F7F7] dark:bg-[#030303] dark:text-white border 
                         border-[#D8D9CF] dark:border-[#404258] rounded-[16px] tracking-wide'>
                             <DropdownMenuLabel>{userFullName}</DropdownMenuLabel>
                             <DropdownMenuLabel 
