@@ -1,6 +1,7 @@
 import {
     SignedIn,
     SignedOut,
+    SignInButton,
     SignOutButton,
   } from '@clerk/nextjs'
 import {
@@ -53,13 +54,11 @@ export default async function Navbar(){
 
             <div>
                 <SignedOut>
-                    <Link 
-                    href={'https://clear-chipmunk-88.accounts.dev/sign-in'}
-                    className='bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 rounded-[20px]
+                    <div className='bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 rounded-[20px]
                     cursor-pointer flex items-center gap-3 text-[#030303]'>
                         <span><User size={16} className='text-[#030303]' /></span>
-                        Login
-                    </Link>
+                        <SignInButton>Login</SignInButton>
+                    </div>
                 </SignedOut>
 
                 <SignedIn>
