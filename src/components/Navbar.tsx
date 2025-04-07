@@ -31,6 +31,7 @@ export default async function Navbar(){
 
             <Link href={'/brands'} className="text-lg font-normal hover:text-[#F2613F]">Brands</Link>
 
+            <Link href={'/compare'} className="text-lg font-normal hover:text-[#F2613F]">Compare</Link>
             <div 
             className='flex items-center gap-5 px-4 py-1.5 rounded-[20px] 
             bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] dark:border-[#404258]'>

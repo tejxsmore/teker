@@ -11,7 +11,7 @@ export default async function Samsung(){
     const data = await getData();
     // console.log(data)
 
-    return <div className='p-5 space-y-5'>
+    return <div className='p-5'>
         <div className='space-y-5'>
           {data.map((phone)=>(
             <PhoneCard 

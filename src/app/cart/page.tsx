@@ -12,7 +12,12 @@ export default function Cart() {
 
   return (
     <div className="p-5 space-y-5">
-      <h2 className="text-xl font-semibold">Your Cart</h2>
+      {/* <h2 className="text-xl font-semibold">Your Cart</h2> */}
+
+      <div className='p-5 bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] 
+        dark:border-[#404258] w-full rounded-[20px] space-y-5'>
+          <h2 className='text-lg font-medium'>Cart Total : </h2>
+      </div>
 
       {cart.map((item) => (
         <div key={item.id} className="p-5 bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] 
@@ -23,15 +28,17 @@ export default function Cart() {
                   <div className="text-sm text-gray-500">{item.brand}</div>
                   <div className="text-lg font-medium">{item.name}</div>
                 </div>
-                <div className=''>
-                  Qty : {item.quantity}
+                <div 
+                className='flex gap-3'>
+                  <div className="text-sm text-gray-500">Quantity</div>
+                  <div className="text-4xl font-normal">{item.quantity}</div>
                 </div>
               </div>
 
               <div className='flex justify-between gap-5'>
                 <div className='flex w-full gap-5'>
                   <button onClick={() => removeFromCart(item.id)}
-                  className='bg-[#D84040] border border-[#A31D1D] px-4 py-1.5 
+                  className='bg-[#F2613F] border border-[#D84040] px-4 py-1.5 
                   rounded-[20px] cursor-pointer items-center gap-3 text-[#030303]'>
                     <Trash2 size={16} strokeWidth={1.5} />
                   </button>
