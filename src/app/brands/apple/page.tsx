@@ -9,13 +9,17 @@ async function getData() {
 
 export default async function Apple(){
     const data = await getData();
-    console.log(data)
+    // console.log(data)
 
     return <div className='p-5 space-y-5'>
-        <h1>Apple</h1>
         <div className='space-y-5'>
           {data.map((phone)=>(
-            <PhoneCard key={phone.phone_id} name={phone.model}  />
+            <PhoneCard 
+              key={phone.phone_id} 
+              id={phone.phone_id} 
+              brand={"Apple"} 
+              name={phone.model}  
+            />
           ))}
         </div>
     </div>

@@ -14,8 +14,8 @@ import {
   
 import Link from 'next/link'
 import { currentUser } from '@clerk/nextjs/server'
-import { ShoppingCart, Search, User } from 'lucide-react';
-
+import { Search, User } from 'lucide-react';
+import CartCount from "./CartCount"
 export default async function Navbar(){
 
     const user = await currentUser()
@@ -45,12 +45,7 @@ export default async function Navbar(){
         
         <div className="flex items-center gap-10">
 
-            <Link href={'/cart'} className="bg-[#F7F7F7] dark:bg-[#030303] 
-            border border-[#D8D9CF] dark:border-[#404258] px-4 py-1.5 rounded-[20px]
-            cursor-pointer focus:outline-none flex items-center gap-3">
-                <span><ShoppingCart size={16} /></span>
-                0
-            </Link>
+            <CartCount />
 
             <div>
                 <SignedOut>
