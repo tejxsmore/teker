@@ -1,6 +1,5 @@
 'use client'
 import { useCartStore } from "@/stores/cartStore";
-import { ShoppingCart } from "lucide-react";
 
 interface PhoneCardProps {
     id: number;
@@ -24,8 +23,7 @@ export default function PhoneCard({ id, brand, name } : PhoneCardProps){
             <div className="flex justify-between gap-5">
                 <button onClick={() => addToCart({ name, brand })}
                 className="w-full border border-[#D8D9CF] dark:border-[#404258] px-4 
-                py-1.5 rounded-[20px] cursor-pointer flex items-center justify-center gap-3">
-                    <span><ShoppingCart size={16} /></span>
+                py-1.5 rounded-[20px] cursor-pointer">
                     Add to Cart
                 </button>
                 <button onClick={() => handleBuy(id, brand, name)}
