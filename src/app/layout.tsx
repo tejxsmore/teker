@@ -8,8 +8,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Teker Dashboard',
-  description: 'Dashboard to control inventory and other aspects',
+  title: 'Teker',
+  description: 'Indias Number 1 Markeplace for Tech products and Comparison',
 }
 
 export default function RootLayout({

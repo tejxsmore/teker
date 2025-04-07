@@ -26,8 +26,8 @@ export default function ThemeToggle() {
       variant={"outline"}
       size="icon"
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-      className="rounded-full dark:bg-transparent dark:hover:bg-[#3C4048] 
-      dark:hover:text-white dark:border dark:border-[#404258]"
+      className="rounded-full bg-[#F7F7F7] dark:bg-[#030303] dark:hover:bg-[#3C4048] 
+      dark:hover:text-white border border-[#D8D9CF] dark:border-[#404258]"
     >
       {theme === 'dark' ? (
         <Sun className="h-5 w-5 text-light" />

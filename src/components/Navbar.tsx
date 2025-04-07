@@ -16,6 +16,7 @@ import Link from 'next/link'
 import { currentUser } from '@clerk/nextjs/server'
 import { Search, User } from 'lucide-react';
 import CartCount from "./CartCount"
+
 export default async function Navbar(){
 
     const user = await currentUser()
@@ -27,11 +28,21 @@ export default async function Navbar(){
         <div className="flex items-center gap-10">
             <Link href={'/'} className="text-4xl font-bold">TEKER</Link>
 
-            <Link href={'/categories'} className="text-lg font-normal hover:text-[#F2613F]">Categories</Link>
+            <Link href={'/categories'} 
+            className='hover:text-[#F2613F] cursor-pointer text-lg font-normal'>
+                Categories
+            </Link>
 
-            <Link href={'/brands'} className="text-lg font-normal hover:text-[#F2613F]">Brands</Link>
+            <Link href={'/brands'} 
+            className='hover:text-[#F2613F] cursor-pointer text-lg font-normal'>
+                Brands
+            </Link>
 
-            <Link href={'/compare'} className="text-lg font-normal hover:text-[#F2613F]">Compare</Link>
+            <Link href={'/compare'} 
+            className='hover:text-[#F2613F] cursor-pointer text-lg font-normal'>
+                Compare
+            </Link>
+
             <div 
             className='flex items-center gap-5 px-4 py-1.5 rounded-[20px] 
             bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] dark:border-[#404258]'>

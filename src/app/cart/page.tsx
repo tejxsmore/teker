@@ -7,11 +7,11 @@ export default function Cart() {
   const { cart, removeFromCart, increaseQty, decreaseQty } = useCartStore();
 
   if (cart.length === 0) {
-    return <div className="p-5 space-y-5 text-lg font-normal">🛒 Your cart is empty</div>;
+    return <div className="p-5 space-y-5 text-lg font-medium h-screen">Your cart is empty</div>;
   }
 
   return (
-    <div className="p-5 space-y-5">
+    <div className="p-5 space-y-5 h-screen">
       {/* <h2 className="text-xl font-semibold">Your Cart</h2> */}
 
       <div className='p-5 bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] 
