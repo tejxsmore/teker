@@ -7,6 +7,7 @@ type CartItem = {
   id: string;
   name: string;
   brand: string;
+  price: number;
   quantity: number;
 };
 
@@ -16,6 +17,7 @@ type CartStore = {
   removeFromCart: (id: string) => void;
   increaseQty: (id: string) => void;
   decreaseQty: (id: string) => void;
+  totalAmount: () => number;
 };
 
 export const useCartStore = create<CartStore>()(
@@ -24,12 +26,12 @@ export const useCartStore = create<CartStore>()(
       cart: [],
       addToCart: (item) => {
         const found = get().cart.find(
-          (i) => i.name === item.name && i.brand === item.brand
+          (i) => i.name === item.name && i.brand === item.brand && i.price === item.price
         );
         if (found) {
           set({
             cart: get().cart.map((i) =>
-              i.name === item.name && i.brand === item.brand
+              i.name === item.name && i.brand === item.brand && i.price === item.price
                 ? { ...i, quantity: i.quantity + 1 }
                 : i
             ),
@@ -67,6 +69,9 @@ export const useCartStore = create<CartStore>()(
             )
             .filter((item) => item.quantity > 0),
         }),
+      totalAmount: () => {
+        return get().cart.reduce((total, item) => total + item.price * item.quantity, 0);
+      },
     }),
     {
       name: 'cart-storage',

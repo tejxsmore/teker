@@ -19,6 +19,7 @@ export default async function Apple(){
               id={phone.phone_id} 
               brand={"Google"} 
               name={phone.model}  
+              price={phone.price}
           />
           ))}
         </div>

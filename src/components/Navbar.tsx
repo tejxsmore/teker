@@ -43,9 +43,9 @@ export default async function Navbar(){
 
                         {/* Dropdown for Categories */}
                         <div
-                        className="absolute top-full left-0 w-64 bg-[#1f1f23] text-white 
-                        p-4 rounded-[20px] shadow opacity-0 pointer-events-none translate-y-2 
-                        transition-all duration-300 group-hover/cat:opacity-100 
+                        className="absolute top-full left-0 w-64 bg-[#F7F7F7] dark:bg-[#1f1f23] 
+                        dark:text-white p-4 rounded-[20px] shadow opacity-0 pointer-events-none 
+                        translate-y-2 transition-all duration-300 group-hover/cat:opacity-100 
                         group-hover/cat:pointer-events-auto group-hover/cat:translate-y-0">
                             <p>🧾 Categories dropdown content</p>  
                         </div>
@@ -62,8 +62,8 @@ export default async function Navbar(){
 
                     {/* Dropdown for Brands */}
                     <div
-                        className="absolute top-full left-0 w-64 bg-[#1f1f23] text-white 
-                        p-4 rounded-[20px] shadow opacity-0 pointer-events-none 
+                        className="absolute top-full left-0 w-64 bg-[#F7F7F7] dark:bg-[#1f1f23] 
+                        dark:text-white p-4 rounded-[20px] shadow opacity-0 pointer-events-none 
                         translate-y-2 transition-all duration-300 
                         group-hover/brand:opacity-100 group-hover/brand:pointer-events-auto 
                         group-hover/brand:translate-y-0"

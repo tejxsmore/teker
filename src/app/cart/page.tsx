@@ -3,11 +3,17 @@
 import { useCartStore } from '@/stores/cartStore';
 import { Trash2, Plus, Minus } from 'lucide-react';
 
+let INRupee = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+});
+
 export default function Cart() {
   const { cart, removeFromCart, increaseQty, decreaseQty } = useCartStore();
+  const cartTotal = useCartStore((state) => state.totalAmount());
 
   if (cart.length === 0) {
-    return <div className="p-5 space-y-5 text-lg font-medium h-screen">Your cart is empty</div>;
+    return <div className="p-5 space-y-5 text-lg font-medium">Your cart is empty</div>;
   }
 
   return (
@@ -16,7 +22,7 @@ export default function Cart() {
 
       <div className='p-5 bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] 
         dark:border-[#404258] w-full rounded-[20px] space-y-5'>
-          <h2 className='text-lg font-medium'>Cart Total : </h2>
+          <h2 className='text-lg font-medium'>Cart Total : {INRupee.format(cartTotal)}</h2>
       </div>
 
       {cart.map((item) => (
@@ -35,6 +41,10 @@ export default function Cart() {
                 </div>
               </div>
 
+              <div className="flex gap-2 items-end">
+                <p className="text-2xl font-medium">{INRupee.format(item.price)}</p>
+              </div>
+
               <div className='flex justify-between gap-5'>
                 <div className='flex w-full gap-5'>
                   <button onClick={() => removeFromCart(item.id)}
@@ -47,12 +57,13 @@ export default function Cart() {
                   rounded-[20px] flex'>
 
                     <button onClick={() => decreaseQty(item.id)} 
-                    className='w-1/2 rounded-l-[20px]'>
+                    className='w-1/2 rounded-l-[20px] cursor-pointer'>
                       <Minus size={16} className='mx-auto' />
                     </button>
 
                     <button onClick={() => increaseQty(item.id)}
-                    className='w-1/2 rounded-r-[20px] border-l border-[#D8D9CF] dark:border-[#404258]'>
+                    className='w-1/2 rounded-r-[20px] border-l border-[#D8D9CF] 
+                    dark:border-[#404258] cursor-pointer'>
                       <Plus size={16} className='mx-auto' />
                     </button>
                   </div>
