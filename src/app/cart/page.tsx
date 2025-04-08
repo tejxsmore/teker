@@ -74,8 +74,8 @@ export default function Cart() {
               height={20}
               className="rounded-lg"
             />
-            <img
-              src="https://corporate.visa.com/content/dam/VCOM/corporate/about-visa/images/visa-brandmark-blue-1960x622.png"
+            <Image
+              src="/assets/logos/visa.webp"
               alt="Visa logo"
               width={32}
               height={32}

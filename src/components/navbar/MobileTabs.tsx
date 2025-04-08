@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { Home, Layers, BarChart2, User } from 'lucide-react'
+import { Home, BadgeCheck, BarChart2, User } from 'lucide-react'
 import Link from 'next/link'
 
 export default function MobileTabs() {
@@ -9,7 +9,7 @@ export default function MobileTabs() {
 
   const tabs = [
     { href: '/', label: 'Home', icon: Home },
-    { href: '/categories', label: 'Categories', icon: Layers },
+    { href: '/brands', label: 'Brands', icon: BadgeCheck },
     { href: '/compare', label: 'Compare', icon: BarChart2 },
     { href: '/profile', label: 'Profile', icon: User },
   ]

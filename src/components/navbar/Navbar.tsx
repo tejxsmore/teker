@@ -25,9 +25,8 @@ export default async function Navbar(){
     const userFullName = user?.fullName
     const userEmail = user?.emailAddresses[0].emailAddress
 
-    return <div className='border-b sm:border-b-0 border-[#D8D9CF] dark:border-[#404258]'>
-        <div className="flex justify-between items-center p-5 gap-5 lg:gap-10
-        border-b border-[#D8D9CF] dark:border-[#404258]">
+    return <div className='border-b border-[#D8D9CF] dark:border-[#404258]'>
+        <div className="flex justify-between items-center p-5 gap-5 lg:gap-10">
         <div className="flex items-center gap-5 lg:gap-10">
 
             <div className='lg:hidden'>
@@ -165,7 +164,7 @@ export default async function Navbar(){
         </div>
     </div>
 
-        <div className='m-5 flex justify-between items-center gap-5 rounded-[20px] sm:hidden
+        <div className='mx-5 mb-5 flex justify-between items-center gap-5 rounded-[20px] sm:hidden
         bg-[#F7F7F7] dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258]'>
                 <input 
                 type="text" 

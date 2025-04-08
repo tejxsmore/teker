@@ -4,8 +4,8 @@ export default async function Profile() {
   const { userId } = await auth()
 
   if (!userId) {
-    return <div className='p-5'>
-        <p>Please login to view this page</p>
+    return <div className='p-5 min-h-screen'>
+        <p className=''>Please login to view this page</p>
     </div>
   }
 
