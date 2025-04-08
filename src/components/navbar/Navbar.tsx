@@ -14,7 +14,7 @@ import {
   
 import Link from 'next/link'
 import { currentUser } from '@clerk/nextjs/server'
-import { Search, User, ChevronDown } from 'lucide-react';
+import { Search, User, LogIn, ChevronDown } from 'lucide-react';
 import CartCount from "./CartCount"
 import NavMenu from './NavMenu';
 import MobileTabs from './MobileTabs';
@@ -61,23 +61,23 @@ export default async function Navbar(){
 
                     {/* Link 2: Brands */}
                     <div className="group/brand relative">
-                    <Link href={'/brands'}
-                    className="flex items-center gap-2 text-lg font-normal cursor-pointer" >
-                        Brands
-                        <ChevronDown className="transition-transform duration-300 
-                        group-hover/brand:rotate-180" size={18} />
-                    </Link>
+                        <Link href={'/brands'}
+                        className="flex items-center gap-2 text-lg font-normal cursor-pointer" >
+                            Brands
+                            <ChevronDown className="transition-transform duration-300 
+                            group-hover/brand:rotate-180" size={18} />
+                        </Link>
 
-                    {/* Dropdown for Brands */}
-                    <div
-                        className="absolute top-full left-0 w-64 bg-[#F7F7F7] dark:bg-[#1f1f23] 
-                        dark:text-white p-4 rounded-[20px] shadow opacity-0 pointer-events-none 
-                        translate-y-2 transition-all duration-300 
-                        group-hover/brand:opacity-100 group-hover/brand:pointer-events-auto 
-                        group-hover/brand:translate-y-0"
-                    >
-                        <p>🏷️ Brands dropdown content</p>
-                    </div>
+                        {/* Dropdown for Brands */}
+                        <div
+                            className="absolute top-full left-0 w-64 bg-[#F7F7F7] dark:bg-[#1f1f23] 
+                            dark:text-white p-4 rounded-[20px] shadow opacity-0 pointer-events-none 
+                            translate-y-2 transition-all duration-300 
+                            group-hover/brand:opacity-100 group-hover/brand:pointer-events-auto 
+                            group-hover/brand:translate-y-0"
+                        >
+                            <p>🏷️ Brands dropdown content</p>
+                        </div>
                     </div>
                     
                 </div>
@@ -101,25 +101,29 @@ export default async function Navbar(){
 
         </div>
         
-        <div className="flex items-center gap-5 md:gap-10">
+        <div className="flex items-center gap-5 lg:gap-10">
 
             <CartCount />
 
             <div>
+
                 <SignedOut>
-                    <div className='bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 rounded-[20px]
-                    cursor-pointer flex items-center gap-3 text-[#030303]'>
-                        <span><User size={16} className='text-[#030303]' /></span>
-                        <SignInButton>Login</SignInButton>
-                    </div>
+                    <SignInButton>
+                        <div className='bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 
+                        rounded-[20px] cursor-pointer flex items-center gap-3'>
+                            <span><LogIn size={16} className='my-1 md:my-0 text-[#030303]' /></span>
+                            <span className='hidden sm:block text-[#030303]'>Login</span>
+                        </div>
+                    </SignInButton>
                 </SignedOut>
+
 
                 <SignedIn>
                     <DropdownMenu>
                         <DropdownMenuTrigger 
                         className="bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 rounded-[20px]
                         cursor-pointer flex items-center gap-3 text-[#030303] focus:outline-none">
-                            <span><User size={16} className='text-[#030303] m-1 md:m-0' /></span>
+                            <span><User size={16} className='text-[#030303] my-1 md:my-0' /></span>
                             <span className='text-[#030303] hidden md:block'>Profile</span>
                         </DropdownMenuTrigger>
 
@@ -127,7 +131,7 @@ export default async function Navbar(){
 
                         <DropdownMenuContent 
                         className='mx-5 my-2 bg-[#F7F7F7] dark:bg-[#1f1f23] dark:text-white
-                        border-0 rounded-[16px] tracking-wide p-2'>
+                        border-0 rounded-[16px] tracking-wide p-2 '>
                             <DropdownMenuLabel>{userFullName}</DropdownMenuLabel>
                             <DropdownMenuLabel 
                             className='pb-[11px] border-b border-[#D8D9CF] 
@@ -148,7 +152,11 @@ export default async function Navbar(){
                             <DropdownMenuItem
                             className='rounded-b-[10px] dark:hover:bg-[#1f1f23] 
                             dark:hover:text-white'>
-                                <SignOutButton>Logout</SignOutButton>
+                                <SignOutButton>
+                                    <button className="w-full text-left">
+                                        Sign out
+                                    </button> 
+                                </SignOutButton>
                             </DropdownMenuItem>      
                         </DropdownMenuContent>
                     </DropdownMenu>
