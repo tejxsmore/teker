@@ -16,6 +16,8 @@ import Link from 'next/link'
 import { currentUser } from '@clerk/nextjs/server'
 import { Search, User, ChevronDown } from 'lucide-react';
 import CartCount from "./CartCount"
+import NavMenu from './NavMenu';
+import MobileTabs from './MobileTabs';
 
 export default async function Navbar(){
 
@@ -23,13 +25,19 @@ export default async function Navbar(){
     const userFullName = user?.fullName
     const userEmail = user?.emailAddresses[0].emailAddress
 
-    return <div className="flex justify-between items-center p-5 gap-10
-    border-b border-[#D8D9CF] dark:border-[#404258]">
-        <div className="flex items-center gap-10">
+    return <div className='border-b sm:border-b-0 border-[#D8D9CF] dark:border-[#404258]'>
+        <div className="flex justify-between items-center p-5 gap-5 lg:gap-10
+        border-b border-[#D8D9CF] dark:border-[#404258]">
+        <div className="flex items-center gap-5 lg:gap-10">
+
+            <div className='lg:hidden'>
+                <NavMenu />
+            </div>
+
             <Link href={'/'} className="text-4xl font-bold">TEKER</Link>
 
-            <div className="relative flex items-center gap-10">
-                <div className="relative flex gap-10">
+            <div className="hidden lg:block relative flex items-center lg:gap-10">
+                <div className="relative flex lg:gap-10">
                     
                     {/* Link 1: Categories */}
                     <div className="group/cat relative">
@@ -75,24 +83,25 @@ export default async function Navbar(){
                 </div>
             </div>
 
-
             <Link href={'/compare'} 
-            className=' cursor-pointer text-lg font-normal'>
+            className='hidden lg:block cursor-pointer text-lg font-normal'>
                 Compare
             </Link>
 
-            <div 
-            className='flex items-center gap-5 px-4 py-1.5 rounded-[20px] 
-            bg-[#F7F7F7] dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258]'>
-                <input 
-                    type="text" 
-                    placeholder='Search anything..'
-                    className='bg-[#F7F7F7] dark:bg-[#1f1f23] focus:outline-none' />
-                <Search size={16} className='' />
+            <div className='hidden sm:block'>
+                <div className='flex items-center bg-[#F7F7F7] dark:bg-[#1f1f23]
+                rounded-[20px] border border-[#D8D9CF] dark:border-[#404258]'>
+                    <input type="text" 
+                    placeholder='Search anything...'
+                    className='px-4 py-1.5 focus:outline-none bg-[#F7F7F7] 
+                    dark:bg-[#1f1f23] rounded-l-[20px]' />
+                    <Search size={17} className='mr-4 rounded-r-[20px]' />
+                </div>
             </div>
+
         </div>
         
-        <div className="flex items-center gap-10">
+        <div className="flex items-center gap-5 md:gap-10">
 
             <CartCount />
 
@@ -110,8 +119,8 @@ export default async function Navbar(){
                         <DropdownMenuTrigger 
                         className="bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 rounded-[20px]
                         cursor-pointer flex items-center gap-3 text-[#030303] focus:outline-none">
-                            <span><User size={16} className='text-[#030303]' /></span>
-                            Profile
+                            <span><User size={16} className='text-[#030303] m-1 md:m-0' /></span>
+                            <span className='text-[#030303] hidden md:block'>Profile</span>
                         </DropdownMenuTrigger>
 
                         {/* border border-[#D8D9CF] dark:border-[#404258] */}
@@ -146,5 +155,18 @@ export default async function Navbar(){
                 </SignedIn> 
             </div>
         </div>
+    </div>
+
+        <div className='m-5 flex justify-between items-center gap-5 rounded-[20px] sm:hidden
+        bg-[#F7F7F7] dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258]'>
+                <input 
+                type="text" 
+                placeholder='Search anything..'
+                className='px-4 py-1.5 rounded-[20px] w-full bg-[#F7F7F7] focus:outline-none 
+                dark:bg-[#1f1f23]' />
+                <Search size={17} className='mr-4' />
+        </div>
+
+        <MobileTabs />
     </div>
 }
