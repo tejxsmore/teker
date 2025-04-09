@@ -10,7 +10,7 @@ const categories = [
     name: "Electronics",
     img: "📱",
     subItems: ["Smart Phones", "Tablets", "Laptops", "Earbuds","Headphones",
-      "Speakers", "Microphones", "Smart Watch", "Smart Rings", "E-readers"]
+    "Speakers", "Smart Watch", "Smart Rings", "Microphones", "Drones", "E-readers"]
   },
   {
     name: "Computers",
@@ -39,7 +39,7 @@ const categories = [
   {
     name: "Smart Home",
     img:"🏠",
-    subItems: ["Smart Assistants", "Smart Security","Routers & Modems", 
+    subItems: ["Smart Assistants", "Home Audio", "Smart Security","Routers & Modems", 
     "Smart Lights", "Smart Plugs", ]
   },
   {
@@ -52,7 +52,7 @@ const categories = [
     name: "Accessory",
     img:"🔌",
     subItems: ["Chargers", "Phone Cases", "Screen Protectors", "Laptop bags", 
-    "Camera Bags", "Charging Cables", "Power Banks", "Wireless Chargers"]
+    "Camera Bags", "Charging Cables", "Power Banks", "Wireless Chargers", "Screen Cleaners"]
   },
 ]
 
@@ -102,17 +102,17 @@ export default function NavMenu() {
             />
 
             <motion.div
-              className="fixed left-0 mt-7 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] z-40 pb-22 md:pb-0"
+              className="fixed left-0 mt-7 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] z-40"
               style={{ top: `${menuTop}px`, height: `calc(100vh - ${menuTop}px)` }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="flex h-full">
+              <div className="border-t border-[#D8D9CF] dark:border-[#404258] flex h-full">
 
                 <div className="w-32 bg-[#F7F7F7] dark:bg-[#1f1f23] overflow-y-auto
-                  border-r border-[#D8D9CF] dark:border-[#404258] p-5 space-y-5">
+                  border-r border-[#D8D9CF] dark:border-[#404258] p-5 space-y-5 pb-32">
                   {categories.map((cat) => (
                     <button
                       key={cat.name}
@@ -130,7 +130,7 @@ export default function NavMenu() {
                 </div>
 
                 
-                <div className="flex-1 p-5 overflow-y-auto space-y-5">
+                <div className="flex-1 p-5 overflow-y-auto space-y-5 pb-32">
                   <h2 className="text-xl font-semibold pt-2.5">{selectedCategory.name}</h2>
 
                   <div className="flex flex-wrap -m-2">
