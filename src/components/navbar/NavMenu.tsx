@@ -95,63 +95,64 @@ export default function NavMenu() {
         {openMenu && (
           <>
             <motion.div
-              className="fixed inset-0 z-30 pointer-events-auto"
+              className="fixed inset-0 z-30 bg-black/30"
+              onClick={() => setOpenMenu(false)}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             />
 
-            <motion.div
-              className="fixed left-0 mt-7 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] z-40"
-              style={{ top: `${menuTop}px`, height: `calc(100vh - ${menuTop}px)` }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="border-t border-[#D8D9CF] dark:border-[#404258] flex h-full">
+              <motion.div
+                className="fixed left-0 mt-7 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] z-40"
+                style={{ top: `${menuTop}px`, height: `calc(100vh - ${menuTop}px)` }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="border-t border-[#D8D9CF] dark:border-[#404258] flex h-full">
 
-                <div className="w-32 bg-[#F7F7F7] dark:bg-[#1f1f23] overflow-y-auto
-                  border-r border-[#D8D9CF] dark:border-[#404258] p-5 space-y-5 pb-44">
-                  {categories.map((cat) => (
-                    <button
-                      key={cat.name}
-                      onClick={() => setSelectedCategory(cat)}
-                      className={`w-full rounded-[20px] p-3 flex items-center justify-center 
-                        text-center flex border flex-col space-y-3 cursor-pointer
-                        ${selectedCategory.name === cat.name ? 
-                        "bg-[#F2613F] border-[#D84040] " : 
-                        "hover:bg-[#FEF3E2] dark:hover:bg-[#1A1A1D] hover:border-[#F2613F] dark:hover:border-[#F2613F] border-[#D8D9CF] dark:border-[#404258]"}`}
-                    >
-                      <span className="text-3xl">{cat.img}</span>
-                      <span className="text-sm break-words leading-tight">{cat.name}</span>
-                    </button>
-                  ))}
-                </div>
-
-                
-                <div className="flex-1 p-5 overflow-y-auto space-y-5 pb-44">
-                  <h2 className="text-xl font-semibold pt-2.5">{selectedCategory.name}</h2>
-
-                  <div className="flex flex-wrap -m-2">
-                    {selectedCategory.subItems.map((item) => (
-                      <div key={item} className="w-1/2 md:w-1/3 p-2.5">
-                        <Link href={`/${toKebabCase(item)}/`}>
-                          <div className="h-24 rounded-[20px] p-4 flex items-center justify-center
-                            border border-[#D8D9CF] dark:border-[#404258]
-                            text-sm text-center leading-snug break-words overflow-hidden
-                            dark:hover:bg-[#1A1A1D] hover:border-[#F2613F] 
-                            transition hover:scale-102 hover:delay-75 cursor-pointer">
-                            <span>{item}</span>
-                          </div>
-                        </Link>
-                      </div>
+                  <div className="w-32 bg-[#F7F7F7] dark:bg-[#1f1f23] overflow-y-auto
+                    border-r border-[#D8D9CF] dark:border-[#404258] p-5 space-y-5 pb-44">
+                    {categories.map((cat) => (
+                      <button
+                        key={cat.name}
+                        onClick={() => setSelectedCategory(cat)}
+                        className={`w-full rounded-[20px] p-3 flex items-center justify-center 
+                          text-center flex border flex-col space-y-3 cursor-pointer
+                          ${selectedCategory.name === cat.name ? 
+                          "bg-[#F2613F] border-[#D84040] " : 
+                          "hover:bg-[#FEF3E2] dark:hover:bg-[#1A1A1D] hover:border-[#F2613F] dark:hover:border-[#F2613F] border-[#D8D9CF] dark:border-[#404258]"}`}
+                      >
+                        <span className="text-3xl">{cat.img}</span>
+                        <span className="text-sm break-words leading-tight">{cat.name}</span>
+                      </button>
                     ))}
                   </div>
-                </div>
-              </div>
 
-            </motion.div>
+                  
+                  <div className="flex-1 p-5 overflow-y-auto space-y-5 pb-44">
+                    <h2 className="text-xl font-semibold">{selectedCategory.name}</h2>
+
+                    <div className="flex flex-wrap -m-2">
+                      {selectedCategory.subItems.map((item) => (
+                        <div key={item} className="w-1/2 md:w-1/3 p-2.5">
+                          <Link href={`/${toKebabCase(item)}/`}>
+                            <div className="h-24 rounded-[20px] p-4 flex items-center justify-center
+                              border border-[#D8D9CF] dark:border-[#404258]
+                              text-sm text-center leading-snug break-words overflow-hidden
+                              dark:hover:bg-[#1A1A1D] hover:border-[#F2613F] 
+                              transition hover:scale-102 hover:delay-75 cursor-pointer">
+                              <span>{item}</span>
+                            </div>
+                          </Link>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+              </motion.div>
           </>
         )}
       </AnimatePresence>

@@ -105,7 +105,6 @@ export default async function Navbar(){
             <CartCount />
 
             <div>
-
                 <SignedOut>
                     <SignInButton>
                         <div className='bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 
@@ -140,19 +139,30 @@ export default async function Navbar(){
 
                             <DropdownMenuItem 
                             className='mt-1 pt-[6px] dark:hover:bg-[#1f1f23] 
-                            dark:hover:text-white cursor-pointer'>
-                                <Link href={'/settings'}>Settings</Link>
-                            </DropdownMenuItem>                            
+                            dark:hover:text-white cursor-pointer'
+                            asChild>
+                                <Link href="/profile">Profile</Link>
+                            </DropdownMenuItem>
+
                             <DropdownMenuItem 
                             className='dark:hover:bg-[#1f1f23] 
-                            dark:hover:text-white cursor-pointer'>
-                                <Link href={'/support'}>Help and Support</Link>
+                            dark:hover:text-white cursor-pointer'
+                            asChild>
+                                <Link href="/settings">Settings</Link>
                             </DropdownMenuItem>
+
+                            <DropdownMenuItem 
+                            className='dark:hover:bg-[#1f1f23] dark:hover:text-white 
+                            cursor-pointer'
+                            asChild>
+                                <Link href="/support">Help and Support</Link>
+                            </DropdownMenuItem>
+                            
                             <DropdownMenuItem
                             className='rounded-b-[10px] dark:hover:bg-[#1f1f23] 
                             dark:hover:text-white'>
                                 <SignOutButton>
-                                    <button className="w-full text-left">
+                                    <button className="cursor-pointer w-full text-left">
                                         Sign out
                                     </button> 
                                 </SignOutButton>
