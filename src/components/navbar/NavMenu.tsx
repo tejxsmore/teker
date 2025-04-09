@@ -5,9 +5,51 @@ import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 
+const categories = [
+  {
+    name: "Electronics",
+    img: "📱",
+    subItems: ["Smartphones", "Tablets", "Laptops", "Headphones", "Earbuds", "Power Banks"]
+  },
+  {
+    name: "Computers",
+    img:"🖥️",
+    subItems: ["Monitors", "Keyboards", "Mice", "External Storage", "Laptop Bags"]
+  },
+  {
+    name: "Gaming",
+    img:"🎮",
+    subItems: ["Consoles", "Controllers", "Games", "Gaming Headsets"]
+  },
+  {
+    name: "Cameras",
+    img:"📷",
+    subItems: ["DSLR", "Mirrorless", "Tripods", "Camera Bags"]
+  },
+  {
+    name: "Car Tech",
+    img:"🚗",
+    subItems: ["Dash Cams", "GPS Systems", "Car Chargers"]
+  },
+  {
+    name: "Smart Home",
+    img:"🏠",
+    subItems: ["Routers", "Smart Lights", "Smart Plugs", "Cameras"]
+  },
+  {
+    name: "Peripherals",
+    img:"🛜",
+    subItems: ["Cables", "Chargers", "Adapters", "Cooling Pads"]
+  },
+]
+
+const toKebabCase = (str: string) =>
+  str.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '')
+
 export default function NavMenu() {
   const [openMenu, setOpenMenu] = useState(false)
   const [menuTop, setMenuTop] = useState(0)
+  const [selectedCategory, setSelectedCategory] = useState(categories[0])
   const iconRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
 
@@ -17,22 +59,13 @@ export default function NavMenu() {
     }
   }, [openMenu])
 
-  // Close menu when route/path changes
   useEffect(() => {
     setOpenMenu(false)
   }, [pathname])
 
-  // Optional: lock scroll when menu is open
   useEffect(() => {
-    if (openMenu) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = ''
-    }
-
-    return () => {
-      document.body.style.overflow = ''
-    }
+    document.body.style.overflow = openMenu ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
   }, [openMenu])
 
   return (
@@ -40,16 +73,14 @@ export default function NavMenu() {
       <div
         onClick={() => setOpenMenu(!openMenu)}
         ref={iconRef}
-        id="openModal"
         className="lg:hidden text-3xl cursor-pointer z-50"
       >
-        {!openMenu ? <Menu /> : <X />}
+        {openMenu ? <X /> : <Menu />}
       </div>
 
       <AnimatePresence>
         {openMenu && (
           <>
-            {/* Invisible interaction blocker */}
             <motion.div
               className="fixed inset-0 z-30 pointer-events-auto"
               initial={{ opacity: 0 }}
@@ -58,33 +89,57 @@ export default function NavMenu() {
             />
 
             <motion.div
-              className="p-5 space-y-5 fixed left-0 mt-7 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] 
-              z-40"
+              className="fixed left-0 mt-7 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] z-40 pb-22"
               style={{ top: `${menuTop}px`, height: `calc(100vh - ${menuTop}px)` }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="flex flex-col space-y-5">
-                <div className="flex flex-col space-y-1.5">
-                  <Link href="/categories" className="text-xl font-bold">Categories</Link>
-                  <Link href="/categories/smartphones">Smartphones</Link>
-                  <Link href="/categories/tablets">Tablets</Link>
-                  <Link href="/categories/laptops">Laptops</Link>
-                  <Link href="/categories/headphones">Headphones</Link>
-                  <Link href="/categories/home-audio">Home Audio</Link>
+              <div className="flex h-full">
+
+                <div className="w-32 bg-[#F7F7F7] dark:bg-[#1f1f23] overflow-y-auto
+                  border-r border-[#D8D9CF] dark:border-[#404258] p-5 space-y-5">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat.name}
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`w-full rounded-[20px] p-3 flex items-center justify-center 
+                        text-center flex border flex-col space-y-3 cursor-pointer
+                        ${selectedCategory.name === cat.name ? 
+                        "bg-[#F2613F] border-[#D84040] " : 
+                        "hover:bg-[#FEF3E2] dark:hover:bg-[#1A1A1D] hover:border-[#F2613F] dark:hover:border-[#F2613F] border-[#D8D9CF] dark:border-[#404258]"}`}
+                    >
+                      <span className="text-3xl">{cat.img}</span>
+                      <span className="text-sm break-words leading-tight">{cat.name}</span>
+                    </button>
+                  ))}
                 </div>
 
-                <div className="flex flex-col space-y-1.5">
-                  <Link href="/brands" className="text-xl font-bold">Brands</Link>
-                  <Link href="/brands/apple">Apple</Link>
-                  <Link href="/brands/samsung">Samsung</Link>
-                  <Link href="/brands/google">Google</Link>
-                  <Link href="/brands/xiaomi">Xiaomi</Link>
-                  <Link href="/brands/oneplus">Oneplus</Link>
+                
+                <div className="flex-1 p-5 overflow-y-auto space-y-5">
+                  <h2 className="text-xl font-semibold pt-2.5">{selectedCategory.name}</h2>
+
+                  <div className="flex flex-wrap -m-2">
+                    {selectedCategory.subItems.map((item) => (
+                      <Link
+                        key={item}
+                        href={`/${toKebabCase(selectedCategory.name)}/${toKebabCase(item)}/`}
+                        className="w-1/2 md:w-1/3 p-2.5"
+                      >
+                        <div className="h-24 rounded-[20px] p-4 flex items-center justify-center
+                          border border-[#D8D9CF] dark:border-[#404258]
+                          text-sm text-center leading-snug break-words overflow-hidden
+                          dark:hover:bg-[#1A1A1D]"
+                        >
+                          <span className="text-center">{item}</span>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
+
             </motion.div>
           </>
         )}
