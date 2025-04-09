@@ -9,37 +9,50 @@ const categories = [
   {
     name: "Electronics",
     img: "📱",
-    subItems: ["Smartphones", "Tablets", "Laptops", "Headphones", "Earbuds", "Power Banks"]
+    subItems: ["Smart Phones", "Tablets", "Laptops", "Earbuds","Headphones",
+      "Speakers", "Microphones", "Smart Watch", "Smart Rings", "E-readers"]
   },
   {
     name: "Computers",
     img:"🖥️",
-    subItems: ["Monitors", "Keyboards", "Mice", "External Storage", "Laptop Bags"]
+    subItems: ["Monitors", "Keyboards", "Mice", "Webcams", "External HDD & SSD",
+    "Graphic Cards (GPUs)", "Motherboards", "RAM & Storage"]
   },
   {
     name: "Gaming",
     img:"🎮",
-    subItems: ["Consoles", "Controllers", "Games", "Gaming Headsets"]
+    subItems: ["Gaming Laptop", "Consoles", "Controllers", "Games", "Gaming Headsets", 
+    "VR Headsets"]
   },
   {
     name: "Cameras",
     img:"📷",
-    subItems: ["DSLR", "Mirrorless", "Tripods", "Camera Bags"]
+    subItems: ["DSLR", "Mirrorless", "Full Frame", "Action Cameras", "Lenses",
+    "Tripods & Mounts", "Memory Cards", "Camera Bags"]
   },
   {
     name: "Car Tech",
     img:"🚗",
-    subItems: ["Dash Cams", "GPS Systems", "Car Chargers"]
+    subItems: ["Dash Cams", "GPS Systems", "Car Chargers", 
+    "Bluetooth Car Kits", "Smart Tire Sensors"]
   },
   {
     name: "Smart Home",
     img:"🏠",
-    subItems: ["Routers", "Smart Lights", "Smart Plugs", "Cameras"]
+    subItems: ["Smart Assistants", "Smart Security","Routers & Modems", 
+    "Smart Lights", "Smart Plugs", ]
   },
   {
     name: "Peripherals",
     img:"🛜",
-    subItems: ["Cables", "Chargers", "Adapters", "Cooling Pads"]
+    subItems: ["Solar Chargers","Smart Batteries","Energy Monitors","Cables", 
+    "Adapters", "Cooling Pads"]
+  },
+  {
+    name: "Accessory",
+    img:"🔌",
+    subItems: ["Chargers", "Phone Cases", "Screen Protectors", "Laptop bags", 
+    "Camera Bags", "Charging Cables", "Power Banks", "Wireless Chargers"]
   },
 ]
 
@@ -89,7 +102,7 @@ export default function NavMenu() {
             />
 
             <motion.div
-              className="fixed left-0 mt-7 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] z-40 pb-22"
+              className="fixed left-0 mt-7 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] z-40 pb-22 md:pb-0"
               style={{ top: `${menuTop}px`, height: `calc(100vh - ${menuTop}px)` }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -122,19 +135,17 @@ export default function NavMenu() {
 
                   <div className="flex flex-wrap -m-2">
                     {selectedCategory.subItems.map((item) => (
-                      <Link
-                        key={item}
-                        href={`/${toKebabCase(selectedCategory.name)}/${toKebabCase(item)}/`}
-                        className="w-1/2 md:w-1/3 p-2.5"
-                      >
-                        <div className="h-24 rounded-[20px] p-4 flex items-center justify-center
-                          border border-[#D8D9CF] dark:border-[#404258]
-                          text-sm text-center leading-snug break-words overflow-hidden
-                          dark:hover:bg-[#1A1A1D]"
-                        >
-                          <span className="text-center">{item}</span>
-                        </div>
-                      </Link>
+                      <div key={item} className="w-1/2 md:w-1/3 p-2.5">
+                        <Link href={`/${toKebabCase(item)}/`}>
+                          <div className="h-24 rounded-[20px] p-4 flex items-center justify-center
+                            border border-[#D8D9CF] dark:border-[#404258]
+                            text-sm text-center leading-snug break-words overflow-hidden
+                            dark:hover:bg-[#1A1A1D] hover:border-[#F2613F] 
+                            transition hover:scale-102 hover:delay-75 cursor-pointer">
+                            <span>{item}</span>
+                          </div>
+                        </Link>
+                      </div>
                     ))}
                   </div>
                 </div>
