@@ -57,11 +57,9 @@ export default function AddressForm() {
                 throw new Error('Failed to save address')
             }
 
-            alert('Address saved successfully ✅')
             setShowForm(false)
         } catch (error) {
-            console.error(error)
-            alert('Failed to save address ❌')
+            console.error(`Something went wrong : ${error}`)
         }
     }
 
@@ -78,7 +76,7 @@ export default function AddressForm() {
             <div className="flex justify-between items-center pb-5 border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258]">
                 <h2 className="text-lg font-normal">Enter Address</h2>
                 <button type="button" onClick={() => setShowForm(false)}>
-                    <X size={28} className='text-[#030303]' />
+                    <X size={24}  />
                 </button>
             </div>
 
@@ -133,7 +131,8 @@ export default function AddressForm() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center px-4"
+                        className="fixed inset-0 z-50 bg-black/50 flex 
+                        items-center justify-center px-4"
                     >
                         {formContent}
                     </motion.div>

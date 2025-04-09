@@ -16,7 +16,7 @@ export async function POST(req: Request) {
     const { line1, line2, city, state, pincode } = body
 
     await sql`
-      INSERT INTO addresses (address_id, user_id, address_line1, address_line2, city, state, pincode)
+      INSERT INTO addresses (user_id, address_line1, address_line2, city, state, pincode)
       VALUES (${user.id}, ${line1}, ${line2}, ${city}, ${state}, ${pincode})
     `
     return NextResponse.json({ success: true })
