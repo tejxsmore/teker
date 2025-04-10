@@ -27,29 +27,32 @@ export default async function Address() {
     }
 
     return (
-        
-        <div className='p-5 md:w-1/2 h-full rounded-[20px] bg-[#F7F7F7] dark:bg-[#1f1f23] border 
-        border-[#D8D9CF] dark:border-[#404258] space-y-5'>
+        <div>
+            <div className='p-5 md:w-1/2 h-full rounded-[20px] bg-[#F7F7F7] dark:bg-[#1f1f23] border 
+            border-[#D8D9CF] dark:border-[#404258] space-y-5'>
 
-            <h2 className='text-2xl font-semibold'>Saved addresses</h2>
+                <h2 className='text-2xl font-semibold'>Saved addresses</h2>
 
-            {data.map((address)=>(
-                <div key={address.address_id} className='border-t-2 border-dashed 
-                border-[#D8D9CF] dark:border-[#404258] pt-5 space-y-5'>
-                    <div className='flex justify-between items-center'>
-                        <h3 className="text-lg font-normal">{address.address_title}</h3>
-                        
-                        <DeleteAddress id={address.address_id} />
+                {data.map((address)=>(
+                    <div key={address.address_id} className='border-t-2 border-dashed 
+                    border-[#D8D9CF] dark:border-[#404258] pt-5 space-y-5'>
+                        <div className='flex justify-between items-center'>
+                            <h3 className="text-lg font-normal">{address.address_title}</h3>
+                            
+                            <DeleteAddress id={address.address_id} />
+                        </div>
+
+                        <div className='space-y-1'>
+                            <p className='text-lg font-semibold'>{address.address_line1}</p>
+                            <p>{address.address_line2}</p>
+                            <p>{address.city}, {address.state}</p>
+                            <p>{address.pincode}</p>
+                        </div>
                     </div>
+                ))}
+            </div>
 
-                    <div className='space-y-1'>
-                        <p className='text-lg font-semibold'>{address.address_line1}</p>
-                        <p>{address.address_line2}</p>
-                        <p>{address.city}, {address.state}</p>
-                        <p>{address.pincode}</p>
-                    </div>
-                </div>
-            ))}
+            <AddressForm />
         </div>
     )
 }
