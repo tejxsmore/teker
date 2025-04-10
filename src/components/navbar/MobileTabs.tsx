@@ -15,7 +15,7 @@ export default function MobileTabs() {
   ]
 
   return (
-    <div className="md:hidden fixed bottom-0 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] 
+    <div className="lg:hidden fixed bottom-0 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] 
     border-t border-[#D8D9CF] dark:border-[#404258] z-50">
       <div className="flex justify-between px-6 py-2">
         {tabs.map((tab) => {

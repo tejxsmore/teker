@@ -18,6 +18,7 @@ import { Search, User, LogIn, ChevronDown } from 'lucide-react';
 import CartCount from "./CartCount"
 import NavMenu from './NavMenu';
 import MobileTabs from './MobileTabs';
+import Dropdown from './Dropdown';
 
 export default async function Navbar(){
 
@@ -35,66 +36,23 @@ export default async function Navbar(){
 
             <Link href={'/'} className="text-4xl font-bold">TEKER</Link>
 
-            <div className="hidden lg:block relative flex items-center lg:gap-10">
-                <div className="relative flex lg:gap-10">
-                    
-                    {/* Link 1: Categories */}
-                    <div className="group/cat relative">
-                        <Link href={'/categories'}
-                        className="flex items-center gap-2 text-lg font-normal 
-                        cursor-pointer">
-                            Categories
-                        <ChevronDown className="transition-transform duration-300 
-                        group-hover/cat:rotate-180" size={18} />
-                        </Link>
-
-                        {/* Dropdown for Categories */}
-                        <div
-                        className="absolute top-full left-0 w-64 bg-[#F7F7F7] dark:bg-[#1f1f23] 
-                        dark:text-white p-4 rounded-[20px] shadow opacity-0 pointer-events-none 
-                        translate-y-2 transition-all duration-300 group-hover/cat:opacity-100 
-                        group-hover/cat:pointer-events-auto group-hover/cat:translate-y-0">
-                            <p>🧾 Categories dropdown content</p>  
-                        </div>
-                    </div>
-
-                    {/* Link 2: Brands */}
-                    <div className="group/brand relative">
-                        <Link href={'/brands'}
-                        className="flex items-center gap-2 text-lg font-normal cursor-pointer" >
-                            Brands
-                            <ChevronDown className="transition-transform duration-300 
-                            group-hover/brand:rotate-180" size={18} />
-                        </Link>
-
-                        {/* Dropdown for Brands */}
-                        <div
-                            className="absolute top-full left-0 w-64 bg-[#F7F7F7] dark:bg-[#1f1f23] 
-                            dark:text-white p-4 rounded-[20px] shadow opacity-0 pointer-events-none 
-                            translate-y-2 transition-all duration-300 
-                            group-hover/brand:opacity-100 group-hover/brand:pointer-events-auto 
-                            group-hover/brand:translate-y-0"
-                        >
-                            <p>🏷️ Brands dropdown content</p>
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
+            <Dropdown />
 
             <Link href={'/compare'} 
             className='hidden lg:block cursor-pointer text-lg font-normal'>
                 Compare
             </Link>
 
-            <div className='hidden sm:block'>
-                <div className='flex items-center bg-[#F7F7F7] dark:bg-[#1f1f23]
-                rounded-[20px] border border-[#D8D9CF] dark:border-[#404258]'>
-                    <input type="text" 
-                    placeholder='Search anything...'
-                    className='px-4 py-1.5 focus:outline-none bg-[#F7F7F7] 
-                    dark:bg-[#1f1f23] rounded-l-[20px]' />
-                    <Search size={17} className='mr-4 rounded-r-[20px]' />
+            <div className='hidden sm:block '>
+                <div className='flex justify-between items-center rounded-[20px] 
+                bg-[#F7F7F7] dark:bg-[#1f1f23] border border-[#D8D9CF] 
+                dark:border-[#404258]'>
+                    <Search size={17} className='ml-4' />
+                    <input 
+                        type="text" 
+                        placeholder='Search anything..'
+                        className='px-4 py-1.5 rounded-[20px] w-full bg-[#F7F7F7] focus:outline-none 
+                        dark:bg-[#1f1f23]' />
                 </div>
             </div>
 
@@ -174,14 +132,14 @@ export default async function Navbar(){
         </div>
     </div>
 
-        <div className='mx-5 mb-5 flex justify-between items-center gap-5 rounded-[20px] sm:hidden
+        <div className='mx-5 mb-5 flex justify-between items-center rounded-[20px] sm:hidden
         bg-[#F7F7F7] dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258]'>
-                <input 
-                type="text" 
-                placeholder='Search anything..'
-                className='px-4 py-1.5 rounded-[20px] w-full bg-[#F7F7F7] focus:outline-none 
-                dark:bg-[#1f1f23]' />
-                <Search size={17} className='mr-4' />
+            <Search size={17} className='ml-4' />
+            <input 
+            type="text" 
+            placeholder='Search anything..'
+            className='px-4 py-1.5 rounded-[20px] w-full bg-[#F7F7F7] focus:outline-none 
+            dark:bg-[#1f1f23]' />
         </div>
 
         <MobileTabs />
