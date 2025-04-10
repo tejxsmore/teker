@@ -110,10 +110,10 @@ export default function NavMenu() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="border-t border-[#D8D9CF] dark:border-[#404258] flex h-full">
+                <div className="border-t border-[#D8D9CF] dark:border-[#404258] flex h-full pb-22">
 
                   <div className="w-32 bg-[#F7F7F7] dark:bg-[#1f1f23] overflow-y-auto
-                    border-r border-[#D8D9CF] dark:border-[#404258] p-5 space-y-5 pb-44">
+                    border-r border-[#D8D9CF] dark:border-[#404258] p-5 space-y-5">
                     {categories.map((cat) => (
                       <button
                         key={cat.name}
@@ -131,7 +131,7 @@ export default function NavMenu() {
                   </div>
 
                   
-                  <div className="flex-1 p-5 overflow-y-auto space-y-5 pb-44">
+                  <div className="flex-1 p-5 overflow-y-auto space-y-5">
                     <h2 className="text-xl font-semibold">{selectedCategory.name}</h2>
 
                     <div className="flex flex-wrap -m-2">
