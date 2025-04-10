@@ -2,7 +2,7 @@
 import { currentUser } from '@clerk/nextjs/server'
 import { neon } from '@neondatabase/serverless'
 import AddressForm from './AddressForm'
-import { Trash2 } from 'lucide-react'
+import DeleteAddress from './DeleteAddress'
 
 async function getData() {
     const user = await currentUser()
@@ -38,7 +38,7 @@ export default async function Address() {
                 border-[#D8D9CF] dark:border-[#404258] pt-5 space-y-5'>
                     <div className='flex justify-between items-center'>
                         <h3 className="text-lg font-normal">Address {counter + 1}</h3>
-                        <Trash2 size={20} strokeWidth={1.5} />
+                        <DeleteAddress id={address.address_id} />
                     </div>
 
                     <div className='space-y-1'>

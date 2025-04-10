@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 
 import { useCartStore } from '@/stores/cartStore';
 import Image from 'next/image';
@@ -52,7 +53,7 @@ export default function Cart() {
           <p>{INRupee.format(cartTotal)}</p>
         </div>
 
-        <button
+        <Link href={'/checkout'}
           className="w-full bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 rounded-[20px] cursor-pointer items-center gap-3 text-[#030303] flex items-center justify-between"
         >
           <div className="flex items-center gap-2">
@@ -82,7 +83,7 @@ export default function Cart() {
               className="rounded-lg"
             />
           </div>
-        </button>
+        </Link>
 
         <div className="p-3 text-sm bg-[#EEEEEE] dark:bg-[#1A1A1D] 
         md:text-justify rounded-[20px] border-2 border-dashed border-[#D8D9CF] 

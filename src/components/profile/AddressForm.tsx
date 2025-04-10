@@ -53,8 +53,12 @@ export default function AddressForm() {
                 body: JSON.stringify(formData)
             })
 
-            if (!res.ok) {
-                throw new Error('Failed to save address')
+            if (res.ok) {
+                console.log("New address added")
+                window.location.reload()
+              } else {
+                const error = await res.json()
+                console.error("Error : ", error)
             }
 
             setShowForm(false)
@@ -76,7 +80,7 @@ export default function AddressForm() {
             <div className="flex justify-between items-center pb-5 border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258]">
                 <h2 className="text-lg font-normal">Enter Address</h2>
                 <button type="button" onClick={() => setShowForm(false)}>
-                    <X size={24}  />
+                    <X size={24} className='cursor-pointer'  />
                 </button>
             </div>
 
