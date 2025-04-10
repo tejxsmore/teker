@@ -1,6 +1,7 @@
 import './globals.css'
 import { GeistSans } from 'geist/font/sans';
 import ThemeWrapper from './ThemeProvider';
+import { Toaster } from "@/components/ui/sonner"
 
 import { type Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
@@ -25,6 +26,7 @@ export default function RootLayout({
             <div className="bg-[#F2613F] h-6"></div>
               <Navbar />
               {children}
+              <Toaster />
               <Footer />
           </ThemeWrapper>
         </body>

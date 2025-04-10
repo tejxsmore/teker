@@ -27,11 +27,11 @@ export default async function Address() {
     }
 
     return ( 
-        <div className='flex flex-col space-y-5'>
-            <div className='p-5 md:w-1/2 h-full rounded-[20px] bg-[#F7F7F7] dark:bg-[#1f1f23] border 
+        <div className='flex flex-col space-y-5 md:w-1/2 h-full'>
+            <div className='p-5 rounded-[20px] bg-[#F7F7F7] dark:bg-[#1f1f23] border 
             border-[#D8D9CF] dark:border-[#404258] space-y-5'>
 
-                        <h2 className='text-2xl font-semibold'>Saved addresses</h2>
+                        <h2 className="text-lg font-normal">Saved Address</h2>
 
                         {data.map((address)=>(
                             <div key={address.address_id} className='border-t-2 border-dashed 

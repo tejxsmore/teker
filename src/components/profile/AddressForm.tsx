@@ -78,10 +78,10 @@ export default function AddressForm() {
             className='space-y-5 p-5 rounded-[20px] bg-[#F7F7F7] dark:bg-[#1f1f23] 
             border border-[#D8D9CF] dark:border-[#404258] w-full md:max-w-md'
         >
-            <div className="flex justify-between items-center pb-5 border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258]">
+            <div className="flex justify-between items-center">
                 <h2 className="text-lg font-normal">Enter Address</h2>
                 <button type="button" onClick={() => setShowForm(false)}>
-                    <X size={24} className='cursor-pointer'  />
+                    <X size={24} className='cursor-pointer hover:text-[#F2613F]'  />
                 </button>
             </div>
 
@@ -122,12 +122,12 @@ export default function AddressForm() {
             {!showForm && (
                 <div
                     onClick={() => setShowForm(true)}
-                    className='md:w-1/2 h-full cursor-pointer p-5 rounded-[20px] bg-[#F7F7F7] 
+                    className='h-full cursor-pointer p-5 rounded-[20px] bg-[#F7F7F7] 
                     dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258] 
                     flex justify-between items-center'
                 >
                     <p className='text-lg font-normal'>Add address</p>
-                    <span><CirclePlus size={20} /></span>
+                    <span><CirclePlus size={20} className='hover:text-[#1DCD9F]' /></span>
                 </div>
             )}
 
