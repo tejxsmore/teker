@@ -9,7 +9,7 @@ async function getData() {
     const userId = user?.id
 
     const sql = neon(process.env.DATABASE_URL as string)
-    const response = await sql`SELECT * FROM addresses WHERE user_id=${userId}`
+    const response = await sql`SELECT * FROM address WHERE user_id=${userId}`
  
     if (response.length === 0) {
         return null

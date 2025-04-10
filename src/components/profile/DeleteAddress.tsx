@@ -23,6 +23,7 @@ export default function DeleteAddress({id}: {id: string}){
             const error = await res.json()
             alert('Failed to delete: ' + error?.error)
           }
+          
         } catch (err) {
           console.error(err)
           alert('Something went wrong.')

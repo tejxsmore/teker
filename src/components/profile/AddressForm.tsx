@@ -8,6 +8,7 @@ export default function AddressForm() {
     const [showForm, setShowForm] = useState(false)
     const [isLargeScreen, setIsLargeScreen] = useState(false)
     const [formData, setFormData] = useState({
+        title: '',
         line1: '',
         line2: '',
         city: '',
@@ -85,6 +86,7 @@ export default function AddressForm() {
             </div>
 
             {[
+                { label: 'Title', name: 'title', placeholder: 'Home / Office / Friend' },
                 { label: 'Flat, wing, building name', name: 'line1', placeholder: '101, B wing, Shashwat Park' },
                 { label: 'Area, landmark', name: 'line2', placeholder: 'Gandhi Nagar, Near DLF Mall' },
                 { label: 'City', name: 'city', placeholder: 'Mumbai' },

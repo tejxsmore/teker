@@ -15,7 +15,7 @@ export async function DELETE(req: Request) {
   const sql = neon(process.env.DATABASE_URL as string)
 
   try {
-    await sql`DELETE FROM addresses WHERE address_id = ${id} AND user_id = ${userId}`
+    await sql`DELETE FROM address WHERE address_id = ${id} AND user_id = ${userId}`
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error(err)
