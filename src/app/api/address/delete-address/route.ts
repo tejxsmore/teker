@@ -1,4 +1,3 @@
-// app/api/delete-address/route.ts
 import { NextResponse } from 'next/server'
 import { neon } from '@neondatabase/serverless'
 import { currentUser } from '@clerk/nextjs/server'

@@ -33,11 +33,12 @@ export default async function Address() {
 
             <h2 className='text-2xl font-semibold'>Saved addresses</h2>
 
-            {data.map((address, counter)=>(
+            {data.map((address)=>(
                 <div key={address.address_id} className='border-t-2 border-dashed 
                 border-[#D8D9CF] dark:border-[#404258] pt-5 space-y-5'>
                     <div className='flex justify-between items-center'>
-                        <h3 className="text-lg font-normal">Address {counter + 1}</h3>
+                        <h3 className="text-lg font-normal">{address.address_title}</h3>
+                        
                         <DeleteAddress id={address.address_id} />
                     </div>
 

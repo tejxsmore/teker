@@ -48,7 +48,7 @@ export default function AddressForm() {
         console.log("🚚 Address Submitted:", formData)
 
         try {
-            const res = await fetch('/api/address', {
+            const res = await fetch('/api/address/add-address', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData)
@@ -104,7 +104,7 @@ export default function AddressForm() {
                         className="w-full pb-5 focus:outline-none text-lg font-normal
                         border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258]"
                     />
-                </div>
+                </div> 
             ))}
 
             <button
@@ -122,7 +122,7 @@ export default function AddressForm() {
             {!showForm && (
                 <div
                     onClick={() => setShowForm(true)}
-                    className='cursor-pointer p-5 rounded-[20px] bg-[#F7F7F7] 
+                    className='md:w-1/2 h-full cursor-pointer p-5 rounded-[20px] bg-[#F7F7F7] 
                     dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258] 
                     flex justify-between items-center'
                 >
