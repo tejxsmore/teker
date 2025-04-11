@@ -20,7 +20,6 @@ async function getData() {
 
 export default async function Address() {
     const data = await getData()
-    console.log(data)
 
     if (!data) {
         return <AddressForm hasSavedAddress={false} />

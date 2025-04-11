@@ -81,6 +81,24 @@ export default function NavMenu() {
     return () => { document.body.style.overflow = '' }
   }, [openMenu])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setOpenMenu(false)
+      }
+    }
+  
+    if (openMenu) {
+      document.addEventListener('keydown', handleKeyDown)
+    } else {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [openMenu])
+  
   return (
     <div className="flex items-center relative">
       <div

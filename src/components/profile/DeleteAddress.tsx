@@ -87,8 +87,8 @@ export default function DeleteAddress({ id }: { id: string }) {
             </button>
 
             <button onClick={handleDelete}
-            className="w-full sm:w-1/2 bg-[#F2613F] hover:bg-[#E83F25] rounded-[20px]
-            cursor-pointer px-4 py-1.5"
+            className="w-full sm:w-1/2 bg-[#F2613F] border border-[#E83F25]
+            hover:bg-[#E83F25] rounded-[20px] cursor-pointer px-4 py-1.5"
             disabled={isDeleting}>
                 {isDeleting ? 'Deleting...' : 'Delete'}
             </button>

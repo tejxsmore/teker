@@ -46,7 +46,7 @@ export default async function Profile() {
         border border-[#D8D9CF] dark:border-[#404258]'
       >
         <Box size={17} />
-        Your Orders
+        Orders
       </Link>
 
       <Link 

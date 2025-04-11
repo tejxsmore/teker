@@ -91,7 +91,7 @@ export default async function Navbar(){
                             <DropdownMenuLabel>{userFullName}</DropdownMenuLabel>
                             <DropdownMenuLabel 
                             className='pb-[11px] border-b border-[#D8D9CF] 
-                            dark:border-[#404258] tracking-wider'>
+                            dark:border-[#404258] tracking-wider text-gray-400'>
                                 {userEmail}
                             </DropdownMenuLabel>
 

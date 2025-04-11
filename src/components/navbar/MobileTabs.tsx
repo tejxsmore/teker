@@ -8,10 +8,10 @@ export default function MobileTabs() {
   const pathname = usePathname()
 
   const tabs = [
-    { href: '/', label: 'Home', icon: Home, fillable: true },
-    { href: '/brands', label: 'Brands', icon: BadgeCheck, fillable: false },
-    { href: '/compare', label: 'Compare', icon: BarChart2, fillable: true },
-    { href: '/profile', label: 'Profile', icon: User, fillable: true },
+    { href: '/', label: 'Home', icon: Home },
+    { href: '/brands', label: 'Brands', icon: BadgeCheck  },
+    { href: '/compare', label: 'Compare', icon: BarChart2 },
+    { href: '/profile', label: 'Profile', icon: User },
   ]
 
   return (
@@ -21,8 +21,7 @@ export default function MobileTabs() {
         {tabs.map((tab) => {
           const isActive = pathname === tab.href
           const Icon = tab.icon
-          const colorClass = isActive ? 'text-[#F2613F]' : 'text-[#030303] dark:text-[#FFFFFF]'
-          const fillClass = isActive && tab.fillable ? 'fill-[#F2613F]' : 'fill-none'
+          const colorClass = isActive ? 'text-[#F2613F]' : 'text-[#3C3D37] dark:text-[#D0DDD0]'
 
           return (
             <Link
@@ -30,7 +29,7 @@ export default function MobileTabs() {
               href={tab.href}
               className={`flex flex-col items-center text-sm ${colorClass}`}
             >
-              <Icon size={20} strokeWidth={1.5} className={`${colorClass} ${fillClass}`} />
+              <Icon size={20} strokeWidth={1.5} className={colorClass} />
               <span className={`pt-1 ${colorClass}`}>{tab.label}</span>
             </Link>
           )

@@ -26,9 +26,9 @@ export default function Cart() {
   const itemLabel = cart.length > 1 ? 'items' : 'item';
 
   return (
-    <div className="p-5 md:flex md:flex-row-reverse md:gap-5 space-y-5 tracking-wide min-h-screen">
-      {/* Summary Card */}
-      <div className="p-5 bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] dark:border-[#404258] md:h-full md:w-1/3 rounded-[20px] space-y-5">
+    <div className="p-5 lg:flex lg:flex-row-reverse md:gap-5 space-y-5 tracking-wide min-h-screen">
+      
+      <div className="p-5 bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] dark:border-[#404258] md:h-full lg:w-1/3 rounded-[20px] space-y-5">
         <h2 className="text-2xl font-semibold pb-5 border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258]">
           Summary
         </h2>
@@ -97,7 +97,7 @@ export default function Cart() {
       </div>
 
       {/* Cart Items List */}
-      <div className="md:w-2/3 space-y-5">
+      <div className="lg:w-2/3 space-y-5">
         {cart.map((item) => (
           <div
             key={item.id}
