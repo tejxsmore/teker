@@ -23,7 +23,7 @@ export default async function Address() {
     console.log(data)
 
     if (!data) {
-        return <AddressForm />
+        return <AddressForm hasSavedAddress={false} />
     }
 
     return ( 
@@ -33,11 +33,11 @@ export default async function Address() {
 
                         <h2 className="text-lg font-normal">Saved Address</h2>
 
-                        {data.map((address)=>(
+                        {data.map((address, counter)=>(
                             <div key={address.address_id} className='border-t-2 border-dashed 
                             border-[#D8D9CF] dark:border-[#404258] pt-5 space-y-5'>
                                 <div className='flex justify-between items-center'>
-                                    <h3 className="text-lg font-normal">{address.address_title}</h3>
+                                    <h3 className="text-lg font-normal">{address.address_title || `Address ${counter + 1}`}</h3>
                                     
                                     <DeleteAddress id={address.address_id} />
                                 </div>
@@ -52,7 +52,7 @@ export default async function Address() {
                         ))}
             </div>
 
-            <AddressForm />
+            <AddressForm hasSavedAddress={true} />
         </div>
     )
 }

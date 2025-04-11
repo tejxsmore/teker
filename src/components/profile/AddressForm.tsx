@@ -1,12 +1,16 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { CirclePlus, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import toast from 'react-hot-toast'
 
-export default function AddressForm() {
+export default function AddressForm({ hasSavedAddress = false }: { hasSavedAddress?: boolean }) {
     const [showForm, setShowForm] = useState(false)
     const [isLargeScreen, setIsLargeScreen] = useState(false)
+    const formRef = useRef<HTMLFormElement | null>(null)
+    const firstInputRef = useRef<HTMLInputElement | null>(null)
+
     const [formData, setFormData] = useState({
         title: '',
         line1: '',
@@ -17,12 +21,10 @@ export default function AddressForm() {
     })
 
     useEffect(() => {
-        const checkScreenSize = () => {
-            setIsLargeScreen(window.innerWidth >= 768)
-        }
-        checkScreenSize()
-        window.addEventListener('resize', checkScreenSize)
-        return () => window.removeEventListener('resize', checkScreenSize)
+        const updateScreenSize = () => setIsLargeScreen(window.innerWidth >= 768)
+        updateScreenSize()
+        window.addEventListener('resize', updateScreenSize)
+        return () => window.removeEventListener('resize', updateScreenSize)
     }, [])
 
     useEffect(() => {
@@ -33,66 +35,87 @@ export default function AddressForm() {
         return () => window.removeEventListener('keydown', handleEsc)
     }, [showForm])
 
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (formRef.current && !formRef.current.contains(e.target as Node)) {
+                setShowForm(false)
+            }
+        }
+        if (showForm && isLargeScreen) {
+            window.addEventListener('mousedown', handleClickOutside)
+            return () => window.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [showForm, isLargeScreen])
+
+    useEffect(() => {
+        if (showForm && firstInputRef.current) {
+            firstInputRef.current.focus()
+        }
+    }, [showForm])
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
+        const { name, value } = e.target
+        setFormData(prev => ({ ...prev, [name]: value }))
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
 
         if (!/^\d{6}$/.test(formData.pincode)) {
-            alert("Pincode must be exactly 6 digits.")
+            toast.error('Pincode must be exactly 6 digits.')
             return
         }
-
-        console.log("🚚 Address Submitted:", formData)
 
         try {
             const res = await fetch('/api/address/add-address', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
             })
 
             if (res.ok) {
-                console.log("New address added")
-                window.location.reload()
-              } else {
+                toast.success('Address saved successfully 🚀')
+                setTimeout(() => window.location.reload(), 1000)
+            } else {
                 const error = await res.json()
-                console.error("Error : ", error)
+                toast.error(error?.message || 'Something went wrong')
             }
 
             setShowForm(false)
         } catch (error) {
-            console.error(`Something went wrong : ${error}`)
+            toast.error('Network error')
+            console.error(error)
         }
     }
 
+    const fields = [
+        { label: 'Title', name: 'title', placeholder: 'Home / Office / Friend', required: false },
+        { label: 'Flat, wing, building name', name: 'line1', placeholder: '101, B wing, Shashwat Park', required: true },
+        { label: 'Area, landmark', name: 'line2', placeholder: 'Gandhi Nagar, Near DLF Mall', required: true },
+        { label: 'City', name: 'city', placeholder: 'Mumbai', required: true },
+        { label: 'State', name: 'state', placeholder: 'Maharashtra', required: true },
+        { label: 'Pincode', name: 'pincode', placeholder: '400001', type: 'text', maxLength: 6, required: true },
+    ]
+
     const formContent = (
         <motion.form
+            ref={formRef}
             onSubmit={handleSubmit}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.25 }}
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 50, scale: 0.95 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
             className='space-y-5 p-5 rounded-[20px] bg-[#F7F7F7] dark:bg-[#1f1f23] 
-            border border-[#D8D9CF] dark:border-[#404258] w-full md:max-w-md'
+                       border border-[#D8D9CF] dark:border-[#404258] w-full md:max-w-md'
         >
             <div className="flex justify-between items-center">
                 <h2 className="text-lg font-normal">Enter Address</h2>
                 <button type="button" onClick={() => setShowForm(false)}>
-                    <X size={24} className='cursor-pointer hover:text-[#F2613F]'  />
+                    <X size={24} className='cursor-pointer hover:text-[#F2613F]' />
                 </button>
             </div>
 
-            {[
-                { label: 'Title', name: 'title', placeholder: 'Home / Office / Friend' },
-                { label: 'Flat, wing, building name', name: 'line1', placeholder: '101, B wing, Shashwat Park' },
-                { label: 'Area, landmark', name: 'line2', placeholder: 'Gandhi Nagar, Near DLF Mall' },
-                { label: 'City', name: 'city', placeholder: 'Mumbai' },
-                { label: 'State', name: 'state', placeholder: 'Maharashtra' },
-                { label: 'Pincode', name: 'pincode', placeholder: '400001', type: 'text', maxLength: 6 },
-            ].map(({ label, name, placeholder, type = 'text', maxLength }) => (
+            {fields.map(({ label, name, placeholder, type = 'text', maxLength, required }, i) => (
                 <div key={name}>
                     <p className='text-sm text-gray-500'>{label}</p>
                     <input
@@ -100,17 +123,19 @@ export default function AddressForm() {
                         name={name}
                         placeholder={placeholder}
                         maxLength={maxLength}
+                        required={required}
                         onChange={handleInputChange}
+                        ref={i === 0 ? firstInputRef : null}
                         className="w-full pb-5 focus:outline-none text-lg font-normal
-                        border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258]"
+                                   border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258]"
                     />
-                </div> 
+                </div>
             ))}
 
             <button
                 type="submit"
-                className="w-full bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 rounded-[20px]
-                cursor-pointer items-center gap-3 text-[#030303]"
+                className="w-full bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 
+                           rounded-[20px] text-[#030303] cursor-pointer"
             >
                 Save Address
             </button>
@@ -122,33 +147,27 @@ export default function AddressForm() {
             {!showForm && (
                 <div
                     onClick={() => setShowForm(true)}
-                    className='h-full cursor-pointer p-5 rounded-[20px] bg-[#F7F7F7] 
-                    dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258] 
-                    flex justify-between items-center'
+                    className={`
+                        w-full
+                        ${isLargeScreen ? (hasSavedAddress ? 'md:w-full' : 'md:w-1/2') : ''}
+                        h-full cursor-pointer p-5 rounded-[20px] bg-[#F7F7F7] 
+                        dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258] 
+                        flex justify-between items-center
+                    `}
                 >
                     <p className='text-lg font-normal'>Add address</p>
-                    <span><CirclePlus size={20} className='hover:text-[#1DCD9F]' /></span>
+                    <CirclePlus size={20} strokeWidth={1.5} className='hover:text-[#1DCD9F]' />
                 </div>
             )}
 
             <AnimatePresence>
-                {showForm && isLargeScreen && (
+                {showForm && (
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-50 bg-black/50 flex 
-                        items-center justify-center px-4"
-                    >
-                        {formContent}
-                    </motion.div>
-                )}
-
-                {showForm && !isLargeScreen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
+                        className='fixed inset-0 z-50 flex items-center 
+                        justify-center bg-black/30 backdrop-blur-sm px-4'
                     >
                         {formContent}
                     </motion.div>

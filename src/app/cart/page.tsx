@@ -85,16 +85,13 @@ export default function Cart() {
           </div>
         </Link>
 
-        <div className="p-3 text-sm bg-[#EEEEEE] dark:bg-[#1A1A1D] 
-        md:text-justify rounded-[20px] border-2 border-dashed border-[#D8D9CF] 
-        dark:border-[#404258]">
+        <div className="text-sm text-gray-600 pt-5 md:text-justify border-t-2 border-dashed 
+        border-[#D8D9CF] dark:border-[#404258]">
           <p>
             By placing an order on Teker, you agree to our payment and purchase terms. 
             We support secure payments via cards, UPI (Google Pay, PhonePe, Paytm), 
             net banking, and wallets. Prices include applicable taxes unless stated 
-            otherwise. Once payment is confirmed, you’ll receive an order confirmation. 
-            Orders can be canceled before shipping, and eligible refunds are processed 
-            within 3-5 business days.
+            otherwise.
           </p>
         </div>
       </div>

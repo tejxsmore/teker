@@ -42,8 +42,8 @@ export default function CartCard({
                 <div className='flex justify-between gap-5'>
                 <div className='flex w-full gap-5'>
                     <button onClick={() => removeFromCart(id)}
-                    className='border border-[#D8D9CF] dark:border-[#404258] 
-                    rounded-[20px] px-4 py-1.5 cursor-pointer items-center'>
+                    className='bg-[#F2613F] border border-[#E83F25] 
+                    rounded-[20px] px-4 py-1.5 cursor-pointer items-center text-[#030303]'>
                         <Trash2 size={16} strokeWidth={1.5} />
                     </button>
 

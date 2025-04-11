@@ -1,7 +1,7 @@
 import './globals.css'
 import { GeistSans } from 'geist/font/sans';
 import ThemeWrapper from './ThemeProvider';
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from 'react-hot-toast'
 
 import { type Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
@@ -25,8 +25,23 @@ export default function RootLayout({
           <ThemeWrapper>
             <div className="bg-[#F2613F] h-6"></div>
               <Navbar />
+
+              <Toaster
+                position="bottom-center"
+                toastOptions={{
+                  duration: 3000,
+                  className: 'mb-16 lg:mb-4',
+                  style: {
+                    borderRadius: '20px',
+                    background: '#222222',
+                    border: '1px solid #1DCD9F',
+                    padding: '12px 16px',
+                    color: '#F1EFEC',
+                  },
+                }}
+              />
+
               {children}
-              <Toaster />
               <Footer />
           </ThemeWrapper>
         </body>

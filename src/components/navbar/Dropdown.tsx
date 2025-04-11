@@ -166,7 +166,7 @@ export default function FullScreenDropdown() {
             className="fixed top-[100px] left-0 w-screen h-screen z-50 
             bg-[#F7F7F7] dark:bg-[#1f1f23] dark:text-white p-12"
           >
-            <div className="max-h-[calc(100vh-100px)] overflow-y-auto custom-scrollbar">
+            <div className="max-h-[calc(100vh-100px)] overflow-y-auto custom-scrollbar pb-24">
               <div className="grid grid-cols-4 gap-10 max-w-[1400px] mx-auto">
                 {hovered === "categories" &&
                   categories.map((cat) => (
