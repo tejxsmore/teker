@@ -179,7 +179,7 @@ export default function FullScreenDropdown() {
                         {cat.subItems.map((sub) => (
                           <li key={sub}>
                             <Link
-                              href={`/categories/${formatSlug(sub)}`}
+                              href={`/${formatSlug(sub)}`}
                               onClick={handleLinkClick}
                               className="block transition-colors hover:text-[#F2613F]">
                               {sub}

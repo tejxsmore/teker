@@ -1,5 +1,7 @@
+import Categories from "../components/Categories"
+
 export default function Home(){
-  return <div className="p-5 min-h-screen">
-    Home
+  return <div className="min-h-screen">
+    <Categories />
   </div>
 }
