@@ -3,14 +3,14 @@ import {
     SignedOut,
     SignInButton,
     SignOutButton,
-  } from '@clerk/nextjs'
+} from '@clerk/nextjs'
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuTrigger,
-  } from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu"
   
 import Link from 'next/link'
 import { currentUser } from '@clerk/nextjs/server'
@@ -68,7 +68,7 @@ export default async function Navbar(){
                         <div className='bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 
                         rounded-[20px] cursor-pointer flex items-center gap-3'>
                             <span><LogIn size={16} className='my-1 md:my-0 text-[#030303]' /></span>
-                            <span className='hidden sm:block text-[#030303]'>Login</span>
+                            <span className='hidden sm:block text-[#030303]'>Sign In</span>
                         </div>
                     </SignInButton>
                 </SignedOut>
@@ -121,7 +121,7 @@ export default async function Navbar(){
                             dark:hover:text-white'>
                                 <SignOutButton>
                                     <button className="cursor-pointer w-full text-left">
-                                        Sign out
+                                        Sign Out
                                     </button> 
                                 </SignOutButton>
                             </DropdownMenuItem>      

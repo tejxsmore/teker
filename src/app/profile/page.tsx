@@ -39,7 +39,7 @@ export default async function Profile() {
       </Link>
     </div>
 
-    <div className='grid grid-cols-2 md:grid-cols-4 gap-5'>
+    <div className='grid grid-cols-2 lg:grid-cols-4 gap-5'>
       <Link 
         href={'/profile/orders'} 
         className='flex items-center gap-3 p-5 rounded-[20px] bg-[#F7F7F7] dark:bg-[#1f1f23]

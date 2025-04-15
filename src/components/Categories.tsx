@@ -29,14 +29,14 @@ export default function Categories () {
             href={`/${slugify(category.name)}`}
             key={category.name}
             className="flex flex-col items-center flex-shrink-0 w-24 sm:w-28 
-            p-3 bg-[#F7F7F7] dark:bg-[#030303] rounded-[20px] transition hover:scale-102"
+            p-3 bg-[#F7F7F7] dark:bg-[#030303] rounded-[20px] transition hover:scale-103"
           >
             <div className="w-20 h-20 sm:w-16 sm:h-16 relative mb-2">
               <Image
                 src={category.image}
                 alt={category.name}
-                layout="fill"
-                objectFit="contain"
+                height={100}
+                width={100}
               />
             </div>
             <span className="text-xs sm:text-sm text-center font-medium">

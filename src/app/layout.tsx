@@ -2,6 +2,8 @@ import './globals.css'
 import { GeistSans } from 'geist/font/sans';
 import ThemeWrapper from './ThemeProvider';
 import { Toaster } from 'react-hot-toast'
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 
 import { type Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
@@ -24,7 +26,7 @@ export default function RootLayout({
         <body>
           <ThemeWrapper>
             <div className="bg-[#F2613F] h-6"></div>
-              <Navbar />
+            <Navbar />
 
               <Toaster
                 position="bottom-center"

@@ -53,6 +53,18 @@ export default function AddressForm({ hasSavedAddress = false }: { hasSavedAddre
         }
     }, [showForm])
 
+    useEffect(() => {
+        if (showForm) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = ''
+        }
+    
+        return () => {
+            document.body.style.overflow = ''
+        }
+    }, [showForm])    
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setFormData(prev => ({ ...prev, [name]: value }))
