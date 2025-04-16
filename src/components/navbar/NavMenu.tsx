@@ -34,7 +34,7 @@ const categories = [
       { name: "Mice", image: "/assets/category/mice.png" },
       { name: "Webcams", image: "/assets/category/webcam.png" },
       { name: "External HDD & SSD", image: "/assets/category/ssd.png" },
-      { name: "Graphic Cards (GPUs)", image: "/assets/category/gpu.png" },
+      { name: "Graphic Cards", image: "/assets/category/gpu.png" },
       { name: "Motherboards", image: "/assets/category/motherboard.png" },
       { name: "RAM & Storage", image: "/assets/category/ram.png" },
     ]
@@ -84,22 +84,20 @@ const categories = [
       { name: "Home Audio", image: "/assets/category/home-audio.png" },
       { name: "Smart Security", image: "/assets/category/security.png" },
       { name: "Routers & Modems", image: "/assets/category/router.png" },
-      { name: "Smart Lights", image: "/assets/category/lights.png" },
       { name: "Smart Plugs", image: "/assets/category/smartplug.png" },
     ]
   },
-  {
-    name: "Peripherals",
-    img: "🛜",
-    subItems: [
-      { name: "Solar Chargers", image: "/assets/category/solarcharger.png" },
-      { name: "Smart Batteries", image: "/assets/category/battery.png" },
-      { name: "Energy Monitors", image: "/assets/category/energymonitor.png" },
-      { name: "Cables", image: "/assets/category/cable.png" },
-      { name: "Adapters", image: "/assets/category/adapter.png" },
-      { name: "Cooling Pads", image: "/assets/category/cooler.png" },
-    ]
-  },
+  // {
+  //   name: "Peripherals",
+  //   img: "🛜",
+  //   subItems: [
+  //     { name: "Smart Batteries", image: "/assets/category/battery.png" },
+  //     { name: "Energy Monitors", image: "/assets/category/energymonitor.png" },
+  //     { name: "Cables", image: "/assets/category/cable.png" },
+  //     { name: "Adapters", image: "/assets/category/adapter.png" },
+  //     { name: "Cooling Pads", image: "/assets/category/cooler.png" },
+  //   ]
+  // },
   {
     name: "Accessory",
     img: "🔌",
@@ -108,11 +106,11 @@ const categories = [
       { name: "Phone Cases", image: "/assets/category/phone-case.png" },
       { name: "Screen Protectors", image: "/assets/category/screen-protector.png" },
       { name: "Laptop bags", image: "/assets/category/laptop-bag.png" },
-      { name: "Camera Bags", image: "/assets/category/camera-bag.png" },
-      { name: "Charging Cables", image: "/assets/category/charging-cable.png" },
-      { name: "Power Banks", image: "/assets/category/powerbank.png" },
-      { name: "Wireless Chargers", image: "/assets/category/wireless-charger.png" },
-      { name: "Screen Cleaners", image: "/assets/category/screen-cleaner.png" },
+      // { name: "Camera Bags", image: "/assets/category/camera-bag.png" },
+      // { name: "Charging Cables", image: "/assets/category/charging-cable.png" },
+      // { name: "Power Banks", image: "/assets/category/powerbank.png" },
+      // { name: "Wireless Chargers", image: "/assets/category/wireless-charger.png" },
+      // { name: "Screen Cleaners", image: "/assets/category/screen-cleaner.png" },
     ]
   },
 ]

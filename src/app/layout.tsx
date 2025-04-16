@@ -25,9 +25,6 @@ export default function RootLayout({
       <html lang="en" className={GeistSans.className} suppressHydrationWarning>
         <body>
           <ThemeWrapper>
-            <div className="bg-[#F2613F] h-6"></div>
-            <Navbar />
-
               <Toaster
                 position="bottom-center"
                 toastOptions={{
@@ -42,9 +39,7 @@ export default function RootLayout({
                   },
                 }}
               />
-
               {children}
-              <Footer />
           </ThemeWrapper>
         </body>
       </html>
