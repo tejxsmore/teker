@@ -7,8 +7,6 @@ import { Analytics } from "@vercel/analytics/next"
 
 import { type Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
-import Navbar from '@/components/navbar/Navbar';
-import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
   title: 'Teker',
