@@ -3,14 +3,13 @@ import node from '@astrojs/node'
 import clerk from '@clerk/astro'
 import tailwindcss from "@tailwindcss/vite";
 import react from '@astrojs/react';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   integrations: [clerk(), react()],
-  adapter: node({ mode: 'standalone' }),
+  // adapter: node({ mode: 'standalone' }),
+  adapter: vercel(),
   output: 'server',
   vite: {plugins: [tailwindcss()]},
-  server: {
-    port: 3000,
-  },
-  base: process.env.NODE_ENV === 'production' ? '/' : '/',
+  site: 'https://teker.vercel.app',
 })

@@ -1,47 +1,132 @@
-# Astro Starter Kit: Minimal
+```markdown
+# 🛒 Teker
 
-```sh
-npm create astro@latest -- --template minimal
+**Teker** is a modern, full-stack e-commerce application for tech products, built with [Astro](https://astro.build/) and [React](https://react.dev/), powered by [Supabase](https://supabase.com/) (Postgres) for backend/database, [Hygraph](https://hygraph.com/) for content management, and styled with [Tailwind CSS](https://tailwindcss.com/).
+
+Live at: [teker.vercel.app](https://teker.vercel.app)
+
+---
+
+## 🚀 Features
+
+- **Browse & Search:** Explore a wide range of tech products:
+  - Electronics: Smartphones, Laptops, Tablets, Headphones, Cameras, etc.
+  - Computer Accessories
+  - Car Tech
+  - Home Gadgets
+- **Product Details:** Rich product pages with images, specs, and reviews
+- **Cart & Checkout:** Add to cart, manage quantities, and checkout (demo)
+- **User Authentication:** Sign up, sign in, and manage your account (via Supabase Auth)
+- **Admin Dashboard:** Manage products and categories (via Hygraph CMS)
+- **Responsive Design:** Optimized for desktop, tablet, and mobile
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Astro + React
+- **Styling:** Tailwind CSS
+- **Database & Auth:** Supabase (Postgres)
+- **CMS:** Hygraph
+- **Hosting:** Vercel
+
+---
+
+## 📦 Getting Started
+
+### 1. Clone the Repository
+
+```
+git clone https://github.com/your-username/teker.git
+cd teker
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/minimal)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/minimal)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/minimal/devcontainer.json)
+### 2. Install Dependencies
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+```
+npm install
+# or
+yarn install
+```
 
-## 🚀 Project Structure
+### 3. Environment Variables
 
-Inside of your Astro project, you'll see the following folders and files:
+Create a `.env` file in the root directory and add your credentials:
 
-```text
+```
+SUPABASE_URL=your-supabase-url
+SUPABASE_ANON_KEY=your-supabase-anon-key
+HYGRAPH_ENDPOINT=your-hygraph-endpoint
+HYGRAPH_TOKEN=your-hygraph-access-token
+```
+
+### 4. Run the Development Server
+
+```
+npm run dev
+# or
+yarn dev
+```
+
+Visit [http://localhost:4321](http://localhost:4321) to view the app.
+
+---
+
+## ⚙️ Project Structure
+
+```
 /
-├── public/
+├── public/                # Static assets
 ├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+│   ├── components/        # React & Astro components
+│   ├── pages/             # Astro pages (routes)
+│   ├── layouts/           # Layout components
+│   ├── lib/               # Supabase/Hygraph utilities
+│   └── styles/            # Tailwind CSS config
+├── astro.config.mjs       # Astro configuration
+├── tailwind.config.js     # Tailwind configuration
+├── package.json
+└── README.md
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+---
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+## 📝 Customization
 
-Any static assets, like images, can be placed in the `public/` directory.
+- **Product Data:** Managed in Supabase (inventory, pricing, etc.)
+- **Content (Descriptions, Images, Categories):** Managed in Hygraph CMS
+- **Styling:** Change Tailwind config or extend with your own CSS
 
-## 🧞 Commands
+---
 
-All commands are run from the root of the project, from a terminal:
+## 🧑‍💻 Contributing
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+PRs and issues are welcome! Please open an issue to discuss major changes.
 
-## 👀 Want to learn more?
+---
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 📄 License
+
+MIT License
+
+---
+
+## 🙏 Acknowledgments
+
+- [Astro](https://astro.build/)
+- [React](https://react.dev/)
+- [Supabase](https://supabase.com/)
+- [Hygraph](https://hygraph.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
+
+---
+
+> _Built with ❤️ by [Tejas More]_
+```
+
+**Note:**  
+- Replace `tejxsmore` and `[Tejas More]` with your actual GitHub username and name.  
+- Add screenshots or demo links for extra polish.  
+- Adjust instructions if you use `pnpm` or other tools.  
+- This README follows best practices for modern e-commerce Astro projects[8].
+```
