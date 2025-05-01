@@ -1,13 +1,13 @@
 ---
 // MobileTabs.astro
-import { Home, BadgeCheck, BarChart2, User } from 'lucide-react';
+import { Home, Compass, BarChart2, User } from 'lucide-react';
 
 // Get the current path from Astro
 const { pathname } = Astro.url;
 
 const tabs = [
   { href: '/', label: 'Home', icon: Home },
-  { href: '/brand', label: 'Brand', icon: BadgeCheck },
+  { href: '/explore', label: 'Explore', icon: Compass },
   { href: '/compare', label: 'Compare', icon: BarChart2 },
   { href: '/profile', label: 'Profile', icon: User },
 ];

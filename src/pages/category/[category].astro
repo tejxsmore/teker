@@ -1,0 +1,319 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro";
+import ProductCard from "@/components/card/ProductCard.astro";
+import { X, Check, MoveUp, MoveDown } from "lucide-react";
+
+interface Brand {
+  name: string;
+  slug: string;
+}
+
+interface Product {
+  name: string;
+  slug: string;
+  price: number;
+  description: string;
+  image: { url: string };
+  rating: number;
+  brand: Brand;
+}
+
+interface Category {
+  slug: string;
+  name: string;
+  product: Product[];
+}
+
+const { category } = Astro.params;
+
+const query = {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query: `
+      {
+        categories {
+          name
+          slug
+          product {
+            name
+            slug
+            price
+            description
+            image { url }
+            rating
+            brand {
+              name
+              slug
+            }
+          }
+        }
+      }
+    `,
+  }),
+};
+
+const response = await fetch(import.meta.env.HYGRAPH_API, query);
+const json = await response.json();
+
+const categories: Category[] = json?.data?.categories || [];
+const categoryData: Category | undefined = categories.find(
+  (item) => item.slug === category
+);
+
+const uniqueBrands: Brand[] = categoryData
+  ? Array.from(new Map(categoryData.product.map(p => [p.brand.slug, p.brand])).values())
+  : [];
+
+const productData: Product[] = categoryData?.product || [];
+---
+
+<MainLayout>
+  <!-- Brand Filters and Sort Dropdown in same row -->
+  <div class="flex flex-wrap justify-between px-4 pt-4 gap-4">
+    <!-- Brand Filters -->
+    <div class="flex gap-4 overflow-x-auto">
+      {uniqueBrands.map((brand) => (
+        <button
+          class="cursor-pointer px-4 py-1.5 h-10 rounded-full border
+            flex items-center gap-2 bg-white text-black dark:bg-black dark:text-white 
+            border-gray-300 dark:border-gray-600 transition-all duration-100 ease-in-out
+            hover:opacity-90"
+          onclick={`toggleBrand('${brand.slug}')`}
+          data-slug={brand.slug}
+          id={`btn-${brand.slug}`}
+        >
+          <span>{brand.name}</span>
+          <X className="hidden close-icon w-4 h-4 text-[#f2613f]" />
+        </button>
+      ))}
+    </div>
+
+    <!-- Sort Dropdown using Shadcn UI -->
+    <div class="relative inline-block">
+      <button 
+        id="sort-button"
+        class="cursor-pointer px-4 py-1.5 h-10 rounded-full border
+               flex items-center gap-2 bg-white text-black dark:bg-black dark:text-white 
+               border-gray-300 dark:border-gray-600 transition-all duration-100 ease-in-out
+               hover:opacity-90 min-w-[140px] justify-between"
+        onclick="toggleSortDropdown()"
+      >
+        <span id="sort-selected">Sort by</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200" id="sort-chevron">
+          <path d="m6 9 6 6 6-6"/>
+        </svg>
+      </button>
+
+      <!-- Shadcn UI Dropdown Content -->
+      <div 
+        id="sort-dropdown" 
+        class="absolute z-10 mt-2 rounded-[20px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-black shadow-lg hidden 
+            w-full overflow-hidden"
+      >
+        <div class="p-1">
+          <button
+            data-value="asc"
+            class="flex gap-2 items-center sort-option w-full text-left px-4 py-1.5 text-sm rounded-[20px] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            <span><MoveUp size={16} /></span>
+            Price: Low to High
+          </button>
+          <button
+            data-value="desc"
+            class="flex gap-2 items-center sort-option w-full text-left px-4 py-1.5 text-sm rounded-[20px] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+          >
+            <span><MoveDown size={16} /></span>
+            Price: High to Low
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Grid -->
+  <div
+    id="product-grid"
+    class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 min-h-screen transition-all"
+  >
+    {productData.map((product) => (
+      <div
+        class="product-item transition-opacity"
+        data-brand={product.brand.slug}
+        data-price={product.price}
+      >
+        <ProductCard
+          brandName={product.brand.name}
+          name={product.name}
+          slug={product.slug}
+          imageUrl={product.image.url}
+          price={product.price}
+        />
+      </div>
+    ))}
+  </div>
+
+  <!-- Script -->
+  <script is:inline>
+    const activeBrands = new Set();
+    let currentSortValue = "";
+
+    function toggleBrand(slug) {
+      const btn = document.getElementById(`btn-${slug}`);
+      const icon = btn.querySelector(".close-icon");
+      const productItems = document.querySelectorAll(".product-item");
+
+      if (activeBrands.has(slug)) {
+        activeBrands.delete(slug);
+        btn.classList.remove("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
+        if (icon) {
+          icon.classList.remove("text-white");
+          icon.classList.add("text-[#f2613f]");
+          icon.classList.add("hidden");
+        }
+      } else {
+        activeBrands.add(slug);
+        btn.classList.add("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
+        if (icon) {
+          icon.classList.remove("hidden");
+          icon.classList.remove("text-[#f2613f]");
+          icon.classList.add("text-white");
+        }
+      }
+
+      applyFilters();
+      updateURLParams();
+    }
+
+    function toggleSortDropdown() {
+      const dropdown = document.getElementById("sort-dropdown");
+      const chevron = document.getElementById("sort-chevron");
+      
+      dropdown.classList.toggle("hidden");
+      
+      // Rotate chevron when dropdown is open
+      if (dropdown.classList.contains("hidden")) {
+        chevron.classList.remove("rotate-180");
+      } else {
+        chevron.classList.add("rotate-180");
+      }
+    }
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", (event) => {
+      const sortButton = document.getElementById("sort-button");
+      const dropdown = document.getElementById("sort-dropdown");
+      
+      if (!sortButton.contains(event.target) && !dropdown.contains(event.target)) {
+        dropdown.classList.add("hidden");
+        document.getElementById("sort-chevron").classList.remove("rotate-180");
+      }
+    });
+
+    // Setup sort options
+    document.addEventListener("DOMContentLoaded", () => {
+      const sortOptions = document.querySelectorAll(".sort-option");
+      
+      sortOptions.forEach(option => {
+        option.addEventListener("click", () => {
+          const value = option.dataset.value;
+          const text = option.textContent.trim();
+          
+          // Update button text
+          document.getElementById("sort-selected").textContent = text;
+          
+          // Apply active styling to button when an option is selected
+          const sortButton = document.getElementById("sort-button");
+          if (value) {
+            sortButton.classList.add("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
+          } else {
+            sortButton.classList.remove("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
+          }
+          
+          // Hide dropdown
+          document.getElementById("sort-dropdown").classList.add("hidden");
+          document.getElementById("sort-chevron").classList.remove("rotate-180");
+          
+          // Apply sort
+          currentSortValue = value;
+          applyFilters();
+          updateURLParams();
+        });
+      });
+    });
+
+    function applyFilters() {
+      const productGrid = document.getElementById("product-grid");
+      const selected = Array.from(activeBrands);
+      
+      let items = Array.from(productGrid.children);
+
+      // Filter by brand
+      items.forEach(item => {
+        const isVisible = selected.length === 0 || activeBrands.has(item.dataset.brand);
+        item.style.display = isVisible ? "block" : "none";
+      });
+
+      // Sort by price
+      if (currentSortValue) {
+        items = items.sort((a, b) => {
+          const priceA = parseFloat(a.dataset.price);
+          const priceB = parseFloat(b.dataset.price);
+          return currentSortValue === "asc" ? priceA - priceB : priceB - priceA;
+        });
+
+        items.forEach(item => productGrid.appendChild(item));
+      }
+    }
+
+    function updateURLParams() {
+      const url = new URL(window.location.href);
+      const brands = Array.from(activeBrands);
+      
+      if (brands.length > 0) {
+        url.searchParams.set("brands", brands.join(","));
+      } else {
+        url.searchParams.delete("brands");
+      }
+
+      if (currentSortValue) {
+        url.searchParams.set("sort", currentSortValue);
+      } else {
+        url.searchParams.delete("sort");
+      }
+
+      window.history.replaceState({}, "", url);
+    }
+
+    // Initialize from URL params on page load
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const brands = params.get("brands");
+      const sort = params.get("sort");
+
+      if (brands) {
+        brands.split(",").forEach(slug => {
+          const btn = document.getElementById(`btn-${slug}`);
+          if (btn) btn.click();
+        });
+      }
+
+      if (sort) {
+        currentSortValue = sort;
+        const sortOptions = document.querySelectorAll(".sort-option");
+        sortOptions.forEach(option => {
+          if (option.dataset.value === sort) {
+            // Update button text
+            document.getElementById("sort-selected").textContent = option.textContent.trim();
+            
+            // Add active styling to button
+            document.getElementById("sort-button").classList.add("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
+            
+            // Apply sort
+            applyFilters();
+          }
+        });
+      }
+    });
+  </script>
+</MainLayout>

@@ -1,5 +1,5 @@
 import { defineConfig } from 'astro/config'
-import vercelServerless from '@astrojs/vercel/serverless';
+import vercelServerless from '@astrojs/vercel';
 import clerk from '@clerk/astro'
 import tailwindcss from "@tailwindcss/vite";
 import react from '@astrojs/react';
