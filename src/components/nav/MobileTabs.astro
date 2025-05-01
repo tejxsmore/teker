@@ -1,0 +1,55 @@
+---
+// MobileTabs.astro
+import { Home, BadgeCheck, BarChart2, User } from 'lucide-react';
+
+// Get the current path from Astro
+const { pathname } = Astro.url;
+
+const tabs = [
+  { href: '/', label: 'Home', icon: Home },
+  { href: '/brand', label: 'Brand', icon: BadgeCheck },
+  { href: '/compare', label: 'Compare', icon: BarChart2 },
+  { href: '/profile', label: 'Profile', icon: User },
+];
+---
+
+<div class="lg:hidden fixed bottom-0 w-full bg-[#F7F7F7] dark:bg-[#1f1f23] border-t border-[#D8D9CF] dark:border-[#404258] z-50">
+  <div class="flex justify-between px-6 py-2">
+    {tabs.map((tab) => {
+      const isActive = pathname === tab.href;
+      const Icon = tab.icon;
+      const colorClass = isActive ? 'text-[#F2613F]' : 'text-[#3C3D37] dark:text-[#D0DDD0]';
+      
+      return (
+        <a
+          href={tab.href}
+          class={`flex flex-col items-center text-sm ${colorClass}`}
+        >
+          <Icon size={20} strokeWidth={1.5} className={colorClass} />
+          <span class={`pt-1 ${colorClass}`}>{tab.label}</span>
+        </a>
+      );
+    })}
+  </div>
+</div>
+
+<script>
+  // Client-side code for active tab highlighting if needed
+  const updateActiveTab = () => {
+    const currentPath = window.location.pathname;
+    document.querySelectorAll('a').forEach(link => {
+      const isActive = link.getAttribute('href') === currentPath;
+      if (isActive) {
+        link.classList.add('text-[#F2613F]');
+      } else {
+        link.classList.remove('text-[#F2613F]');
+      }
+    });
+  };
+
+  // Run on initial load
+  updateActiveTab();
+
+  // Optional: Update when navigating if using client-side routing
+  document.addEventListener('astro:page-load', updateActiveTab);
+</script>

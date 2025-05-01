@@ -1,0 +1,40 @@
+---
+interface Props {
+  brandName: string;
+  name: string;
+  slug: string;
+  imageUrl: string;
+  price: number;
+}
+
+const { brandName, name, slug, imageUrl, price } = Astro.props;
+
+const INRupee = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+});
+---
+
+<a href={`/product/${slug}`} class="block rounded-[20px] overflow-hidden border">
+  <div class="aspect-w-4 aspect-h-3">
+    <img src={imageUrl} alt={`Image of ${name}`} class="w-full h-full object-cover" loading="lazy" />
+  </div>
+
+  <div class="p-5 pt-0 space-y-2.5">
+    <p class="text-sm text-gray-500">{brandName}</p>
+    <h2 class="text-lg font-normal line-clamp-2">{name}</h2>
+    <p class="text-lg font-bold text-indigo-500">{INRupee.format(price)}</p>
+  </div>
+
+  <div class="p-5 pt-0 sm:flex space-y-2.5 sm:space-y-0 justify-between gap-5">
+    <button class="w-full border border-[#D8D9CF] dark:border-[#404258] px-4
+    py-1.5 rounded-[20px] cursor-pointer flex justify-center items-center">
+        <span class="">Add to Cart</span>
+    </button>
+    <button class="w-full bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 
+    rounded-[20px] cursor-pointer flex justify-center items-center gap-1.5 
+    text-[#030303]">
+      Buy
+    </button>
+  </div>
+</a>

@@ -1,0 +1,270 @@
+---
+// NavMenu.astro
+import { Menu, X } from "lucide-react";
+
+// Categories data
+const categories = [
+  {
+    name: "Electronics",
+    img: "📱",
+    subItems: [
+      { name: "Phone", img: "/assets/category/phone.png" },
+      { name: "Tablet", img: "/assets/category/tablet.png" },
+      { name: "Laptop", img: "/assets/category/laptop.png" },
+      { name: "Earbuds", img: "/assets/category/earbuds.png" },
+      { name: "Headphone", img: "/assets/category/headphone.png" },
+      { name: "Speaker", img: "/assets/category/speaker.png" },
+      { name: "Watch", img: "/assets/category/watch.png" },
+      { name: "Rings", img: "/assets/category/rings.png" },
+      { name: "Microphone", img: "/assets/category/microphone.png" },
+      { name: "Drone", img: "/assets/category/drone.png" },
+      { name: "Remarkable", img: "/assets/category/remarkable.png" },
+    ]
+  },
+  {
+    name: "Computers",
+    img: "🖥️",
+    subItems: [
+      { name: "Monitor", img: "/assets/category/monitor.png" },
+      { name: "Keyboard", img: "/assets/category/keyboard.png" },
+      { name: "Mice", img: "/assets/category/mice.png" },
+      { name: "Webcam", img: "/assets/category/webcam.png" },
+      { name: "HDD and SSD", img: "/assets/category/ssd.png" },
+      { name: "Graphic Card", img: "/assets/category/gpu.png" },
+      { name: "Motherboard", img: "/assets/category/motherboard.png" },
+      { name: "RAM and Storage", img: "/assets/category/ram.png" },
+    ]
+  },
+  {
+    name: "Gaming",
+    img: "🎮",
+    subItems: [
+      { name: "Gaming Laptop", img: "/assets/category/gaming-laptop.png" },
+      { name: "Console", img: "/assets/category/console.png" },
+      { name: "Controller", img: "/assets/category/controller.png" },
+      { name: "Games", img: "/assets/category/game.png" },
+      { name: "Gaming Headset", img: "/assets/category/gaming-headset.png" },
+      { name: "VR Headset", img: "/assets/category/vr.png" },
+    ]
+  },
+  {
+    name: "Cameras",
+    img: "📷",
+    subItems: [
+      { name: "DSLR", img: "/assets/category/dslr.png" },
+      { name: "Mirrorless", img: "/assets/category/mirrorless.png" },
+      { name: "Full Frame", img: "/assets/category/fullframe.png" },
+      { name: "Action Camera", img: "/assets/category/action-camera.png" },
+      { name: "Lens", img: "/assets/category/lens.png" },
+      { name: "Tripod and Mounts", img: "/assets/category/tripod.png" },
+      { name: "Memory Card", img: "/assets/category/memory-card.png" },
+      { name: "Camera Bag", img: "/assets/category/camera-bag.png" },
+    ]
+  },
+  {
+    name: "Car Tech",
+    img: "🚗",
+    subItems: [
+      { name: "Dash Cam", img: "/assets/category/dashcam.png" },
+      { name: "GPS System", img: "/assets/category/gps.png" },
+      { name: "Bluetooth Car Kit", img: "/assets/category/bluetooth-kit.png" },
+      { name: "Car Charger", img: "/assets/category/car-charger.png" },
+      { name: "Smart Tire Sensors", img: "/assets/category/tire-sensor.png" },
+    ]
+  },
+  {
+    name: "Smart Home",
+    img: "🏠",
+    subItems: [
+      { name: "Smart Assistant", img: "/assets/category/assistant.png" },
+      { name: "Home Audio", img: "/assets/category/home-audio.png" },
+      { name: "Smart Security", img: "/assets/category/security.png" },
+      { name: "Routers and Modems", img: "/assets/category/router.png" },
+      { name: "Smart Plugs", img: "/assets/category/smartplug.png" },
+    ]
+  },
+  {
+    name: "Accessory",
+    img: "🔌",
+    subItems: [
+      { name: "Charger", img: "/assets/category/charger.png" },
+      { name: "Phone Case", img: "/assets/category/phone-case.png" },
+      { name: "Screen Protector", img: "/assets/category/screen-protector.png" },
+      { name: "Laptop bag", img: "/assets/category/laptop-bag.png" },
+    ]
+  },
+];
+
+// Helper function
+const toKebabCase = (str: string) => {
+  return str.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
+};
+
+// Get current path
+const { pathname } = Astro.url;
+---
+
+<div class="flex items-center relative">
+  <button 
+    id="menu-toggle" 
+    class="lg:hidden text-3xl cursor-pointer z-50 flex items-center justify-center 
+    focus:outline-none"
+    aria-label="Toggle menu"
+  >
+    <Menu id="menu-icon" />
+    <X id="close-icon" className="hidden" />
+  </button>
+
+  <!-- Overlay -->
+  <div id="menu-overlay" class="fixed inset-0 z-30 bg-black/30 hidden"></div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed left-0 top-[96px] w-full bg-[#F7F7F7] dark:bg-[#1f1f23] z-40 h-[calc(100vh-60px)] hidden">
+    <div class="border-t border-[#D8D9CF] dark:border-[#404258] flex h-full">
+      <!-- Categories sidebar -->
+      <div class="w-32 mb-24 bg-[#F7F7F7] dark:bg-[#1f1f23] overflow-y-auto border-r border-[#D8D9CF] dark:border-[#404258] p-5 space-y-5">
+        {categories.map((cat, index) => (
+          <button
+            class={`category-btn w-full rounded-[20px] p-3 flex items-center justify-center text-center flex-col space-y-3 cursor-pointer border ${
+              index === 0
+                ? "bg-[#F2613F] border-[#D84040] active-category"
+                : "bg-[#FFFFFF] dark:bg-[#030303] hover:bg-[#FEF3E2] dark:hover:bg-[#1A1A1D] hover:border-[#F2613F] dark:hover:border-[#F2613F] border-[#D8D9CF] dark:border-[#404258]"
+            }`}
+            data-category={cat.name}
+          >
+            <span class="text-3xl">{cat.img}</span>
+            <span class="text-sm break-words leading-tight">{cat.name}</span>
+          </button>
+        ))}
+      </div>
+
+      <!-- Category content -->
+      <div class="flex-1 p-5 overflow-y-auto mb-24">
+        {categories.map((category, index) => (
+          <div 
+            class={`category-content ${index === 0 ? "block" : "hidden"}`} 
+            data-category={category.name}
+          >
+            <h2 class="text-xl font-semibold mb-5">{category.name}</h2>
+            <div class="flex flex-wrap -m-2">
+              {category.subItems.map((item) => (
+                <div class="w-1/2 md:w-1/3 p-2.5">
+                  <a href={`/category/${toKebabCase(item.name)}/`}>
+                    <div class="h-28 rounded-[20px] p-3 flex flex-col items-center justify-center text-sm text-center leading-snug break-words overflow-hidden dark:hover:bg-[#1A1A1D] hover:border-[#F2613F] transition hover:scale-102 hover:delay-75 cursor-pointer bg-[#FFFFFF] dark:bg-[#030303]">
+                      <div class="w-12 h-12 mb-3">
+                        <img
+                          src={item.img}
+                          alt={item.name}
+                          width={50}
+                          height={50}
+                        />
+                      </div>
+                      <span class="text-xs sm:text-sm font-medium">{item.name}</span>
+                    </div>
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // This code runs on the client
+  function setupMobileMenu() {
+    // Get DOM elements
+    const menuToggle = document.getElementById('menu-toggle');
+    const menuIcon = document.getElementById('menu-icon');
+    const closeIcon = document.getElementById('close-icon');
+    const menuOverlay = document.getElementById('menu-overlay');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const categoryContents = document.querySelectorAll('.category-content');
+    
+    // Check if elements exist
+    if (!menuToggle || !menuIcon || !closeIcon || !menuOverlay || !mobileMenu) {
+      console.error('Mobile menu elements not found');
+      return;
+    }
+    
+    // Menu state
+    let isMenuOpen = false;
+    
+    // Toggle menu function
+    function toggleMenu() {
+      isMenuOpen = !isMenuOpen;
+      
+      if (isMenuOpen) {
+        // Open menu
+        menuIcon?.classList.add('hidden');
+        closeIcon?.classList.remove('hidden');
+        menuOverlay?.classList.remove('hidden');
+        mobileMenu?.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+      } else {
+        // Close menu
+        menuIcon?.classList.remove('hidden');
+        closeIcon?.classList.add('hidden');
+        menuOverlay?.classList.add('hidden');
+        mobileMenu?.classList.add('hidden');
+        document.body.style.overflow = '';
+      }
+    }
+    
+    // Add click event to menu toggle button
+    menuToggle.addEventListener('click', toggleMenu);
+    
+    // Close menu when clicking overlay
+    menuOverlay.addEventListener('click', () => {
+      if (isMenuOpen) toggleMenu();
+    });
+    
+    // Close menu on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && isMenuOpen) toggleMenu();
+    });
+    
+    // Handle category selection
+    categoryButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const selectedCategory = button.getAttribute('data-category');
+        
+        // Update active button
+        categoryButtons.forEach(btn => {
+          if (btn.getAttribute('data-category') === selectedCategory) {
+            btn.classList.add('bg-[#F2613F]', 'border-[#D84040]', 'active-category');
+            btn.classList.remove('bg-[#FFFFFF]', 'dark:bg-[#030303]');
+          } else {
+            btn.classList.remove('bg-[#F2613F]', 'border-[#D84040]', 'active-category');
+            btn.classList.add('bg-[#FFFFFF]', 'dark:bg-[#030303]');
+          }
+        });
+        
+        // Show selected content
+        categoryContents.forEach(content => {
+          if (content.getAttribute('data-category') === selectedCategory) {
+            content.classList.remove('hidden');
+            content.classList.add('block');
+          } else {
+            content.classList.add('hidden');
+            content.classList.remove('block');
+          }
+        });
+      });
+    });
+    
+    // Close menu on navigation (for client-side routing)
+    document.addEventListener('astro:after-navigation', () => {
+      if (isMenuOpen) toggleMenu();
+    });
+  }
+
+  // Run setup when DOM is ready
+  document.addEventListener('DOMContentLoaded', setupMobileMenu);
+  
+  // For Astro's view transitions
+  document.addEventListener('astro:page-load', setupMobileMenu);
+</script>

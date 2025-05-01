@@ -1,0 +1,60 @@
+---
+import { getSupabase } from '@/lib/supabase'
+import AddressForm from './AddressForm.tsx'
+import AddressActions from './AddressActions.tsx' 
+
+const user = await Astro.locals.currentUser()
+const userId = user?.id
+
+let data = null
+
+if (userId) {
+  const supabase = getSupabase()
+  const { data: response } = await supabase
+    .from('addresses')
+    .select('*')
+    .eq('user_id', userId)
+    .order('is_primary', { ascending: false })
+    .order('created_at', { ascending: true })
+
+  if (response?.length! > 0) {
+    data = response
+  }
+}
+---
+
+{!data ? (
+  <AddressForm hasSavedAddress={false} />
+) : (
+  <div class="flex flex-col space-y-5 md:w-1/2 h-full">
+    <div class="p-5 rounded-[20px] bg-[#F7F7F7] dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258] space-y-5">
+      <h2 class="text-lg font-normal">Saved Address</h2>
+
+      {data.map((item: any, i:number) => (
+        <div class="border-t-2 border-dashed border-[#D8D9CF] dark:border-[#404258] pt-5 space-y-5">
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-5">
+              <h3 class="text-lg font-normal">{item.address_title || `Address ${i + 1}`}</h3>
+              {item.is_primary ? (
+                <button class="text-xs px-3 py-[0.25px] bg-[#1DCD9F] border border-[#169976] rounded-[20px] text-[#030303]">
+                  Primary
+                </button>
+              ) : null}
+            </div>
+
+            <AddressActions id={item.address_id} isPrimary={item.is_primary} client:load />
+          </div>
+
+          <div class="space-y-1">
+            <p class="text-lg font-semibold">{item.address_line1}</p>
+            <p>{item.address_line2}</p>
+            <p>{item.city}, {item.state}</p>
+            <p>{item.pincode}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <AddressForm client:load hasSavedAddress={true} />
+  </div>
+)}

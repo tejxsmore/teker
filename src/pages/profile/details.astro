@@ -1,0 +1,39 @@
+---
+import Address from "@/components/profile/address/Address.astro";
+import MainLayout from "@/layouts/MainLayout.astro";
+
+const user = await Astro.locals.currentUser();
+const userFullName = user?.fullName ?? "Guest";
+const username = user?.username ?? "unknown";
+const userPhone = user?.phoneNumbers?.[0]?.phoneNumber?.slice(3) ?? "N/A";
+const userEmail = user?.emailAddresses?.[0]?.emailAddress ?? "N/A";
+---
+
+<MainLayout>
+  <div class="p-5 space-y-5 min-h-screen md:flex md:gap-5">
+    <div class="p-5 md:w-1/2 h-full rounded-[20px] bg-[#F7F7F7] dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258]">
+      
+      <div class="border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258] pb-5">
+        <p class="text-sm text-gray-500">Name</p>
+        <h2 class="text-lg font-normal">{userFullName}</h2>
+      </div>
+  
+      <div class="border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258] py-5">
+        <p class="text-sm text-gray-500">Phone</p>
+        <h2 class="text-lg font-normal">{userPhone}</h2>
+      </div>
+  
+      <div class="border-b-2 border-dashed border-[#D8D9CF] dark:border-[#404258] py-5">
+        <p class="text-sm text-gray-500">Username</p>
+        <h2 class="text-lg font-normal">@{username}</h2>
+      </div>
+  
+      <div class="pt-5">
+        <p class="text-sm text-gray-500">Email</p>
+        <h2 class="text-lg font-normal">{userEmail}</h2>
+      </div>
+    </div>
+  
+    <Address />
+  </div>
+</MainLayout>
