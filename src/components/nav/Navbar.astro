@@ -1,10 +1,41 @@
 ---
 import { SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/astro/components'
 import { ModeToggle } from '../ModeToggle'
-import { Search, LogIn } from 'lucide-react'
+import { LogIn } from 'lucide-react'
 
 import MobileTabs from "@/components/nav/MobileTabs.astro"
 import NavMenu from '@/components/nav/NavMenu.astro'
+import ProductSearch from '@/components/nav/ProductSearch'
+
+interface Product {
+  brand: { name: string };
+  name: string;
+  slug: string;
+  image: { url: string };
+  description: string;
+}
+
+const query = {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    query: `
+      {
+        products {
+          brand { name }
+          name
+          slug
+          image { url }
+          description
+        }
+      }
+    `,
+  }),
+};
+
+const response = await fetch(import.meta.env.HYGRAPH_API, query);
+const json = await response.json();
+const products: Product[] = json.data.products;
 ---
 
 <div class="bg-[#F2613F] h-6"></div>
@@ -20,16 +51,7 @@ import NavMenu from '@/components/nav/NavMenu.astro'
             <a href="/" class="text-4xl font-bold mb-[1px]">TEKER</a>
     
             <div class='hidden sm:block '>
-                <div class='flex justify-between items-center rounded-[20px] 
-                bg-[#F7F7F7] dark:bg-[#1f1f23] border border-[#D8D9CF] 
-                dark:border-[#404258]'>
-                    <Search size={17} className='ml-4' />
-                    <input 
-                        type="text" 
-                        placeholder='Search anything..'
-                        class='px-4 py-1.5 rounded-[20px] w-full bg-[#F7F7F7] 
-                        focus:outline-none dark:bg-[#1f1f23]' />
-                </div>
+                <ProductSearch client:load products={products} />
             </div>
     
         </div>
@@ -50,15 +72,9 @@ import NavMenu from '@/components/nav/NavMenu.astro'
             </SignedIn>
         </div>
     </div>
-    
-    <div class='mx-4 mb-4 flex justify-between items-center rounded-[20px] sm:hidden
-        bg-[#F7F7F7] dark:bg-[#1f1f23] border border-[#D8D9CF] dark:border-[#404258]'>
-            <Search size={17} className='ml-4' />
-            <input 
-                type="text" 
-                placeholder='Search anything..'
-                class='px-4 py-2 rounded-[20px] w-full bg-[#F7F7F7] focus:outline-none 
-                dark:bg-[#1f1f23]' />
+
+    <div class="p-4 pt-0 sm:hidden">
+        <ProductSearch client:load products={products} />
     </div>
 </div>
 

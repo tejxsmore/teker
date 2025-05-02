@@ -1,48 +1,9 @@
 ---
+import Categories from "@/components/Categories.astro";
 import MainLayout from "../layouts/MainLayout.astro";
-import ProductCard from "../components/card/ProductCard.astro";
 
-interface Product {
-  brand: { name: string };
-  name: string;
-  slug: string;
-  image: { url: string };
-  price: number;
-}
-
-const query = {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    query: `
-      {
-        products {
-          brand { name }
-          name
-          slug
-          image { url }
-          price
-        }
-      }
-    `,
-  }),
-};
-
-const response = await fetch(import.meta.env.HYGRAPH_API, query);
-const json = await response.json();
-const products: Product[] = json.data.products;
 ---
 
 <MainLayout>
-  <div class="p-5 grid gap-5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    {products.map((product) => (
-      <ProductCard 
-        brandName={product.brand.name}
-        name={product.name}
-        slug={product.slug}
-        imageUrl={product.image.url}
-        price={product.price}
-      />
-    ))}
-  </div>
+    <Categories />
 </MainLayout>

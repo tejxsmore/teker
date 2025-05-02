@@ -3,13 +3,11 @@ import { getSupabase } from '@/lib/supabase';
 
 export const POST: APIRoute = async (context) => {
   try {
-    // Get the Clerk user (assumed injected by middleware)
     const user = await context.locals?.currentUser?.();
     if (!user) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
     }
 
-    // Parse request body
     const body = await context.request.json();
     const { title, line1, line2, city, state, pincode } = body;
 

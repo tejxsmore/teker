@@ -1,0 +1,51 @@
+---
+// CartButton.astro
+interface Props {
+  productId: string;
+  name: string;
+  price: number;
+  imageUrl: string;
+}
+
+const { productId, name, price, imageUrl } = Astro.props;
+---
+
+<button 
+  class="add-to-cart" 
+  type="button"
+  data-product-id={productId}
+  data-name={name}
+  data-price={price}
+  data-image-url={imageUrl}
+  data-client-load
+>
+  Add to Cart
+</button>
+
+<script type="module">
+  const button = document.querySelector('.add-to-cart');
+
+  button?.addEventListener('click', async () => {
+    const product = {
+      id: button.dataset.productId,
+      name: button.dataset.name,
+      price: parseFloat(button.dataset.price),
+      imageUrl: button.dataset.imageUrl,
+      quantity: 1
+    };
+
+    // 1. Add to localStorage
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const index = cart.findIndex(p => p.id === product.id);
+    if (index > -1) cart[index].quantity += 1;
+    else cart.push(product);
+    localStorage.setItem('cart', JSON.stringify(cart));
+
+    // 2. Send to Redis (API call)
+    await fetch('/api/cart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ product })
+    });
+  });
+</script>

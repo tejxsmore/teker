@@ -1,7 +1,7 @@
 ---
 import MainLayout from "@/layouts/MainLayout.astro";
-import ProductCard from "@/components/card/ProductCard.astro";
-import { X, Check, MoveUp, MoveDown } from "lucide-react";
+import ProductCard from "@/components/card/ProductCard";
+import { X, MoveUp, MoveDown } from "lucide-react";
 
 interface Brand {
   name: string;
@@ -75,10 +75,8 @@ const productData: Product[] = categoryData?.product || [];
     <div class="flex gap-4 overflow-x-auto">
       {uniqueBrands.map((brand) => (
         <button
-          class="cursor-pointer px-4 py-1.5 h-10 rounded-full border
-            flex items-center gap-2 bg-white text-black dark:bg-black dark:text-white 
-            border-gray-300 dark:border-gray-600 transition-all duration-100 ease-in-out
-            hover:opacity-90"
+          class="cursor-pointer px-4 py-1.5 rounded-full border
+            flex items-center gap-2  transition-all"
           onclick={`toggleBrand('${brand.slug}')`}
           data-slug={brand.slug}
           id={`btn-${brand.slug}`}
@@ -93,9 +91,8 @@ const productData: Product[] = categoryData?.product || [];
     <div class="relative inline-block">
       <button 
         id="sort-button"
-        class="cursor-pointer px-4 py-1.5 h-10 rounded-full border
-               flex items-center gap-2 bg-white text-black dark:bg-black dark:text-white 
-               border-gray-300 dark:border-gray-600 transition-all duration-100 ease-in-out
+        class="cursor-pointer px-4 py-1.5 rounded-[20px] border
+               flex items-center gap-2 transition-all duration-100 ease-in-out
                hover:opacity-90 min-w-[140px] justify-between"
         onclick="toggleSortDropdown()"
       >
@@ -148,6 +145,7 @@ const productData: Product[] = categoryData?.product || [];
           slug={product.slug}
           imageUrl={product.image.url}
           price={product.price}
+          client:visible
         />
       </div>
     ))}
