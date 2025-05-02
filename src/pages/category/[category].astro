@@ -9,13 +9,17 @@ interface Brand {
 }
 
 interface Product {
+  id: string;
   name: string;
   slug: string;
   price: number;
   description: string;
   image: { url: string };
   rating: number;
-  brand: Brand;
+  brand: {
+    name: string;
+    slug: string;
+  };
 }
 
 interface Category {
@@ -36,6 +40,7 @@ const query = {
           name
           slug
           product {
+            id
             name
             slug
             price
@@ -69,14 +74,11 @@ const productData: Product[] = categoryData?.product || [];
 ---
 
 <MainLayout>
-  <!-- Brand Filters and Sort Dropdown in same row -->
   <div class="flex flex-wrap justify-between px-4 pt-4 gap-4">
-    <!-- Brand Filters -->
     <div class="flex gap-4 overflow-x-auto">
       {uniqueBrands.map((brand) => (
         <button
-          class="cursor-pointer px-4 py-1.5 rounded-full border
-            flex items-center gap-2  transition-all"
+          class="cursor-pointer px-4 py-1.5 rounded-full border flex items-center gap-2 transition-all"
           onclick={`toggleBrand('${brand.slug}')`}
           data-slug={brand.slug}
           id={`btn-${brand.slug}`}
@@ -87,13 +89,10 @@ const productData: Product[] = categoryData?.product || [];
       ))}
     </div>
 
-    <!-- Sort Dropdown using Shadcn UI -->
     <div class="relative inline-block">
       <button 
         id="sort-button"
-        class="cursor-pointer px-4 py-1.5 rounded-[20px] border
-               flex items-center gap-2 transition-all duration-100 ease-in-out
-               hover:opacity-90 min-w-[140px] justify-between"
+        class="cursor-pointer px-4 py-1.5 rounded-[20px] border flex items-center gap-2 transition-all duration-100 ease-in-out hover:opacity-90 min-w-[140px] justify-between"
         onclick="toggleSortDropdown()"
       >
         <span id="sort-selected">Sort by</span>
@@ -102,25 +101,17 @@ const productData: Product[] = categoryData?.product || [];
         </svg>
       </button>
 
-      <!-- Shadcn UI Dropdown Content -->
       <div 
         id="sort-dropdown" 
-        class="absolute z-10 mt-2 rounded-[20px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-black shadow-lg hidden 
-            w-full overflow-hidden"
+        class="absolute z-10 mt-2 rounded-[20px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-black shadow-lg hidden w-full overflow-hidden"
       >
         <div class="p-1">
-          <button
-            data-value="asc"
-            class="flex gap-2 items-center sort-option w-full text-left px-4 py-1.5 text-sm rounded-[20px] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          >
-            <span><MoveUp size={16} /></span>
+          <button data-value="asc" class="flex gap-2 items-center sort-option w-full text-left px-4 py-1.5 text-sm rounded-[20px] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <MoveUp size={16} />
             Price: Low to High
           </button>
-          <button
-            data-value="desc"
-            class="flex gap-2 items-center sort-option w-full text-left px-4 py-1.5 text-sm rounded-[20px] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-          >
-            <span><MoveDown size={16} /></span>
+          <button data-value="desc" class="flex gap-2 items-center sort-option w-full text-left px-4 py-1.5 text-sm rounded-[20px] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <MoveDown size={16} />
             Price: High to Low
           </button>
         </div>
@@ -128,30 +119,22 @@ const productData: Product[] = categoryData?.product || [];
     </div>
   </div>
 
-  <!-- Product Grid -->
-  <div
-    id="product-grid"
-    class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 min-h-screen transition-all"
-  >
+  <div id="product-grid" class="p-4 grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 min-h-screen transition-all">
     {productData.map((product) => (
-      <div
-        class="product-item transition-opacity"
-        data-brand={product.brand.slug}
-        data-price={product.price}
-      >
+      <div class="product-item transition-opacity" data-brand={product.brand.slug} data-price={product.price}>
         <ProductCard
-          brandName={product.brand.name}
+          id={product.id}
+          brand={product.brand.name}
           name={product.name}
           slug={product.slug}
-          imageUrl={product.image.url}
+          image={ product.image.url }
           price={product.price}
-          client:visible
+          client:load
         />
       </div>
     ))}
   </div>
 
-  <!-- Script -->
   <script is:inline>
     const activeBrands = new Set();
     let currentSortValue = "";
@@ -164,19 +147,13 @@ const productData: Product[] = categoryData?.product || [];
       if (activeBrands.has(slug)) {
         activeBrands.delete(slug);
         btn.classList.remove("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
-        if (icon) {
-          icon.classList.remove("text-white");
-          icon.classList.add("text-[#f2613f]");
-          icon.classList.add("hidden");
-        }
+        icon?.classList.remove("text-white");
+        icon?.classList.add("text-[#f2613f]", "hidden");
       } else {
         activeBrands.add(slug);
         btn.classList.add("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
-        if (icon) {
-          icon.classList.remove("hidden");
-          icon.classList.remove("text-[#f2613f]");
-          icon.classList.add("text-white");
-        }
+        icon?.classList.remove("hidden", "text-[#f2613f]");
+        icon?.classList.add("text-white");
       }
 
       applyFilters();
@@ -186,53 +163,36 @@ const productData: Product[] = categoryData?.product || [];
     function toggleSortDropdown() {
       const dropdown = document.getElementById("sort-dropdown");
       const chevron = document.getElementById("sort-chevron");
-      
       dropdown.classList.toggle("hidden");
-      
-      // Rotate chevron when dropdown is open
-      if (dropdown.classList.contains("hidden")) {
-        chevron.classList.remove("rotate-180");
-      } else {
-        chevron.classList.add("rotate-180");
-      }
+      dropdown.classList.contains("hidden")
+        ? chevron.classList.remove("rotate-180")
+        : chevron.classList.add("rotate-180");
     }
 
-    // Close dropdown when clicking outside
     document.addEventListener("click", (event) => {
       const sortButton = document.getElementById("sort-button");
       const dropdown = document.getElementById("sort-dropdown");
-      
       if (!sortButton.contains(event.target) && !dropdown.contains(event.target)) {
         dropdown.classList.add("hidden");
         document.getElementById("sort-chevron").classList.remove("rotate-180");
       }
     });
 
-    // Setup sort options
     document.addEventListener("DOMContentLoaded", () => {
-      const sortOptions = document.querySelectorAll(".sort-option");
-      
-      sortOptions.forEach(option => {
+      document.querySelectorAll(".sort-option").forEach(option => {
         option.addEventListener("click", () => {
           const value = option.dataset.value;
           const text = option.textContent.trim();
-          
-          // Update button text
           document.getElementById("sort-selected").textContent = text;
-          
-          // Apply active styling to button when an option is selected
           const sortButton = document.getElementById("sort-button");
-          if (value) {
-            sortButton.classList.add("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
-          } else {
-            sortButton.classList.remove("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
-          }
-          
-          // Hide dropdown
+
+          value
+            ? sortButton.classList.add("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]")
+            : sortButton.classList.remove("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
+
           document.getElementById("sort-dropdown").classList.add("hidden");
           document.getElementById("sort-chevron").classList.remove("rotate-180");
-          
-          // Apply sort
+
           currentSortValue = value;
           applyFilters();
           updateURLParams();
@@ -243,23 +203,18 @@ const productData: Product[] = categoryData?.product || [];
     function applyFilters() {
       const productGrid = document.getElementById("product-grid");
       const selected = Array.from(activeBrands);
-      
       let items = Array.from(productGrid.children);
 
-      // Filter by brand
       items.forEach(item => {
-        const isVisible = selected.length === 0 || activeBrands.has(item.dataset.brand);
-        item.style.display = isVisible ? "block" : "none";
+        item.style.display = selected.length === 0 || activeBrands.has(item.dataset.brand) ? "block" : "none";
       });
 
-      // Sort by price
       if (currentSortValue) {
-        items = items.sort((a, b) => {
+        items.sort((a, b) => {
           const priceA = parseFloat(a.dataset.price);
           const priceB = parseFloat(b.dataset.price);
           return currentSortValue === "asc" ? priceA - priceB : priceB - priceA;
         });
-
         items.forEach(item => productGrid.appendChild(item));
       }
     }
@@ -267,47 +222,23 @@ const productData: Product[] = categoryData?.product || [];
     function updateURLParams() {
       const url = new URL(window.location.href);
       const brands = Array.from(activeBrands);
-      
-      if (brands.length > 0) {
-        url.searchParams.set("brands", brands.join(","));
-      } else {
-        url.searchParams.delete("brands");
-      }
-
-      if (currentSortValue) {
-        url.searchParams.set("sort", currentSortValue);
-      } else {
-        url.searchParams.delete("sort");
-      }
-
+      brands.length > 0 ? url.searchParams.set("brands", brands.join(",")) : url.searchParams.delete("brands");
+      currentSortValue ? url.searchParams.set("sort", currentSortValue) : url.searchParams.delete("sort");
       window.history.replaceState({}, "", url);
     }
 
-    // Initialize from URL params on page load
     window.addEventListener("DOMContentLoaded", () => {
       const params = new URLSearchParams(window.location.search);
       const brands = params.get("brands");
       const sort = params.get("sort");
 
-      if (brands) {
-        brands.split(",").forEach(slug => {
-          const btn = document.getElementById(`btn-${slug}`);
-          if (btn) btn.click();
-        });
-      }
-
+      if (brands) brands.split(",").forEach(slug => document.getElementById(`btn-${slug}`)?.click());
       if (sort) {
         currentSortValue = sort;
-        const sortOptions = document.querySelectorAll(".sort-option");
-        sortOptions.forEach(option => {
+        document.querySelectorAll(".sort-option").forEach(option => {
           if (option.dataset.value === sort) {
-            // Update button text
             document.getElementById("sort-selected").textContent = option.textContent.trim();
-            
-            // Add active styling to button
             document.getElementById("sort-button").classList.add("!bg-[#f2613f]", "!text-white", "!border-[#E83F25]");
-            
-            // Apply sort
             applyFilters();
           }
         });

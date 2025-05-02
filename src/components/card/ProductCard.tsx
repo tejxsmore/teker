@@ -1,65 +1,100 @@
-// src/components/ProductCard.tsx
-import React from 'react';
+'use client';
 
-type Props = {
-  brandName: string;
+import { useCartStore } from "@/stores/cartStore";
+import { ShoppingCart } from "lucide-react";
+
+interface ProductCardProps {
+  id: string;
   name: string;
-  slug: string;
-  imageUrl: string;
+  brand: string;
   price: number;
-};
+  image: string
+  slug: string;
+}
 
 const INRupee = new Intl.NumberFormat("en-IN", {
   style: "currency",
   currency: "INR",
 });
 
-const ProductCard: React.FC<Props> = ({ brandName, name, slug, imageUrl, price }) => {
-  const handleAddToCart = async () => {
-    const product = { brandName, name, slug, imageUrl, price };
+export default function ProductCard({ id, brand, name, price, image, slug }: ProductCardProps) {
+  const addToCart = useCartStore((state) => state.addToCart);
 
-    // LocalStorage
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const index = cart.findIndex((p: any) => p.slug === product.slug);
-    if (index > -1) cart[index].quantity += 1;
-    else cart.push({ ...product, quantity: 1 });
-    localStorage.setItem("cart", JSON.stringify(cart));
+  async function handleAddToCart(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+  
+    addToCart({ name, brand, price, slug });
+  
+    try {
+      const res = await fetch("/api/cart/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          product: {
+            id,
+            name,
+            brand,
+            price,
+            slug,
+            image,
+            quantity: 1,
+          }
+        }),
+      });
+    
+      if (!res.ok) {
+        console.error("Failed to add to Redis:", await res.text());
+      }
+    } catch (err) {
+      console.error("Error sending to Redis:", err);
+    }
+  }
 
-    // Redis Sync
-    await fetch("/api/cart/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ product }),
-    });
-  };
+  function handleBuy(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log(`Buy order processed: ${brand} ${name} worth ₹${price}, id:#${id}`);
+  }
 
   return (
-    <div className="block rounded-[20px] overflow-hidden border">
-      <a href={`/product/${slug}`}>
-        <div className="aspect-w-3 aspect-h-3">
-          <img src={imageUrl} alt={`Image of ${name}`} className="w-full h-full object-cover" loading="lazy" />
+    <div
+      className="p-4 bg-[#F7F7F7] dark:bg-[#030303] border border-[#D8D9CF] 
+      dark:border-[#404258] rounded-[20px] flex flex-col justify-between 
+      transition-colors hover:bg-gray-100 dark:hover:bg-[#0a0a0a] cursor-pointer h-full"
+    >
+      <a href={`/product/${slug}`} className="flex flex-col flex-grow">
+        <div>
+          <p className="text-sm text-gray-500">{brand}</p>
+          <p className="text-lg font-normal">{name}</p>
         </div>
 
-        <div className="p-4 pt-0 space-y-2">
-          <p className="text-sm text-gray-500">{brandName}</p>
-          <h2 className="text-lg font-normal line-clamp-2">{name}</h2>
-          <p className="text-lg font-bold text-indigo-500">{INRupee.format(price)}</p>
+        <div className="flex items-center justify-center my-4 h-40">
+          <img src={image} alt={`Image of ${name}`} className="max-h-full object-contain" loading="lazy" />
         </div>
+
+        <p className="text-lg font-normal">{INRupee.format(price)}</p>
       </a>
 
-      <div className="p-4 pt-0 sm:flex space-y-2 sm:space-y-0 justify-between gap-4">
+      <div className="mt-4 flex flex-col md:flex-row justify-between gap-2.5">
         <button
+          type="button"
           onClick={handleAddToCart}
-          className="w-full border border-[#D8D9CF] dark:border-[#404258] px-4 py-1.5 rounded-[20px] cursor-pointer flex justify-center items-center"
+          className="w-full border border-[#D8D9CF] dark:border-[#404258] px-4
+          py-1.5 rounded-[20px] flex justify-center items-center cursor-pointer"
         >
-          Add to Cart
+          <ShoppingCart className="sm:hidden m-[2.25px]" size={16} />
+          <span className="hidden sm:inline">Add to Cart</span>
         </button>
-        <button className="w-full bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 rounded-[20px] cursor-pointer flex justify-center items-center gap-1.5 text-[#030303]">
+        <button
+          type="button"
+          onClick={handleBuy}
+          className="w-full bg-[#1DCD9F] border border-[#169976] px-4 py-1.5 rounded-[20px]
+          flex justify-center items-center gap-1.5 text-[#030303] cursor-pointer"
+        >
           Buy
         </button>
       </div>
     </div>
   );
-};
-
-export default ProductCard;
+}

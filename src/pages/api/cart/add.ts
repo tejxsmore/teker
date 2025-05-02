@@ -13,6 +13,7 @@ export const POST: APIRoute = async (context) => {
     }
 
     const { product } = await context.request.json();
+    console.log("Received product:", product);
 
     if (!product || !product.slug) {
       return new Response(JSON.stringify({ error: 'Invalid product data' }), { status: 400 });
