@@ -1,9 +1,9 @@
 import { Trash2, Plus, Minus } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 
-let INRupee = new Intl.NumberFormat("en-IN", {
-  style: "currency",
-  currency: "INR",
+const INRupee = new Intl.NumberFormat('en-IN', {
+  style: 'currency',
+  currency: 'INR',
 });
 
 export default function CartCard({
@@ -19,47 +19,18 @@ export default function CartCard({
   price: number;
   quantity: number;
 }) {
-  const { cart, removeFromCart, increaseQty, decreaseQty } = useCartStore();
+  const { removeFromCart, increaseQty, decreaseQty } = useCartStore();
 
-  // Function to update the cart in Redis via the API
-  const updateCartInRedis = async (itemId: string, action: 'increase' | 'decrease' | 'remove') => {
-    try {
-      const user = await fetch('/api/user'); // Assume you're getting user info from your app
-      const userData = await user.json();
-      const { userId, userEmail } = userData;
-
-      const res = await fetch("/api/cart/update", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          itemId,
-          action,
-          userId,
-          userEmail,
-        }),
-      });
-
-      if (!res.ok) {
-        console.error("Failed to update Redis:", await res.text());
-      }
-    } catch (err) {
-      console.error("Error sending to Redis:", err);
-    }
+  const handleRemoveFromCart = () => {
+    removeFromCart(id);
   };
 
-  const handleRemoveFromCart = async () => {
-    removeFromCart(id); // Update Zustand
-    await updateCartInRedis(id, 'remove'); // Update Redis
+  const handleIncreaseQty = () => {
+    increaseQty(id);
   };
 
-  const handleIncreaseQty = async () => {
-    increaseQty(id); // Update Zustand
-    await updateCartInRedis(id, 'increase'); // Update Redis
-  };
-
-  const handleDecreaseQty = async () => {
-    decreaseQty(id); // Update Zustand
-    await updateCartInRedis(id, 'decrease'); // Update Redis
+  const handleDecreaseQty = () => {
+    decreaseQty(id);
   };
 
   return (
@@ -89,11 +60,16 @@ export default function CartCard({
           </button>
 
           <div className="w-full border border-[#D8D9CF] dark:border-[#404258] rounded-[20px] flex">
-            <button onClick={handleDecreaseQty} className="w-1/2 rounded-l-[20px] cursor-pointer">
+            <button
+              onClick={handleDecreaseQty}
+              className="w-1/2 rounded-l-[20px] cursor-pointer"
+            >
               <Minus size={16} className="mx-auto" />
             </button>
-
-            <button onClick={handleIncreaseQty} className="w-1/2 rounded-r-[20px] border-l border-[#D8D9CF] dark:border-[#404258] cursor-pointer">
+            <button
+              onClick={handleIncreaseQty}
+              className="w-1/2 rounded-r-[20px] border-l border-[#D8D9CF] dark:border-[#404258] cursor-pointer"
+            >
               <Plus size={16} className="mx-auto" />
             </button>
           </div>

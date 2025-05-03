@@ -8,7 +8,7 @@ interface ProductCardProps {
   name: string;
   brand: string;
   price: number;
-  image: string
+  image: string;
   slug: string;
 }
 
@@ -17,44 +17,28 @@ const INRupee = new Intl.NumberFormat("en-IN", {
   currency: "INR",
 });
 
-export default function ProductCard({ id, brand, name, price, image, slug }: ProductCardProps) {
+export default function ProductCard({
+  id,
+  brand,
+  name,
+  price,
+  image,
+  slug,
+}: ProductCardProps) {
   const addToCart = useCartStore((state) => state.addToCart);
 
-  async function handleAddToCart(e: React.MouseEvent) {
+  function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-  
     addToCart({ name, brand, price, slug });
-  
-    try {
-      const res = await fetch("/api/cart/add", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          product: {
-            id,
-            name,
-            brand,
-            price,
-            slug,
-            image,
-            quantity: 1,
-          }
-        }),
-      });
-    
-      if (!res.ok) {
-        console.error("Failed to add to Redis:", await res.text());
-      }
-    } catch (err) {
-      console.error("Error sending to Redis:", err);
-    }
   }
 
   function handleBuy(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    console.log(`Buy order processed: ${brand} ${name} worth ₹${price}, id:#${id}`);
+    console.log(
+      `Buy order processed: ${brand} ${name} worth ₹${price}, id:#${id}`
+    );
   }
 
   return (
@@ -70,7 +54,12 @@ export default function ProductCard({ id, brand, name, price, image, slug }: Pro
         </div>
 
         <div className="flex items-center justify-center my-4 h-40">
-          <img src={image} alt={`Image of ${name}`} className="max-h-full object-contain" loading="lazy" />
+          <img
+            src={image}
+            alt={`Image of ${name}`}
+            className="max-h-full object-contain"
+            loading="lazy"
+          />
         </div>
 
         <p className="text-lg font-normal">{INRupee.format(price)}</p>
@@ -86,6 +75,7 @@ export default function ProductCard({ id, brand, name, price, image, slug }: Pro
           <ShoppingCart className="sm:hidden m-[2.25px]" size={16} />
           <span className="hidden sm:inline">Add to Cart</span>
         </button>
+
         <button
           type="button"
           onClick={handleBuy}

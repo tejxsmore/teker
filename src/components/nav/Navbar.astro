@@ -1,12 +1,10 @@
 ---
 import { SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/astro/components'
-import { ModeToggle } from '../ModeToggle'
 import { LogIn } from 'lucide-react'
 
 import MobileTabs from "@/components/nav/MobileTabs.astro"
 import NavMenu from '@/components/nav/NavMenu.astro'
 import ProductSearch from '@/components/nav/ProductSearch'
-import CartCard from '../card/CartCard'
 import CartCount from './CartCount'
 
 interface Product {
@@ -58,7 +56,7 @@ const products: Product[] = json.data.products;
     
         </div>
         <div class="flex items-center gap-4 lg:gap-8">
-            <ModeToggle client:load />
+            
 
             <CartCount client:load />
             
@@ -72,9 +70,6 @@ const products: Product[] = json.data.products;
                     </div>
                 </SignInButton>
             </SignedOut>
-            <SignedIn>
-                <UserButton />
-            </SignedIn>
         </div>
     </div>
 
