@@ -13,7 +13,7 @@
 	bg-[#212529] p-8"
 	>
 		<div class="text-center">
-			<a href="/"> <i class="text-4xl font-bold">TE<span class="text-[#ffd500]">K</span>ER</i></a>
+			<a href="/"> <i class="text-2xl font-bold">TE<span class="text-[#ffd500]">K</span>ER</i></a>
 			<p class="text-md pt-2">Create a new account</p>
 		</div>
 		<form method="POST" class=" space-y-4">
