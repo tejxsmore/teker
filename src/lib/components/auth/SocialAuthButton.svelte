@@ -11,8 +11,9 @@
 </script>
 
 <button
-	class="flex w-full items-center justify-center gap-2 border border-[#495057]
-	bg-[#adb5bd] px-4 py-2"
+	type="button"
+	class="flex w-full cursor-pointer items-center justify-center gap-2 border
+	border-[#495057] bg-transparent px-4 py-2 hover:bg-[#343a40]"
 	onclick={async () => {
 		await signIn.social({
 			provider,
@@ -20,6 +21,6 @@
 		});
 	}}
 >
-	Sign in with Google
 	<img src={`/${provider}.png`} alt={`${provider} logo`} class="h-6 w-6" />
+	Google
 </button>

@@ -3,6 +3,7 @@
 	const { form } = data;
 
 	import { Eye, EyeOff, AlertCircle } from '@lucide/svelte';
+	import SocialAuthButton from '$lib/components/auth/SocialAuthButton.svelte';
 
 	let showPassword = $state(false);
 </script>
@@ -78,11 +79,21 @@
 			>
 				Register
 			</button>
+
+			<div class="relative">
+				<hr class="border-[#495057]" />
+				<span
+					class="absolute top-[-12px] left-1/2 -translate-x-1/2 bg-[#212529] px-2 text-sm text-[#495057]"
+				>
+					or
+				</span>
+			</div>
+			<SocialAuthButton provider="google" />
 		</form>
 
 		<div class="space-y-4 text-center">
-			<p>
-				Already have an account?
+			<p class="text-[#adb5bd]">
+				<span>Already have an account?</span>
 				<a href="/login" class="pl-2 hover:text-[#ffd500]"> Login </a>
 			</p>
 			{#if form?.errorMessage}
