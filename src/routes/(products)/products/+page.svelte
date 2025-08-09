@@ -1,6 +1,7 @@
 <script lang="ts">
 	const { data } = $props();
 	const { items } = data;
+	console.log(items);
 </script>
 
 <div class="p-4">
