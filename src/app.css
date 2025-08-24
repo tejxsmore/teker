@@ -1,0 +1,173 @@
+@import 'tailwindcss';
+
+/* Base styles */
+html,
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-height: 100%;
+	color: #131010;
+	background-color: #fff;
+	font-family: 'Plein-Variable', sans-serif;
+	letter-spacing: 0.5px;
+	box-sizing: border-box;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+/* Hide scrollbars - WebKit */
+::-webkit-scrollbar {
+	width: 0px;
+	height: 0px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover {
+	background: transparent;
+}
+
+/* Inherit box-sizing for all elements */
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
+
+/* ===================
+   Plein Variable Font
+   =================== */
+@font-face {
+	font-family: 'Plein-Variable';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Variable.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Variable.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Variable.ttf') format('truetype');
+	font-weight: 300 900;
+	font-display: swap;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Plein-VariableItalic';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-VariableItalic.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-VariableItalic.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-VariableItalic.ttf') format('truetype');
+	font-weight: 300 900;
+	font-display: swap;
+	font-style: italic;
+}
+
+/* ===================
+   Plein Static Weights
+   =================== */
+@font-face {
+	font-family: 'Plein-Light';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Light.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Light.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-display: swap;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Plein-LightItalic';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-LightItalic.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-LightItalic.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-LightItalic.ttf') format('truetype');
+	font-weight: 300;
+	font-display: swap;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Plein-Regular';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Regular.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Regular.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-display: swap;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Plein-Italic';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Italic.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Italic.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Italic.ttf') format('truetype');
+	font-weight: 400;
+	font-display: swap;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Plein-Medium';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Medium.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Medium.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-display: swap;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Plein-MediumItalic';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-MediumItalic.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-MediumItalic.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-MediumItalic.ttf') format('truetype');
+	font-weight: 500;
+	font-display: swap;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Plein-Bold';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Bold.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Bold.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-display: swap;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Plein-BoldItalic';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-BoldItalic.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-BoldItalic.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-BoldItalic.ttf') format('truetype');
+	font-weight: 700;
+	font-display: swap;
+	font-style: italic;
+}
+
+@font-face {
+	font-family: 'Plein-Black';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Black.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Black.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-Black.ttf') format('truetype');
+	font-weight: 900;
+	font-display: swap;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Plein-BlackItalic';
+	src:
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-BlackItalic.woff2') format('woff2'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-BlackItalic.woff') format('woff'),
+		url('/fonts/Plein/Fonts/WEB/fonts/Plein-BlackItalic.ttf') format('truetype');
+	font-weight: 900;
+	font-display: swap;
+	font-style: italic;
+}
