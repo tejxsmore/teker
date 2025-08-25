@@ -6,4 +6,8 @@
 	$userStore = data.user!;
 </script>
 
+<svelte:head>
+	<title>TEKER</title>
+</svelte:head>
+
 {@render children()}

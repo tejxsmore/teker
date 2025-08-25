@@ -9,12 +9,12 @@
 
 <div class="flex min-h-screen items-center justify-center p-4">
 	<div
-		class="w-full max-w-md space-y-8 rounded-[8px] border
-	border-[#DDDAD0] bg-[#EEEDEB] p-8"
+		class="w-full max-w-md space-y-8 border
+	border-[#2E2B2B] bg-[#212125] p-8"
 	>
 		<div class="text-center">
-			<a href="/"> <i class="text-2xl font-bold">TEKER</i></a>
-			<p class="text-md pt-2 text-[#3D3B40]">Sign in to you account</p>
+			<a href="/"> <i class="text-2xl font-bold text-[#D3D5FD]">TEKER</i></a>
+			<p class="text-md pt-2 text-[#7A7A73]">Sign in to you account</p>
 		</div>
 		<form method="POST" class="space-y-4">
 			<input
@@ -23,10 +23,10 @@
 				id="email"
 				placeholder="Email"
 				required
-				class="w-full rounded-[4px] border border-[#DDDAD0] bg-[#F2F2F2] p-2 px-4 focus:outline-none"
+				class="w-full border border-[#2E2B2B] bg-[#000000] p-2 px-4 focus:outline-none"
 			/>
 
-			<div class="flex justify-between rounded-[4px] border border-[#DDDAD0] bg-[#F2F2F2] p-2 px-4">
+			<div class="flex justify-between border border-[#2E2B2B] bg-[#000000] p-2 px-4">
 				<input
 					type={showPassword ? 'text' : 'password'}
 					name="password"
@@ -37,8 +37,8 @@
 				/>
 				<button
 					type="button"
-					class="ml-4 cursor-pointer text-[#c9c6bb]
-					hover:text-[#b2afa6]"
+					class="ml-4 cursor-pointer text-[#7A7A73]
+					hover:text-[#57564F]"
 					onclick={() => (showPassword = !showPassword)}
 					tabindex="-1"
 				>
@@ -83,30 +83,35 @@
 
 			<button
 				type="submit"
-				class="w-full cursor-pointer gap-2 rounded-[4px] border border-[#C62300] bg-[#FC4100] p-2 px-4 text-[#fff]"
+				class="w-full cursor-pointer gap-2 border border-[#bbbffb] bg-[#D3D5FD] px-4 py-2 text-[#0B0B0D]"
 			>
 				Login
 			</button>
-
-			<div class="relative">
-				<hr class="border-[#DDDAD0]" />
-				<span
-					class="absolute top-[-12px] left-1/2 -translate-x-1/2 bg-[#EEEDEB] px-2 text-sm text-[#DDDAD0]"
-				>
-					or
-				</span>
-			</div>
-			<SocialAuthButton provider="google" />
 		</form>
 
+		<div class="relative">
+			<hr class="border-[#2E2B2B]" />
+			<span
+				class="absolute top-[-10px] left-1/2 -translate-x-1/2 bg-[#212125] px-2 text-sm text-[#474A56]"
+			>
+				OR
+			</span>
+		</div>
+		<SocialAuthButton provider="google" />
+
 		<div class="space-y-4 text-center">
-			<p class="text-[#3D3B40]">
+			<p class="text-[#7A7A73]">
 				Don't have an account?
-				<a href="/register" class="pl-2 hover:text-[#FC4100]"> Register </a>
+				<a
+					href="/register"
+					class="pl-2 text-[#a0a094] transition-colors duration-200 hover:text-[#DDDAD0]"
+				>
+					Register
+				</a>
 			</p>
 			{#if form?.errorMessage}
 				<p
-					class="rounded-[4px] border bg-red-400/15 px-4 py-2
+					class="  border bg-red-400/15 px-4 py-2
 					text-red-400"
 				>
 					{form.errorMessage}

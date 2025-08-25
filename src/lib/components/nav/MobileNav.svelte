@@ -27,8 +27,8 @@
 </script>
 
 <nav
-	class="fixed right-0 bottom-0 left-0 z-50 border-t border-[#DDDAD0]
-	bg-[#F2F2F2] md:hidden"
+	class="fixed right-0 bottom-0 left-0 z-50 border-t border-[#2E2B2B]
+	bg-[#212125] md:hidden"
 >
 	<div class="flex h-16 items-center justify-around">
 		{#each navItems as item}
@@ -37,14 +37,14 @@
 				class="flex h-full flex-1 flex-col items-center justify-center space-y-1 transition-colors duration-200 {isActive(
 					item.href
 				)
-					? 'text-[#FC4100]'
-					: 'text-[#3D3B40] hover:text-[#B4B4B8]'}"
+					? 'text-[#D3D5FD]'
+					: 'text-[#929AAB] hover:text-[#D3D5FD]'}"
 				aria-label={item.label}
 			>
 				{#if item.id === 'home'}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
-						fill={isActive(item.href) ? '#FC4100' : 'none'}
+						fill={isActive(item.href) ? '#D3D5FD' : 'none'}
 						viewBox="0 0 24 24"
 						stroke-width="1.5"
 						stroke={isActive(item.href) ? 'none' : 'currentColor'}
@@ -68,7 +68,7 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							d="m21 7.5-9-5.25L3 7.5l9 5.25z"
-							fill={isActive(item.href) ? '#FC4100' : 'none'}
+							fill={isActive(item.href) ? '#D3D5FD' : 'none'}
 							stroke={isActive(item.href) ? 'none' : 'currentColor'}
 						/>
 						<!-- Left face -->
@@ -76,7 +76,7 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							d="M3 7.5v9l9 5.25v-9z"
-							fill={isActive(item.href) ? '#F14A00' : 'none'}
+							fill={isActive(item.href) ? '#929AAB' : 'none'}
 							stroke={isActive(item.href) ? 'none' : 'currentColor'}
 						/>
 						<!-- Right face -->
@@ -84,14 +84,14 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							d="m21 7.5v9l-9 5.25v-9z"
-							fill={isActive(item.href) ? '#C62300' : 'none'}
+							fill={isActive(item.href) ? '#474A56' : 'none'}
 							stroke={isActive(item.href) ? 'none' : 'currentColor'}
 						/>
 					</svg>
 				{:else if item.id === 'brands'}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
-						fill={isActive(item.href) ? '#FC4100' : 'none'}
+						fill={isActive(item.href) ? '#D3D5FD' : 'none'}
 						viewBox="0 0 24 24"
 						stroke-width="1.5"
 						class="size-5"
@@ -106,13 +106,13 @@
 							stroke-linecap="round"
 							stroke-linejoin="round"
 							d="M9 12.75 11.25 15 15 9.75"
-							stroke={isActive(item.href) ? '#fff' : 'currentColor'}
+							stroke={isActive(item.href) ? '#212125' : 'currentColor'}
 						/>
 					</svg>
 				{:else if item.id === 'profile'}
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
-						fill={isActive(item.href) ? '#FC4100' : 'none'}
+						fill={isActive(item.href) ? '#D3D5FD' : 'none'}
 						viewBox="0 0 24 24"
 						stroke-width="1.5"
 						stroke={isActive(item.href) ? 'none' : 'currentColor'}
