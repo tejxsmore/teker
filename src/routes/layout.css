@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	min-height: 100%;
+	color: #212121;
+	background-color: #fff;
+	box-sizing: border-box;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+::-webkit-scrollbar {
+	width: 0px;
+	height: 0px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-thumb,
+::-webkit-scrollbar-thumb:hover {
+	background: transparent;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+}
