@@ -32,10 +32,11 @@
 	<div>
 		<a href="/" class="text-xl font-semibold">Teker</a>
 	</div>
+
 	<div class="flex items-center gap-2">
-		<div class="flex items-center gap-6 pr-4 text-[#404040]">
-			<a href="/wishlist" aria-label="Wishlist icon"
-				><svg
+		<div class="flex items-center gap-6 p-2.5 text-[#404040]">
+			<a href="/wishlist" aria-label="Wishlist icon">
+				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="20"
 					height="20"
@@ -49,10 +50,10 @@
 					><path
 						d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
 					/></svg
-				></a
-			>
-			<a href="/cart" aria-label="Cart icon" class="hidden md:flex"
-				><svg
+				>
+			</a>
+			<a href="/cart" aria-label="Cart icon" class="hidden md:flex">
+				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="20"
 					height="20"
@@ -66,8 +67,8 @@
 					><circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" /><path
 						d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
 					/></svg
-				></a
-			>
+				>
+			</a>
 		</div>
 		<div
 			class="hidden w-full items-center rounded-xl border border-[#eee] bg-[#f6f6f6] px-4 py-2 focus:border-[#ccc] focus:outline-none md:flex"
@@ -90,7 +91,27 @@
 			<input type="text" placeholder="Samsung s25 ultra" class="w-full px-4 focus:outline-none" />
 		</div>
 		{#if $userStore}
-			<button>Profile</button>
+			<button
+				class="hidden cursor-pointer rounded-xl bg-[#21825C] p-2.5 text-center font-medium text-white transition-colors duration-200 hover:bg-[#2f966d] md:flex"
+				aria-label="User profile icon"
+				><svg
+					xmlns="http://www.w3.org/2000/svg"
+					width="20"
+					height="20"
+					viewBox="0 0 24 24"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					class="lucide lucide-user-icon lucide-user"
+					><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle
+						cx="12"
+						cy="7"
+						r="4"
+					/></svg
+				>
+			</button>
 		{:else}
 			<a
 				href="/login"
