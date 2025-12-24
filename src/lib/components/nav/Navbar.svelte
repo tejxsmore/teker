@@ -2,144 +2,155 @@
 	import { userStore } from '$lib/stores/user';
 </script>
 
-<div
-	class="flex items-center gap-2 bg-[#21825C] p-2 text-sm font-medium text-white lg:px-20 xl:px-40"
->
-	Announcements <span
-		><svg
-			xmlns="http://www.w3.org/2000/svg"
-			width="16"
-			height="16"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="2"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			class="lucide lucide-megaphone-icon lucide-megaphone"
-			><path
-				d="M11 6a13 13 0 0 0 8.4-2.8A1 1 0 0 1 21 4v12a1 1 0 0 1-1.6.8A13 13 0 0 0 11 14H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"
-			/><path d="M6 14a12 12 0 0 0 2.4 7.2 2 2 0 0 0 3.2-2.4A8 8 0 0 1 10 14" /><path
-				d="M8 6v8"
-			/></svg
-		></span
-	>
-</div>
 <nav
-	class="flex items-center justify-between border-[#eee] p-2
+	class="flex items-center justify-between border-[#DCDCDC] bg-white p-4
 	md:border-b lg:px-20 xl:px-40"
 >
 	<div>
 		<a href="/" class="text-xl font-semibold">Teker</a>
 	</div>
 
-	<div class="flex items-center gap-2">
-		<div class="flex items-center gap-6 p-2.5 text-[#404040]">
+	<div class="flex items-center gap-4">
+		<div class="flex items-center gap-6 p-2.5">
 			<a href="/wishlist" aria-label="Wishlist icon">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					width="20"
-					height="20"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="lucide lucide-heart-icon lucide-heart"
+					x="0px"
+					y="0px"
+					width="20px"
+					height="20px"
+					viewBox="0 0 18 18"
 					><path
-						d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5"
-					/></svg
+						d="M8.529,15.222c.297,.155,.644,.155,.941,0,1.57-.819,6.529-3.787,6.529-8.613,.008-2.12-1.704-3.846-3.826-3.859-1.277,.016-2.464,.66-3.173,1.72-.71-1.06-1.897-1.704-3.173-1.72-2.123,.013-3.834,1.739-3.826,3.859,0,4.826,4.959,7.794,6.529,8.613Z"
+						fill="none"
+						stroke="rgba(43, 42, 42, 1)"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="1.5"
+					></path></svg
 				>
 			</a>
-			<a href="/cart" aria-label="Cart icon" class="hidden md:flex">
+			<a href="/bag" aria-label="Cart icon" class="hidden md:flex">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
-					width="20"
-					height="20"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="lucide lucide-shopping-cart-icon lucide-shopping-cart"
-					><circle cx="8" cy="21" r="1" /><circle cx="19" cy="21" r="1" /><path
-						d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"
-					/></svg
+					x="0px"
+					y="0px"
+					width="20px"
+					height="20px"
+					viewBox="0 0 18 18"
+					><path
+						d="M6.75,4.75v-1.75c0-1.243,1.007-2.25,2.25-2.25h0c1.243,0,2.25,1.007,2.25,2.25v1.75"
+						fill="none"
+						stroke="#1c1f21"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="1.5"
+						data-color="color-2"
+					></path><path
+						d="M5.334,4.75h7.333c1.037,0,1.903,.793,1.992,1.827l.652,7.5c.102,1.169-.82,2.173-1.992,2.173H4.681c-1.173,0-2.094-1.005-1.992-2.173l.652-7.5c.09-1.034,.955-1.827,1.992-1.827Z"
+						fill="none"
+						stroke="#1c1f21"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="1.5"
+					></path></svg
 				>
 			</a>
 		</div>
 		<div
-			class="hidden w-full items-center rounded-xl border border-[#eee] bg-[#f6f6f6] px-4 py-2 focus:border-[#ccc] focus:outline-none md:flex"
+			class="hidden w-full items-center rounded-full border border-[#DCDCDC] bg-[#fafafa] p-2.25 pl-4 text-sm focus:border-[#b7b7b7] focus:outline-none md:flex"
 		>
-			<span
-				><svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="20"
-					height="20"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="#777777"
-					stroke-width="1.5"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="lucide lucide-search-icon lucide-search"
-					><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg
-				></span
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				x="0px"
+				y="0px"
+				width="16px"
+				height="16px"
+				viewBox="0 0 18 18"
+				><path
+					fill-rule="evenodd"
+					clip-rule="evenodd"
+					d="M11.1083 11.1083C11.4012 10.8154 11.876 10.8154 12.1689 11.1083L16.2803 15.2197C16.5732 15.5126 16.5732 15.9874 16.2803 16.2803C15.9874 16.5732 15.5126 16.5732 15.2197 16.2803L11.1083 12.1689C10.8154 11.876 10.8154 11.4012 11.1083 11.1083Z"
+					fill="rgba(112, 112, 112, 1)"
+					data-color="color-2"
+				></path>
+				<path
+					fill-rule="evenodd"
+					clip-rule="evenodd"
+					d="M1.5 7.75C1.5 4.29829 4.29829 1.5 7.75 1.5C11.2017 1.5 14 4.29829 14 7.75C14 11.2017 11.2017 14 7.75 14C4.29829 14 1.5 11.2017 1.5 7.75ZM7.75 3C5.12671 3 3 5.12671 3 7.75C3 10.3733 5.12671 12.5 7.75 12.5C10.3733 12.5 12.5 10.3733 12.5 7.75C12.5 5.12671 10.3733 3 7.75 3Z"
+					fill="rgba(112, 112, 112, 1)"
+				></path></svg
 			>
-			<input type="text" placeholder="Samsung s25 ultra" class="w-full px-4 focus:outline-none" />
+			<input
+				type="text"
+				placeholder="Samsung s25 ultra"
+				class="ml-3 w-full rounded-r-full font-semibold focus:outline-none"
+			/>
 		</div>
 		{#if $userStore}
 			<button
-				class="hidden cursor-pointer rounded-xl bg-[#21825C] p-2.5 text-center font-medium text-white transition-colors duration-200 hover:bg-[#2f966d] md:flex"
+				class="cursor-pointer rounded-full border-2 border-[#eb6d6d] bg-[#E62727] p-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#e43737]"
 				aria-label="User profile icon"
 				><svg
 					xmlns="http://www.w3.org/2000/svg"
-					width="20"
-					height="20"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="lucide lucide-user-icon lucide-user"
-					><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle
-						cx="12"
-						cy="7"
-						r="4"
-					/></svg
+					x="0px"
+					y="0px"
+					width="20px"
+					height="20px"
+					viewBox="0 0 18 18"
+					><path
+						d="M2.60518 13.1674C3.69058 10.7157 6.14168 9 8.99999 9C11.7634 9 14.1462 10.6037 15.2822 12.9257C15.3564 13.0774 15.4289 13.2326 15.4797 13.3894C15.8649 14.5805 15.1811 15.8552 13.9874 16.2313C12.705 16.6354 11.0072 17 8.99999 17C6.99283 17 5.29503 16.6354 4.01259 16.2313C2.74425 15.8317 2.05162 14.4186 2.60518 13.1674Z"
+						fill="rgba(255, 255, 255, 1)"
+					></path>
+					<path
+						d="M9 7.50049C10.7952 7.50049 12.25 6.04543 12.25 4.25049C12.25 2.45554 10.7952 1.00049 9 1.00049C7.20482 1.00049 5.75 2.45554 5.75 4.25049C5.75 6.04543 7.20482 7.50049 9 7.50049Z"
+						fill="rgba(255, 255, 255, 1)"
+						data-color="color-2"
+					></path></svg
 				>
 			</button>
 		{:else}
 			<a
 				href="/login"
-				class="rounded-xl bg-[#21825C] px-5 py-2 font-medium text-white
-		    transition-colors duration-200 hover:bg-[#2f966d]">Login</a
+				class="rounded-full border-2 border-[#eb6d6d] bg-[#E62727] px-4
+				py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#e43737]"
+			>
+				Login</a
 			>
 		{/if}
 	</div>
 </nav>
-<div class="border-b border-[#eee] p-2 pt-0 md:border-b-0 md:px-20 lg:px-40 xl:px-60">
+<div
+	class="flex border-b border-[#DCDCDC] bg-white p-4 pt-0 md:hidden md:border-b-0 md:px-20 lg:px-40 xl:px-60"
+>
 	<div
-		class="flex w-full items-center rounded-xl border border-[#eee] bg-[#f6f6f6] px-4 py-2 focus:border-[#ccc] focus:outline-none md:hidden"
+		class="flex w-full items-center rounded-full border border-[#DCDCDC] bg-[#fafafa] p-2.25 pl-4 text-sm focus:border-[#b7b7b7] focus:outline-none"
 	>
-		<span
-			><svg
-				xmlns="http://www.w3.org/2000/svg"
-				width="18"
-				height="18"
-				viewBox="0 0 24 24"
-				fill="none"
-				stroke="#777777"
-				stroke-width="1.5"
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				class="lucide lucide-search-icon lucide-search"
-				><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg
-			></span
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			x="0px"
+			y="0px"
+			width="16px"
+			height="16px"
+			viewBox="0 0 18 18"
+			><path
+				fill-rule="evenodd"
+				clip-rule="evenodd"
+				d="M11.1083 11.1083C11.4012 10.8154 11.876 10.8154 12.1689 11.1083L16.2803 15.2197C16.5732 15.5126 16.5732 15.9874 16.2803 16.2803C15.9874 16.5732 15.5126 16.5732 15.2197 16.2803L11.1083 12.1689C10.8154 11.876 10.8154 11.4012 11.1083 11.1083Z"
+				fill="rgba(112, 112, 112, 1)"
+				data-color="color-2"
+			></path>
+			<path
+				fill-rule="evenodd"
+				clip-rule="evenodd"
+				d="M1.5 7.75C1.5 4.29829 4.29829 1.5 7.75 1.5C11.2017 1.5 14 4.29829 14 7.75C14 11.2017 11.2017 14 7.75 14C4.29829 14 1.5 11.2017 1.5 7.75ZM7.75 3C5.12671 3 3 5.12671 3 7.75C3 10.3733 5.12671 12.5 7.75 12.5C10.3733 12.5 12.5 10.3733 12.5 7.75C12.5 5.12671 10.3733 3 7.75 3Z"
+				fill="rgba(112, 112, 112, 1)"
+			></path></svg
 		>
-		<input type="text" placeholder="Samsung s25 ultra" class="w-full px-4 focus:outline-none" />
+		<input
+			type="text"
+			placeholder="Samsung s25 ultra"
+			class="ml-3 w-full rounded-r-full font-semibold focus:outline-none"
+		/>
 	</div>
 </div>
