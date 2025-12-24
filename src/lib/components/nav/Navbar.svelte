@@ -31,7 +31,7 @@
 					></path></svg
 				>
 			</a>
-			<a href="/bag" aria-label="Cart icon" class="hidden md:flex">
+			<a href="/bag" aria-label="Cart icon">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
@@ -95,7 +95,7 @@
 		</div>
 		{#if $userStore}
 			<button
-				class="cursor-pointer rounded-full border-2 border-[#eb6d6d] bg-[#E62727] p-2 font-semibold text-white transition-colors duration-200 hover:bg-[#e43737]"
+				class="hidden cursor-pointer rounded-full border-2 border-[#eb6d6d] bg-[#E62727] p-2 font-semibold text-white transition-colors duration-200 hover:bg-[#e43737] md:flex"
 				aria-label="User profile icon"
 				><svg
 					xmlns="http://www.w3.org/2000/svg"

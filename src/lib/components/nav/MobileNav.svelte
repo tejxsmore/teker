@@ -125,7 +125,7 @@
 			>
 		</a>
 
-		<a href="/bag" aria-label="bag icon" class="flex flex-col items-center gap-1 text-sm">
+		<a href="/feed" aria-label="feed icon" class="flex flex-col items-center gap-1 text-sm">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				x="0px"
@@ -133,29 +133,19 @@
 				width="20px"
 				height="20px"
 				viewBox="0 0 18 18"
+				><path
+					d="M3.474,2.784L14.897,6.958c.481,.176,.467,.861-.021,1.018l-5.228,1.673-1.673,5.228c-.156,.488-.842,.502-1.018,.021L2.784,3.474c-.157-.43,.26-.847,.69-.69Z"
+					fill={isActive('/feed') ? '#FEE2E2' : 'none'}
+					stroke={isActive('/feed') ? '#E62727' : 'rgba(112, 112, 112, 1)'}
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="1.5"
+				></path></svg
 			>
-				<path
-					d="M6.75,4.75v-1.75c0-1.243,1.007-2.25,2.25-2.25h0c1.243,0,2.25,1.007,2.25,2.25v1.75"
-					fill="none"
-					stroke={isActive('/bag') ? '#E62727' : 'rgba(112, 112, 112, 1)'}
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="1.5"
-					data-color="color-2"
-				></path>
-				<path
-					d="M5.334,4.75h7.333c1.037,0,1.903,.793,1.992,1.827l.652,7.5c.102,1.169-.82,2.173-1.992,2.173H4.681c-1.173,0-2.094-1.005-1.992-2.173l.652-7.5c.09-1.034,.955-1.827,1.992-1.827Z"
-					fill={isActive('/bag') ? '#FEE2E2' : 'none'}
-					stroke={isActive('/bag') ? '#E62727' : 'rgba(112, 112, 112, 1)'}
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="1.5"
-				></path>
-			</svg>
 			<span
 				class="mt-0.5 text-xs font-semibold"
-				class:text-[#E62727]={isActive('/bag')}
-				class:text-[#707070]={!isActive('/bag')}>Bag</span
+				class:text-[#E62727]={isActive('/feed')}
+				class:text-[#707070]={!isActive('/feed')}>Feed</span
 			>
 		</a>
 

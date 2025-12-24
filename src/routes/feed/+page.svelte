@@ -5,4 +5,4 @@
 
 <Navbar />
 <MobileNav />
-<div class="p-4">Profile Page</div>
+<div class="p-4">Feed Page</div>

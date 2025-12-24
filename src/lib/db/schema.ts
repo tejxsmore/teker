@@ -66,7 +66,36 @@ export const notificationTypeEnum = pgEnum('notification_type', [
 	'price_drop',
 	'review_reminder',
 	'return_update',
-	'general'
+	'general',
+	'post_like',
+	'post_comment',
+	'comment_reply',
+	'post_mention',
+	'new_follower',
+	'post_featured',
+	'comment_like'
+]);
+
+export const postTypeEnum = pgEnum('post_type', [
+	'photo',
+	'video',
+	'text',
+	'review',
+	'unboxing',
+	'comparison',
+	'question',
+	'poll'
+]);
+
+export const postVisibilityEnum = pgEnum('post_visibility', ['public', 'followers', 'private']);
+
+export const reportReasonEnum = pgEnum('report_reason', [
+	'spam',
+	'harassment',
+	'inappropriate_content',
+	'misinformation',
+	'copyright',
+	'other'
 ]);
 
 // ============ USER & AUTH TABLES ============
@@ -80,6 +109,15 @@ export const user = pgTable(
 		image: text('image'),
 		phone: text('phone'),
 		phoneVerified: boolean('phone_verified').default(false),
+		dateOfBirth: timestamp('date_of_birth'),
+		gender: text('gender'),
+		alternateEmail: text('alternate_email'),
+		twoFactorEnabled: boolean('two_factor_enabled').default(false),
+		twoFactorSecret: text('two_factor_secret'),
+		emailNotifications: boolean('email_notifications').default(true),
+		smsNotifications: boolean('sms_notifications').default(true),
+		pushNotifications: boolean('push_notifications').default(true),
+		marketingEmails: boolean('marketing_emails').default(true),
 		role: userRoleEnum('role').default('customer').notNull(),
 		isActive: boolean('is_active').default(true).notNull(),
 		lastLoginAt: timestamp('last_login_at'),
@@ -380,6 +418,185 @@ export const productVariant = pgTable(
 	]
 );
 
+export const productBundle = pgTable(
+	'product_bundle',
+	{
+		id: text('id').primaryKey(),
+		name: text('name').notNull(),
+		slug: text('slug').notNull().unique(),
+		description: text('description'),
+		image: text('image'),
+
+		totalPrice: decimal('total_price', { precision: 12, scale: 2 }).notNull(),
+		bundlePrice: decimal('bundle_price', { precision: 12, scale: 2 }).notNull(),
+		savingsAmount: decimal('savings_amount', { precision: 12, scale: 2 }).notNull(),
+		savingsPercentage: integer('savings_percentage').notNull(),
+
+		isActive: boolean('is_active').default(true).notNull(),
+		isFeatured: boolean('is_featured').default(false).notNull(),
+
+		validFrom: timestamp('valid_from'),
+		validUntil: timestamp('valid_until'),
+
+		soldCount: integer('sold_count').default(0).notNull(),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		index('product_bundle_slug_idx').on(table.slug),
+		index('product_bundle_isActive_idx').on(table.isActive),
+		index('product_bundle_isFeatured_idx').on(table.isFeatured)
+	]
+);
+
+export const productBundleItem = pgTable(
+	'product_bundle_item',
+	{
+		id: text('id').primaryKey(),
+		bundleId: text('bundle_id')
+			.notNull()
+			.references(() => productBundle.id, { onDelete: 'cascade' }),
+		productId: text('product_id')
+			.notNull()
+			.references(() => product.id, { onDelete: 'cascade' }),
+		variantId: text('variant_id').references(() => productVariant.id, {
+			onDelete: 'cascade'
+		}),
+
+		quantity: integer('quantity').default(1).notNull(),
+		displayOrder: integer('display_order').default(0).notNull(),
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('product_bundle_item_bundleId_idx').on(table.bundleId),
+		index('product_bundle_item_productId_idx').on(table.productId)
+	]
+);
+
+export const productComparison = pgTable(
+	'product_comparison',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		categoryId: text('category_id').references(() => category.id, {
+			onDelete: 'set null'
+		}),
+		productIds: jsonb('product_ids').$type<string[]>().notNull(),
+		name: text('name'), // optional: user can name their comparison
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		index('product_comparison_userId_idx').on(table.userId),
+		index('product_comparison_categoryId_idx').on(table.categoryId)
+	]
+);
+
+// 5. ADD PRODUCT ALERTS (price drops, stock alerts)
+export const productAlert = pgTable(
+	'product_alert',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		productId: text('product_id')
+			.notNull()
+			.references(() => product.id, { onDelete: 'cascade' }),
+		variantId: text('variant_id').references(() => productVariant.id, {
+			onDelete: 'cascade'
+		}),
+
+		alertType: text('alert_type').notNull(), // price_drop, back_in_stock
+		targetPrice: decimal('target_price', { precision: 12, scale: 2 }), // for price drop alerts
+
+		isActive: boolean('is_active').default(true).notNull(),
+		triggeredAt: timestamp('triggered_at'),
+		notifiedAt: timestamp('notified_at'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('product_alert_userId_idx').on(table.userId),
+		index('product_alert_productId_idx').on(table.productId),
+		index('product_alert_isActive_idx').on(table.isActive)
+	]
+);
+
+export const flashSale = pgTable(
+	'flash_sale',
+	{
+		id: text('id').primaryKey(),
+		name: text('name').notNull(),
+		description: text('description'),
+		image: text('image'),
+
+		startTime: timestamp('start_time').notNull(),
+		endTime: timestamp('end_time').notNull(),
+
+		discountType: text('discount_type').notNull(), // percentage, fixed
+		discountValue: decimal('discount_value', { precision: 12, scale: 2 }).notNull(),
+		maxDiscount: decimal('max_discount', { precision: 12, scale: 2 }),
+
+		totalStock: integer('total_stock'), // limited quantity
+		soldCount: integer('sold_count').default(0).notNull(),
+
+		isActive: boolean('is_active').default(true).notNull(),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		index('flash_sale_startTime_idx').on(table.startTime),
+		index('flash_sale_endTime_idx').on(table.endTime),
+		index('flash_sale_isActive_idx').on(table.isActive)
+	]
+);
+
+export const flashSaleProduct = pgTable(
+	'flash_sale_product',
+	{
+		id: text('id').primaryKey(),
+		flashSaleId: text('flash_sale_id')
+			.notNull()
+			.references(() => flashSale.id, { onDelete: 'cascade' }),
+		productId: text('product_id')
+			.notNull()
+			.references(() => product.id, { onDelete: 'cascade' }),
+		variantId: text('variant_id').references(() => productVariant.id, {
+			onDelete: 'cascade'
+		}),
+
+		salePrice: decimal('sale_price', { precision: 12, scale: 2 }).notNull(),
+		stockLimit: integer('stock_limit'), // per product limit
+		soldCount: integer('sold_count').default(0).notNull(),
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		uniqueIndex('flash_sale_product_unique').on(
+			table.flashSaleId,
+			table.productId,
+			table.variantId
+		),
+		index('flash_sale_product_flashSaleId_idx').on(table.flashSaleId),
+		index('flash_sale_product_productId_idx').on(table.productId)
+	]
+);
+
 // ============ ADDRESS MANAGEMENT ============
 export const address = pgTable(
 	'address',
@@ -449,6 +666,74 @@ export const cart = pgTable(
 		),
 		index('cart_userId_idx').on(table.userId),
 		index('cart_productId_idx').on(table.productId)
+	]
+);
+
+export const abandonedCart = pgTable(
+	'abandoned_cart',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id').references(() => user.id, {
+			onDelete: 'cascade'
+		}),
+		sessionId: text('session_id'),
+
+		cartData: jsonb('cart_data').$type<any>().notNull(), // snapshot of cart
+		totalValue: decimal('total_value', { precision: 12, scale: 2 }).notNull(),
+
+		emailSentCount: integer('email_sent_count').default(0).notNull(),
+		lastEmailSentAt: timestamp('last_email_sent_at'),
+
+		isRecovered: boolean('is_recovered').default(false).notNull(),
+		recoveredAt: timestamp('recovered_at'),
+		recoveredOrderId: text('recovered_order_id').references(() => order.id, {
+			onDelete: 'set null'
+		}),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		expiresAt: timestamp('expires_at').notNull()
+	},
+	(table) => [
+		index('abandoned_cart_userId_idx').on(table.userId),
+		index('abandoned_cart_sessionId_idx').on(table.sessionId),
+		index('abandoned_cart_isRecovered_idx').on(table.isRecovered),
+		index('abandoned_cart_createdAt_idx').on(table.createdAt)
+	]
+);
+
+// 16. ADD PRODUCT RECOMMENDATION ENGINE DATA
+export const productRecommendation = pgTable(
+	'product_recommendation',
+	{
+		id: text('id').primaryKey(),
+		productId: text('product_id')
+			.notNull()
+			.references(() => product.id, { onDelete: 'cascade' }),
+		recommendedProductId: text('recommended_product_id')
+			.notNull()
+			.references(() => product.id, { onDelete: 'cascade' }),
+
+		type: text('type').notNull(), // frequently_bought_together, similar_products, customers_also_viewed
+		score: decimal('score', { precision: 5, scale: 4 }).notNull(), // relevance score
+
+		displayOrder: integer('display_order').default(0).notNull(),
+
+		isActive: boolean('is_active').default(true).notNull(),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		uniqueIndex('product_recommendation_unique').on(
+			table.productId,
+			table.recommendedProductId,
+			table.type
+		),
+		index('product_recommendation_productId_idx').on(table.productId),
+		index('product_recommendation_type_idx').on(table.type)
 	]
 );
 
@@ -581,6 +866,11 @@ export const orderItem = pgTable(
 
 		// Status (for individual item tracking)
 		status: orderStatusEnum('status').default('pending').notNull(),
+		serialNumbers: text('serial_numbers').array(), // Captured at packing stage
+		imeiNumbers: text('imei_numbers').array(),
+
+		// Warranty specific to this item at time of purchase
+		warrantyExpiresAt: timestamp('warranty_expires_at'),
 
 		// Return/Refund tracking for this item
 		isReturnable: boolean('is_returnable').default(true).notNull(),
@@ -1028,6 +1318,225 @@ export const couponUsage = pgTable(
 	]
 );
 
+export const giftCard = pgTable(
+	'gift_card',
+	{
+		id: text('id').primaryKey(),
+		code: text('code').notNull().unique(),
+
+		initialAmount: decimal('initial_amount', { precision: 12, scale: 2 }).notNull(),
+		currentBalance: decimal('current_balance', { precision: 12, scale: 2 }).notNull(),
+
+		// Gift card details
+		issuedTo: text('issued_to').references(() => user.id, {
+			onDelete: 'set null'
+		}),
+		issuedBy: text('issued_by').references(() => user.id, {
+			onDelete: 'set null'
+		}),
+
+		message: text('message'),
+		recipientEmail: text('recipient_email'),
+		recipientName: text('recipient_name'),
+
+		// Validity
+		validFrom: timestamp('valid_from').notNull(),
+		validUntil: timestamp('valid_until').notNull(),
+
+		isActive: boolean('is_active').default(true).notNull(),
+		isRedeemed: boolean('is_redeemed').default(false).notNull(),
+		redeemedAt: timestamp('redeemed_at'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('gift_card_code_idx').on(table.code),
+		index('gift_card_issuedTo_idx').on(table.issuedTo),
+		index('gift_card_isActive_idx').on(table.isActive)
+	]
+);
+
+export const giftCardTransaction = pgTable(
+	'gift_card_transaction',
+	{
+		id: text('id').primaryKey(),
+		giftCardId: text('gift_card_id')
+			.notNull()
+			.references(() => giftCard.id, { onDelete: 'cascade' }),
+		orderId: text('order_id').references(() => order.id, {
+			onDelete: 'set null'
+		}),
+
+		amount: decimal('amount', { precision: 12, scale: 2 }).notNull(),
+		type: text('type').notNull(), // debit, credit, refund
+		balanceAfter: decimal('balance_after', { precision: 12, scale: 2 }).notNull(),
+
+		notes: text('notes'),
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('gift_card_transaction_giftCardId_idx').on(table.giftCardId),
+		index('gift_card_transaction_orderId_idx').on(table.orderId)
+	]
+);
+
+// WALLET SYSTEM
+export const wallet = pgTable(
+	'wallet',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.unique()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		balance: decimal('balance', { precision: 12, scale: 2 }).default('0').notNull(),
+		currency: text('currency').default('INR').notNull(),
+
+		isActive: boolean('is_active').default(true).notNull(),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [index('wallet_userId_idx').on(table.userId)]
+);
+
+export const walletTransaction = pgTable(
+	'wallet_transaction',
+	{
+		id: text('id').primaryKey(),
+		walletId: text('wallet_id')
+			.notNull()
+			.references(() => wallet.id, { onDelete: 'cascade' }),
+
+		type: text('type').notNull(), // credit, debit
+		amount: decimal('amount', { precision: 12, scale: 2 }).notNull(),
+		balanceAfter: decimal('balance_after', { precision: 12, scale: 2 }).notNull(),
+
+		source: text('source').notNull(), // refund, cashback, order_payment, topup, gift
+
+		orderId: text('order_id').references(() => order.id, {
+			onDelete: 'set null'
+		}),
+		refundId: text('refund_id').references(() => refund.id, {
+			onDelete: 'set null'
+		}),
+
+		description: text('description'),
+		metadata: jsonb('metadata').$type<Record<string, any>>(),
+
+		status: text('status').default('completed').notNull(), // pending, completed, failed
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('wallet_transaction_walletId_idx').on(table.walletId),
+		index('wallet_transaction_orderId_idx').on(table.orderId),
+		index('wallet_transaction_createdAt_idx').on(table.createdAt)
+	]
+);
+
+// REFERRAL SYSTEM
+export const referral = pgTable(
+	'referral',
+	{
+		id: text('id').primaryKey(),
+		referrerId: text('referrer_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		referredUserId: text('referred_user_id').references(() => user.id, { onDelete: 'cascade' }),
+
+		referralCode: text('referral_code').notNull().unique(),
+
+		status: text('status').default('pending').notNull(), // pending, completed, expired
+
+		// Rewards
+		referrerReward: decimal('referrer_reward', { precision: 12, scale: 2 }),
+		referredUserReward: decimal('referred_user_reward', { precision: 12, scale: 2 }),
+
+		referredUserEmail: text('referred_user_email'),
+
+		completedAt: timestamp('completed_at'),
+		expiresAt: timestamp('expires_at'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('referral_referrerId_idx').on(table.referrerId),
+		index('referral_referredUserId_idx').on(table.referredUserId),
+		index('referral_referralCode_idx').on(table.referralCode),
+		index('referral_status_idx').on(table.status)
+	]
+);
+
+// LOYALTY/REWARDS PROGRAM
+export const loyaltyPoints = pgTable(
+	'loyalty_points',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.unique()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		totalPoints: integer('total_points').default(0).notNull(),
+		availablePoints: integer('available_points').default(0).notNull(),
+		redeemedPoints: integer('redeemed_points').default(0).notNull(),
+		expiredPoints: integer('expired_points').default(0).notNull(),
+
+		tier: text('tier').default('bronze').notNull(), // bronze, silver, gold, platinum
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		index('loyalty_points_userId_idx').on(table.userId),
+		index('loyalty_points_tier_idx').on(table.tier)
+	]
+);
+
+export const loyaltyTransaction = pgTable(
+	'loyalty_transaction',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		type: text('type').notNull(), // earned, redeemed, expired, cancelled
+		points: integer('points').notNull(),
+		balanceAfter: integer('balance_after').notNull(),
+
+		source: text('source').notNull(), // purchase, review, referral, signup, social_share, redeem
+
+		orderId: text('order_id').references(() => order.id, {
+			onDelete: 'set null'
+		}),
+		reviewId: text('review_id').references(() => review.id, {
+			onDelete: 'set null'
+		}),
+		postId: text('post_id').references(() => post.id, {
+			onDelete: 'set null'
+		}),
+
+		description: text('description'),
+		expiresAt: timestamp('expires_at'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('loyalty_transaction_userId_idx').on(table.userId),
+		index('loyalty_transaction_orderId_idx').on(table.orderId),
+		index('loyalty_transaction_createdAt_idx').on(table.createdAt)
+	]
+);
+
 // ============ NOTIFICATIONS ============
 export const notification = pgTable(
 	'notification',
@@ -1312,6 +1821,626 @@ export const taxRate = pgTable(
 	(table) => [index('tax_rate_isActive_idx').on(table.isActive)]
 );
 
+// ============ USER PROFILE EXTENSION ============
+export const userProfile = pgTable(
+	'user_profile',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.unique()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		// Profile Info
+		bio: text('bio'),
+		location: text('location'),
+		website: text('website'),
+		coverImage: text('cover_image'),
+
+		// Social Stats
+		followersCount: integer('followers_count').default(0).notNull(),
+		followingCount: integer('following_count').default(0).notNull(),
+		postsCount: integer('posts_count').default(0).notNull(),
+
+		// Badges & Achievements
+		badges: jsonb('badges').$type<string[]>().default([]), // verified, top_reviewer, tech_expert, early_adopter
+		reputationScore: integer('reputation_score').default(0).notNull(),
+
+		// Tech Interests & Preferences
+		interests: text('interests').array(), // smartphones, laptops, gaming, photography
+		favoriteCategories: jsonb('favorite_categories').$type<string[]>().default([]),
+
+		// Privacy Settings
+		isPrivate: boolean('is_private').default(false).notNull(),
+		showPurchases: boolean('show_purchases').default(true).notNull(),
+		showWishlist: boolean('show_wishlist').default(false).notNull(),
+		allowMessages: boolean('allow_messages').default(true).notNull(),
+
+		// Verification
+		isVerified: boolean('is_verified').default(false).notNull(),
+		verifiedAt: timestamp('verified_at'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		index('user_profile_userId_idx').on(table.userId),
+		index('user_profile_reputationScore_idx').on(table.reputationScore)
+	]
+);
+
+export const userActivityLog = pgTable(
+	'user_activity_log',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		activityType: text('activity_type').notNull(), // login, logout, password_change, profile_update, post_create, purchase, etc.
+		description: text('description'),
+		ipAddress: text('ip_address'),
+		userAgent: text('user_agent'),
+		metadata: jsonb('metadata').$type<Record<string, any>>(),
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('user_activity_log_userId_idx').on(table.userId),
+		index('user_activity_log_activityType_idx').on(table.activityType),
+		index('user_activity_log_createdAt_idx').on(table.createdAt)
+	]
+);
+
+export const conversation = pgTable(
+	'conversation',
+	{
+		id: text('id').primaryKey(),
+		participant1Id: text('participant1_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		participant2Id: text('participant2_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		lastMessageId: text('last_message_id'),
+		lastMessageAt: timestamp('last_message_at'),
+
+		isBlocked: boolean('is_blocked').default(false).notNull(),
+		blockedBy: text('blocked_by'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		uniqueIndex('conversation_participants_unique').on(table.participant1Id, table.participant2Id),
+		index('conversation_participant1_idx').on(table.participant1Id),
+		index('conversation_participant2_idx').on(table.participant2Id),
+		index('conversation_lastMessageAt_idx').on(table.lastMessageAt)
+	]
+);
+
+export const message = pgTable(
+	'message',
+	{
+		id: text('id').primaryKey(),
+		conversationId: text('conversation_id')
+			.notNull()
+			.references(() => conversation.id, { onDelete: 'cascade' }),
+		senderId: text('sender_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		receiverId: text('receiver_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		content: text('content').notNull(),
+		images: jsonb('images').$type<string[]>().default([]),
+
+		// Product sharing in messages
+		sharedProductId: text('shared_product_id').references(() => product.id, {
+			onDelete: 'set null'
+		}),
+		sharedPostId: text('shared_post_id').references(() => post.id, {
+			onDelete: 'set null'
+		}),
+
+		isRead: boolean('is_read').default(false).notNull(),
+		readAt: timestamp('read_at'),
+
+		isDeleted: boolean('is_deleted').default(false).notNull(),
+		deletedAt: timestamp('deleted_at'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('message_conversationId_idx').on(table.conversationId),
+		index('message_senderId_idx').on(table.senderId),
+		index('message_receiverId_idx').on(table.receiverId),
+		index('message_createdAt_idx').on(table.createdAt)
+	]
+);
+
+// ============ FOLLOW SYSTEM ============
+export const userFollow = pgTable(
+	'user_follow',
+	{
+		id: text('id').primaryKey(),
+		followerId: text('follower_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		followingId: text('following_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		uniqueIndex('user_follow_unique').on(table.followerId, table.followingId),
+		index('user_follow_followerId_idx').on(table.followerId),
+		index('user_follow_followingId_idx').on(table.followingId)
+	]
+);
+
+// ============ POSTS/FEED ============
+export const post = pgTable(
+	'post',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		// Content
+		type: postTypeEnum('type').notNull(),
+		title: text('title'),
+		content: text('content'),
+
+		// Media
+		images: jsonb('images').$type<string[]>().default([]),
+		videos: jsonb('videos').$type<string[]>().default([]),
+		thumbnailImage: text('thumbnail_image'),
+
+		// Product Association
+		productId: text('product_id').references(() => product.id, {
+			onDelete: 'set null'
+		}),
+		orderId: text('order_id').references(() => order.id, {
+			onDelete: 'set null'
+		}),
+
+		// Tags & Categories
+		tags: text('tags').array(), // #iphone15pro, #gaming, #photography
+		mentionedUsers: jsonb('mentioned_users').$type<string[]>().default([]),
+
+		// Visibility & Moderation
+		visibility: postVisibilityEnum('visibility').default('public').notNull(),
+		isApproved: boolean('is_approved').default(true).notNull(),
+		isFeatured: boolean('is_featured').default(false).notNull(),
+		isPinned: boolean('is_pinned').default(false).notNull(),
+
+		// Engagement Metrics
+		viewCount: integer('view_count').default(0).notNull(),
+		likeCount: integer('like_count').default(0).notNull(),
+		commentCount: integer('comment_count').default(0).notNull(),
+		shareCount: integer('share_count').default(0).notNull(),
+		saveCount: integer('save_count').default(0).notNull(),
+
+		// Poll Data (if type is poll)
+		pollOptions: jsonb('poll_options').$type<
+			{
+				id: string;
+				text: string;
+				voteCount: number;
+			}[]
+		>(),
+		pollEndsAt: timestamp('poll_ends_at'),
+		allowMultipleVotes: boolean('allow_multiple_votes').default(false),
+
+		// Location
+		location: text('location'),
+
+		// Editing
+		isEdited: boolean('is_edited').default(false).notNull(),
+		editedAt: timestamp('edited_at'),
+
+		// Deletion (soft delete)
+		isDeleted: boolean('is_deleted').default(false).notNull(),
+		deletedAt: timestamp('deleted_at'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		index('post_userId_idx').on(table.userId),
+		index('post_productId_idx').on(table.productId),
+		index('post_type_idx').on(table.type),
+		index('post_visibility_idx').on(table.visibility),
+		index('post_isApproved_idx').on(table.isApproved),
+		index('post_isFeatured_idx').on(table.isFeatured),
+		index('post_createdAt_idx').on(table.createdAt),
+		index('post_likeCount_idx').on(table.likeCount)
+	]
+);
+
+// ============ POST ENGAGEMENT ============
+export const postLike = pgTable(
+	'post_like',
+	{
+		id: text('id').primaryKey(),
+		postId: text('post_id')
+			.notNull()
+			.references(() => post.id, { onDelete: 'cascade' }),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		uniqueIndex('post_like_unique').on(table.postId, table.userId),
+		index('post_like_postId_idx').on(table.postId),
+		index('post_like_userId_idx').on(table.userId)
+	]
+);
+
+export const postSave = pgTable(
+	'post_save',
+	{
+		id: text('id').primaryKey(),
+		postId: text('post_id')
+			.notNull()
+			.references(() => post.id, { onDelete: 'cascade' }),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		collectionName: text('collection_name'), // optional: organize saved posts
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		uniqueIndex('post_save_unique').on(table.postId, table.userId),
+		index('post_save_postId_idx').on(table.postId),
+		index('post_save_userId_idx').on(table.userId)
+	]
+);
+
+export const postShare = pgTable(
+	'post_share',
+	{
+		id: text('id').primaryKey(),
+		postId: text('post_id')
+			.notNull()
+			.references(() => post.id, { onDelete: 'cascade' }),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		platform: text('platform'), // internal, whatsapp, twitter, facebook, copy_link
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('post_share_postId_idx').on(table.postId),
+		index('post_share_userId_idx').on(table.userId)
+	]
+);
+
+export const postView = pgTable(
+	'post_view',
+	{
+		id: text('id').primaryKey(),
+		postId: text('post_id')
+			.notNull()
+			.references(() => post.id, { onDelete: 'cascade' }),
+		userId: text('user_id').references(() => user.id, {
+			onDelete: 'set null'
+		}),
+		sessionId: text('session_id'),
+		duration: integer('duration'), // seconds spent viewing
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('post_view_postId_idx').on(table.postId),
+		index('post_view_userId_idx').on(table.userId),
+		index('post_view_createdAt_idx').on(table.createdAt)
+	]
+);
+
+// ============ COMMENTS ============
+export const comment = pgTable(
+	'comment',
+	{
+		id: text('id').primaryKey(),
+		postId: text('post_id')
+			.notNull()
+			.references(() => post.id, { onDelete: 'cascade' }),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		parentId: text('parent_id'), // for nested comments/replies
+
+		content: text('content').notNull(),
+		images: jsonb('images').$type<string[]>().default([]),
+
+		// Engagement
+		likeCount: integer('like_count').default(0).notNull(),
+		replyCount: integer('reply_count').default(0).notNull(),
+
+		// Moderation
+		isApproved: boolean('is_approved').default(true).notNull(),
+		isEdited: boolean('is_edited').default(false).notNull(),
+		editedAt: timestamp('edited_at'),
+
+		isDeleted: boolean('is_deleted').default(false).notNull(),
+		deletedAt: timestamp('deleted_at'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		index('comment_postId_idx').on(table.postId),
+		index('comment_userId_idx').on(table.userId),
+		index('comment_parentId_idx').on(table.parentId),
+		index('comment_createdAt_idx').on(table.createdAt)
+	]
+);
+
+export const commentLike = pgTable(
+	'comment_like',
+	{
+		id: text('id').primaryKey(),
+		commentId: text('comment_id')
+			.notNull()
+			.references(() => comment.id, { onDelete: 'cascade' }),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		uniqueIndex('comment_like_unique').on(table.commentId, table.userId),
+		index('comment_like_commentId_idx').on(table.commentId)
+	]
+);
+
+// ============ POLL VOTES ============
+export const pollVote = pgTable(
+	'poll_vote',
+	{
+		id: text('id').primaryKey(),
+		postId: text('post_id')
+			.notNull()
+			.references(() => post.id, { onDelete: 'cascade' }),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		optionId: text('option_id').notNull(),
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		uniqueIndex('poll_vote_unique').on(table.postId, table.userId, table.optionId),
+		index('poll_vote_postId_idx').on(table.postId),
+		index('poll_vote_userId_idx').on(table.userId)
+	]
+);
+
+// ============ HASHTAGS & TRENDING ============
+export const hashtag = pgTable(
+	'hashtag',
+	{
+		id: text('id').primaryKey(),
+		name: text('name').notNull().unique(), // without # symbol
+		normalizedName: text('normalized_name').notNull(), // lowercase for matching
+
+		postCount: integer('post_count').default(0).notNull(),
+		trendingScore: integer('trending_score').default(0).notNull(),
+
+		relatedProducts: jsonb('related_products').$type<string[]>().default([]),
+		relatedCategories: jsonb('related_categories').$type<string[]>().default([]),
+
+		isTrending: boolean('is_trending').default(false).notNull(),
+		isBanned: boolean('is_banned').default(false).notNull(),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		index('hashtag_normalizedName_idx').on(table.normalizedName),
+		index('hashtag_trendingScore_idx').on(table.trendingScore),
+		index('hashtag_isTrending_idx').on(table.isTrending)
+	]
+);
+
+export const postHashtag = pgTable(
+	'post_hashtag',
+	{
+		id: text('id').primaryKey(),
+		postId: text('post_id')
+			.notNull()
+			.references(() => post.id, { onDelete: 'cascade' }),
+		hashtagId: text('hashtag_id')
+			.notNull()
+			.references(() => hashtag.id, { onDelete: 'cascade' }),
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		uniqueIndex('post_hashtag_unique').on(table.postId, table.hashtagId),
+		index('post_hashtag_postId_idx').on(table.postId),
+		index('post_hashtag_hashtagId_idx').on(table.hashtagId)
+	]
+);
+
+// ============ USER COLLECTIONS ============
+export const collection = pgTable(
+	'collection',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		name: text('name').notNull(),
+		description: text('description'),
+		coverImage: text('cover_image'),
+
+		isPublic: boolean('is_public').default(true).notNull(),
+		postCount: integer('post_count').default(0).notNull(),
+
+		createdAt: timestamp('created_at').defaultNow().notNull(),
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [
+		index('collection_userId_idx').on(table.userId),
+		index('collection_isPublic_idx').on(table.isPublic)
+	]
+);
+
+export const collectionPost = pgTable(
+	'collection_post',
+	{
+		id: text('id').primaryKey(),
+		collectionId: text('collection_id')
+			.notNull()
+			.references(() => collection.id, { onDelete: 'cascade' }),
+		postId: text('post_id')
+			.notNull()
+			.references(() => post.id, { onDelete: 'cascade' }),
+		addedBy: text('added_by')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		uniqueIndex('collection_post_unique').on(table.collectionId, table.postId),
+		index('collection_post_collectionId_idx').on(table.collectionId),
+		index('collection_post_postId_idx').on(table.postId)
+	]
+);
+
+// ============ REPORTING & MODERATION ============
+export const postReport = pgTable(
+	'post_report',
+	{
+		id: text('id').primaryKey(),
+		postId: text('post_id')
+			.notNull()
+			.references(() => post.id, { onDelete: 'cascade' }),
+		reportedBy: text('reported_by')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		reason: reportReasonEnum('reason').notNull(),
+		description: text('description'),
+
+		status: text('status').default('pending').notNull(), // pending, reviewed, resolved, dismissed
+		reviewedBy: text('reviewed_by').references(() => user.id, {
+			onDelete: 'set null'
+		}),
+		reviewedAt: timestamp('reviewed_at'),
+		resolution: text('resolution'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('post_report_postId_idx').on(table.postId),
+		index('post_report_reportedBy_idx').on(table.reportedBy),
+		index('post_report_status_idx').on(table.status)
+	]
+);
+
+export const commentReport = pgTable(
+	'comment_report',
+	{
+		id: text('id').primaryKey(),
+		commentId: text('comment_id')
+			.notNull()
+			.references(() => comment.id, { onDelete: 'cascade' }),
+		reportedBy: text('reported_by')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		reason: reportReasonEnum('reason').notNull(),
+		description: text('description'),
+
+		status: text('status').default('pending').notNull(),
+		reviewedBy: text('reviewed_by').references(() => user.id, {
+			onDelete: 'set null'
+		}),
+		reviewedAt: timestamp('reviewed_at'),
+
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		index('comment_report_commentId_idx').on(table.commentId),
+		index('comment_report_status_idx').on(table.status)
+	]
+);
+
+// ============ USER BLOCKS ============
+export const userBlock = pgTable(
+	'user_block',
+	{
+		id: text('id').primaryKey(),
+		blockerId: text('blocker_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		blockedId: text('blocked_id')
+			.notNull()
+			.references(() => user.id, { onDelete: 'cascade' }),
+		reason: text('reason'),
+		createdAt: timestamp('created_at').defaultNow().notNull()
+	},
+	(table) => [
+		uniqueIndex('user_block_unique').on(table.blockerId, table.blockedId),
+		index('user_block_blockerId_idx').on(table.blockerId),
+		index('user_block_blockedId_idx').on(table.blockedId)
+	]
+);
+
+// ============ FEED PREFERENCES ============
+export const feedPreference = pgTable(
+	'feed_preference',
+	{
+		id: text('id').primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.unique()
+			.references(() => user.id, { onDelete: 'cascade' }),
+
+		// Feed Algorithm Preferences
+		showFollowingOnly: boolean('show_following_only').default(false).notNull(),
+		showRecommended: boolean('show_recommended').default(true).notNull(),
+
+		// Content Filters
+		hiddenCategories: jsonb('hidden_categories').$type<string[]>().default([]),
+		hiddenHashtags: jsonb('hidden_hashtags').$type<string[]>().default([]),
+
+		// Notification Settings
+		notifyOnLike: boolean('notify_on_like').default(true).notNull(),
+		notifyOnComment: boolean('notify_on_comment').default(true).notNull(),
+		notifyOnFollow: boolean('notify_on_follow').default(true).notNull(),
+		notifyOnMention: boolean('notify_on_mention').default(true).notNull(),
+
+		updatedAt: timestamp('updated_at')
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull()
+	},
+	(table) => [index('feed_preference_userId_idx').on(table.userId)]
+);
+
 // ============ ALL RELATIONS ============
 export const userRelations = relations(user, ({ many }) => ({
 	sessions: many(session),
@@ -1502,8 +2631,6 @@ export const refundRelations = relations(refund, ({ one }) => ({
 		references: [order.id]
 	})
 }));
-
-// FINAL PART - Complete Relations
 
 export const reviewRelations = relations(review, ({ one, many }) => ({
 	product: one(product, {
@@ -1699,6 +2826,240 @@ export const contactMessageReplyRelations = relations(contactMessageReply, ({ on
 		references: [user.id]
 	})
 }));
+
+export const conversationRelations = relations(conversation, ({ one, many }) => ({
+	participant1: one(user, {
+		fields: [conversation.participant1Id],
+		references: [user.id],
+		relationName: 'conversations_as_participant1'
+	}),
+	participant2: one(user, {
+		fields: [conversation.participant2Id],
+		references: [user.id],
+		relationName: 'conversations_as_participant2'
+	}),
+	messages: many(message)
+}));
+
+export const messageRelations = relations(message, ({ one }) => ({
+	conversation: one(conversation, {
+		fields: [message.conversationId],
+		references: [conversation.id]
+	}),
+	sender: one(user, {
+		fields: [message.senderId],
+		references: [user.id],
+		relationName: 'sent_messages'
+	}),
+	receiver: one(user, {
+		fields: [message.receiverId],
+		references: [user.id],
+		relationName: 'received_messages'
+	}),
+	sharedProduct: one(product, {
+		fields: [message.sharedProductId],
+		references: [product.id]
+	}),
+	sharedPost: one(post, {
+		fields: [message.sharedPostId],
+		references: [post.id]
+	})
+}));
+
+export const walletRelations = relations(wallet, ({ one, many }) => ({
+	user: one(user, {
+		fields: [wallet.userId],
+		references: [user.id]
+	}),
+	transactions: many(walletTransaction)
+}));
+
+export const loyaltyPointsRelations = relations(loyaltyPoints, ({ one, many }) => ({
+	user: one(user, {
+		fields: [loyaltyPoints.userId],
+		references: [user.id]
+	}),
+	transactions: many(loyaltyTransaction)
+}));
+
+export const referralRelations = relations(referral, ({ one }) => ({
+	referrer: one(user, {
+		fields: [referral.referrerId],
+		references: [user.id],
+		relationName: 'referrals_made'
+	}),
+	referredUser: one(user, {
+		fields: [referral.referredUserId],
+		references: [user.id],
+		relationName: 'referred_by'
+	})
+}));
+
+export const userProfileRelations = relations(userProfile, ({ one }) => ({
+	user: one(user, {
+		fields: [userProfile.userId],
+		references: [user.id]
+	})
+}));
+
+export const userFollowRelations = relations(userFollow, ({ one }) => ({
+	follower: one(user, {
+		fields: [userFollow.followerId],
+		references: [user.id],
+		relationName: 'followers'
+	}),
+	following: one(user, {
+		fields: [userFollow.followingId],
+		references: [user.id],
+		relationName: 'following'
+	})
+}));
+
+export const postRelations = relations(post, ({ one, many }) => ({
+	user: one(user, {
+		fields: [post.userId],
+		references: [user.id]
+	}),
+	product: one(product, {
+		fields: [post.productId],
+		references: [product.id]
+	}),
+	order: one(order, {
+		fields: [post.orderId],
+		references: [order.id]
+	}),
+	likes: many(postLike),
+	saves: many(postSave),
+	shares: many(postShare),
+	views: many(postView),
+	comments: many(comment),
+	hashtags: many(postHashtag),
+	reports: many(postReport),
+	pollVotes: many(pollVote)
+}));
+
+export const postLikeRelations = relations(postLike, ({ one }) => ({
+	post: one(post, {
+		fields: [postLike.postId],
+		references: [post.id]
+	}),
+	user: one(user, {
+		fields: [postLike.userId],
+		references: [user.id]
+	})
+}));
+
+export const postSaveRelations = relations(postSave, ({ one }) => ({
+	post: one(post, {
+		fields: [postSave.postId],
+		references: [post.id]
+	}),
+	user: one(user, {
+		fields: [postSave.userId],
+		references: [user.id]
+	})
+}));
+
+export const commentRelations = relations(comment, ({ one, many }) => ({
+	post: one(post, {
+		fields: [comment.postId],
+		references: [post.id]
+	}),
+	user: one(user, {
+		fields: [comment.userId],
+		references: [user.id]
+	}),
+	parent: one(comment, {
+		fields: [comment.parentId],
+		references: [comment.id],
+		relationName: 'comment_replies'
+	}),
+	replies: many(comment, { relationName: 'comment_replies' }),
+	likes: many(commentLike),
+	reports: many(commentReport)
+}));
+
+export const commentLikeRelations = relations(commentLike, ({ one }) => ({
+	comment: one(comment, {
+		fields: [commentLike.commentId],
+		references: [comment.id]
+	}),
+	user: one(user, {
+		fields: [commentLike.userId],
+		references: [user.id]
+	})
+}));
+
+export const hashtagRelations = relations(hashtag, ({ many }) => ({
+	posts: many(postHashtag)
+}));
+
+export const postHashtagRelations = relations(postHashtag, ({ one }) => ({
+	post: one(post, {
+		fields: [postHashtag.postId],
+		references: [post.id]
+	}),
+	hashtag: one(hashtag, {
+		fields: [postHashtag.hashtagId],
+		references: [hashtag.id]
+	})
+}));
+
+export const collectionRelations = relations(collection, ({ one, many }) => ({
+	user: one(user, {
+		fields: [collection.userId],
+		references: [user.id]
+	}),
+	posts: many(collectionPost)
+}));
+
+export const collectionPostRelations = relations(collectionPost, ({ one }) => ({
+	collection: one(collection, {
+		fields: [collectionPost.collectionId],
+		references: [collection.id]
+	}),
+	post: one(post, {
+		fields: [collectionPost.postId],
+		references: [post.id]
+	}),
+	addedByUser: one(user, {
+		fields: [collectionPost.addedBy],
+		references: [user.id]
+	})
+}));
+
+export const pollVoteRelations = relations(pollVote, ({ one }) => ({
+	post: one(post, {
+		fields: [pollVote.postId],
+		references: [post.id]
+	}),
+	user: one(user, {
+		fields: [pollVote.userId],
+		references: [user.id]
+	})
+}));
+
+// Update user relations to include social features
+export const userSocialRelations = relations(user, ({ one, many }) => ({
+	profile: one(userProfile),
+	posts: many(post),
+	followers: many(userFollow, { relationName: 'following' }),
+	following: many(userFollow, { relationName: 'followers' }),
+	postLikes: many(postLike),
+	savedPosts: many(postSave),
+	comments: many(comment),
+	collections: many(collection),
+	feedPreference: one(feedPreference),
+	blocking: many(userBlock, { relationName: 'blocker' }),
+	blockedBy: many(userBlock, { relationName: 'blocked' })
+}));
+
+// ============ TYPE EXPORTS ============
+export type UserProfile = typeof userProfile.$inferSelect;
+export type Post = typeof post.$inferSelect;
+export type Comment = typeof comment.$inferSelect;
+export type Hashtag = typeof hashtag.$inferSelect;
+export type Collection = typeof collection.$inferSelect;
 
 // ============================================
 // EXAMPLE: How to Use This Schema

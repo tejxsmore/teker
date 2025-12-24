@@ -5,3 +5,4 @@
 
 <Navbar />
 <MobileNav />
+<div class="p-4">Bag Page</div>

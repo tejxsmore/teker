@@ -6,5 +6,5 @@
 
 <Navbar />
 <MobileNav />
-<div class="flex min-h-screen p-2"></div>
+<div class="flex min-h-screen p-4">Home</div>
 <Footer />
