@@ -8,22 +8,21 @@
 	<!-- Back button -->
 	<a
 		href="/"
-		class="absolute top-4 left-4 flex items-center gap-1.5 rounded-full bg-[#e3e3e3] px-3 py-1 text-start text-sm font-semibold text-[#707070]"
+		class="absolute top-4 left-4 flex items-center gap-1.5 rounded-full border border-[#DCDCDC] bg-[#e3e3e3] px-3 py-1 text-start text-xs font-medium text-[#707070] lg:mx-20 xl:mx-40"
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			x="0px"
 			y="0px"
-			width="12px"
-			height="12px"
+			width="10px"
+			height="10px"
 			viewBox="0 0 12 12"
-		>
-			<path
+			><path
 				d="m7.75,11c-.192,0-.384-.073-.53-.22L2.97,6.53c-.293-.293-.293-.768,0-1.061L7.22,1.22c.293-.293.768-.293,1.061,0s.293.768,0,1.061l-3.72,3.72,3.72,3.72c.293.293.293.768,0,1.061-.146.146-.338.22-.53.22Z"
 				stroke-width="0"
 				fill="rgba(112, 112, 112, 1)"
-			></path>
-		</svg>
+			></path></svg
+		>
 		<span>Back</span>
 	</a>
 
@@ -42,7 +41,8 @@
 				id="email"
 				placeholder="Email"
 				required
-				class="w-full rounded-full border border-[#DCDCDC] bg-[#fafafa] p-2.25 pl-4 text-sm focus:border-[#b7b7b7] focus:outline-none"
+				class="w-full rounded-full border border-[#DCDCDC] bg-[#f1f0f0]
+				p-[8.5px] pl-4 font-semibold focus:border-[#2B2A2A] focus:outline-none"
 			/>
 			<div class="relative w-full">
 				<input
@@ -51,11 +51,11 @@
 					id="password"
 					placeholder="Password"
 					required
-					class="w-full rounded-full border border-[#DCDCDC] bg-[#fafafa] p-2.25 pl-4 text-sm focus:border-[#b7b7b7] focus:outline-none"
+					class="w-full rounded-full border border-[#DCDCDC] bg-[#f1f0f0] p-[8.5px] pl-5 font-semibold focus:border-[#2B2A2A] focus:outline-none"
 				/>
 				<button
 					type="button"
-					class="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[#777777] transition-colors duration-200 hover:text-[#6d6d6d] focus:outline-none"
+					class="absolute top-1/2 right-5 -translate-y-1/2 cursor-pointer text-[#777777] transition-colors duration-200 hover:text-[#6d6d6d] focus:outline-none"
 					onclick={() => (showPassword = !showPassword)}
 					tabindex="-1"
 				>
@@ -96,7 +96,7 @@
 			</div>
 			<button
 				type="submit"
-				class="w-full rounded-full border-2 border-[#eb6d6d] bg-[#E62727] px-4 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#e43737]"
+				class="w-full rounded-full border-2 border-[#eb6d6d] bg-[#E62727] px-4 py-2 font-semibold text-white transition-colors duration-200 hover:bg-[#e43737]"
 			>
 				Login
 			</button>

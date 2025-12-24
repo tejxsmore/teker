@@ -1,5 +1,6 @@
 <script>
 	import { userStore } from '$lib/stores/user';
+	let wishlistItems = $state(0);
 </script>
 
 <nav
@@ -7,7 +8,7 @@
 	md:border-b lg:px-20 xl:px-40"
 >
 	<div>
-		<a href="/" class="text-xl font-semibold">Teker</a>
+		<a href="/" class="text-xl font-semibold">TEKER</a>
 	</div>
 
 	<div class="flex items-center gap-4">
@@ -17,8 +18,8 @@
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
 					y="0px"
-					width="20px"
-					height="20px"
+					width="24px"
+					height="24px"
 					viewBox="0 0 18 18"
 					><path
 						d="M8.529,15.222c.297,.155,.644,.155,.941,0,1.57-.819,6.529-3.787,6.529-8.613,.008-2.12-1.704-3.846-3.826-3.859-1.277,.016-2.464,.66-3.173,1.72-.71-1.06-1.897-1.704-3.173-1.72-2.123,.013-3.834,1.739-3.826,3.859,0,4.826,4.959,7.794,6.529,8.613Z"
@@ -35,13 +36,13 @@
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
 					y="0px"
-					width="20px"
-					height="20px"
+					width="24px"
+					height="24px"
 					viewBox="0 0 18 18"
 					><path
 						d="M6.75,4.75v-1.75c0-1.243,1.007-2.25,2.25-2.25h0c1.243,0,2.25,1.007,2.25,2.25v1.75"
 						fill="none"
-						stroke="#1c1f21"
+						stroke="rgba(43, 42, 42, 1)"
 						stroke-linecap="round"
 						stroke-linejoin="round"
 						stroke-width="1.5"
@@ -49,7 +50,7 @@
 					></path><path
 						d="M5.334,4.75h7.333c1.037,0,1.903,.793,1.992,1.827l.652,7.5c.102,1.169-.82,2.173-1.992,2.173H4.681c-1.173,0-2.094-1.005-1.992-2.173l.652-7.5c.09-1.034,.955-1.827,1.992-1.827Z"
 						fill="none"
-						stroke="#1c1f21"
+						stroke="rgba(43, 42, 42, 1)"
 						stroke-linecap="round"
 						stroke-linejoin="round"
 						stroke-width="1.5"
@@ -58,27 +59,32 @@
 			</a>
 		</div>
 		<div
-			class="hidden w-full items-center rounded-full border border-[#DCDCDC] bg-[#fafafa] p-2.25 pl-4 text-sm focus:border-[#b7b7b7] focus:outline-none md:flex"
+			class="hidden w-full items-center rounded-full border border-[#DCDCDC] bg-[#f1f0f0] p-[8.5px] pl-5 focus:border-[#2B2A2A] focus:outline-none md:flex"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				x="0px"
 				y="0px"
-				width="16px"
-				height="16px"
+				width="18px"
+				height="18px"
 				viewBox="0 0 18 18"
+				class="mt-px"
 				><path
-					fill-rule="evenodd"
-					clip-rule="evenodd"
-					d="M11.1083 11.1083C11.4012 10.8154 11.876 10.8154 12.1689 11.1083L16.2803 15.2197C16.5732 15.5126 16.5732 15.9874 16.2803 16.2803C15.9874 16.5732 15.5126 16.5732 15.2197 16.2803L11.1083 12.1689C10.8154 11.876 10.8154 11.4012 11.1083 11.1083Z"
-					fill="rgba(112, 112, 112, 1)"
+					d="M15.75 15.75L11.6386 11.6386"
+					stroke="rgba(112, 112, 112, 1)"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
 					data-color="color-2"
+					fill="none"
 				></path>
 				<path
-					fill-rule="evenodd"
-					clip-rule="evenodd"
-					d="M1.5 7.75C1.5 4.29829 4.29829 1.5 7.75 1.5C11.2017 1.5 14 4.29829 14 7.75C14 11.2017 11.2017 14 7.75 14C4.29829 14 1.5 11.2017 1.5 7.75ZM7.75 3C5.12671 3 3 5.12671 3 7.75C3 10.3733 5.12671 12.5 7.75 12.5C10.3733 12.5 12.5 10.3733 12.5 7.75C12.5 5.12671 10.3733 3 7.75 3Z"
-					fill="rgba(112, 112, 112, 1)"
+					d="M7.75 13.25C10.7875 13.25 13.25 10.7875 13.25 7.75C13.25 4.7125 10.7875 2.25 7.75 2.25C4.7125 2.25 2.25 4.7125 2.25 7.75C2.25 10.7875 4.7125 13.25 7.75 13.25Z"
+					stroke="rgba(112, 112, 112, 1)"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					fill="none"
 				></path></svg
 			>
 			<input
@@ -89,14 +95,14 @@
 		</div>
 		{#if $userStore}
 			<button
-				class="cursor-pointer rounded-full border-2 border-[#eb6d6d] bg-[#E62727] p-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#e43737]"
+				class="cursor-pointer rounded-full border-2 border-[#eb6d6d] bg-[#E62727] p-2 font-semibold text-white transition-colors duration-200 hover:bg-[#e43737]"
 				aria-label="User profile icon"
 				><svg
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
 					y="0px"
-					width="20px"
-					height="20px"
+					width="24px"
+					height="24px"
 					viewBox="0 0 18 18"
 					><path
 						d="M2.60518 13.1674C3.69058 10.7157 6.14168 9 8.99999 9C11.7634 9 14.1462 10.6037 15.2822 12.9257C15.3564 13.0774 15.4289 13.2326 15.4797 13.3894C15.8649 14.5805 15.1811 15.8552 13.9874 16.2313C12.705 16.6354 11.0072 17 8.99999 17C6.99283 17 5.29503 16.6354 4.01259 16.2313C2.74425 15.8317 2.05162 14.4186 2.60518 13.1674Z"
@@ -113,7 +119,7 @@
 			<a
 				href="/login"
 				class="rounded-full border-2 border-[#eb6d6d] bg-[#E62727] px-4
-				py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#e43737]"
+				py-2 font-semibold text-white transition-colors duration-200 hover:bg-[#e43737]"
 			>
 				Login</a
 			>
@@ -124,27 +130,32 @@
 	class="flex border-b border-[#DCDCDC] bg-white p-4 pt-0 md:hidden md:border-b-0 md:px-20 lg:px-40 xl:px-60"
 >
 	<div
-		class="flex w-full items-center rounded-full border border-[#DCDCDC] bg-[#fafafa] p-2.25 pl-4 text-sm focus:border-[#b7b7b7] focus:outline-none"
+		class="flex w-full items-center rounded-full border border-[#DCDCDC] bg-[#f1f0f0] p-[8.5px] pl-5 focus:border-[#2B2A2A] focus:outline-none md:hidden"
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
 			x="0px"
 			y="0px"
-			width="16px"
-			height="16px"
+			width="18px"
+			height="18px"
 			viewBox="0 0 18 18"
+			class="mt-px"
 			><path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
-				d="M11.1083 11.1083C11.4012 10.8154 11.876 10.8154 12.1689 11.1083L16.2803 15.2197C16.5732 15.5126 16.5732 15.9874 16.2803 16.2803C15.9874 16.5732 15.5126 16.5732 15.2197 16.2803L11.1083 12.1689C10.8154 11.876 10.8154 11.4012 11.1083 11.1083Z"
-				fill="rgba(112, 112, 112, 1)"
+				d="M15.75 15.75L11.6386 11.6386"
+				stroke="rgba(112, 112, 112, 1)"
+				stroke-width="1.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
 				data-color="color-2"
+				fill="none"
 			></path>
 			<path
-				fill-rule="evenodd"
-				clip-rule="evenodd"
-				d="M1.5 7.75C1.5 4.29829 4.29829 1.5 7.75 1.5C11.2017 1.5 14 4.29829 14 7.75C14 11.2017 11.2017 14 7.75 14C4.29829 14 1.5 11.2017 1.5 7.75ZM7.75 3C5.12671 3 3 5.12671 3 7.75C3 10.3733 5.12671 12.5 7.75 12.5C10.3733 12.5 12.5 10.3733 12.5 7.75C12.5 5.12671 10.3733 3 7.75 3Z"
-				fill="rgba(112, 112, 112, 1)"
+				d="M7.75 13.25C10.7875 13.25 13.25 10.7875 13.25 7.75C13.25 4.7125 10.7875 2.25 7.75 2.25C4.7125 2.25 2.25 4.7125 2.25 7.75C2.25 10.7875 4.7125 13.25 7.75 13.25Z"
+				stroke="rgba(112, 112, 112, 1)"
+				stroke-width="1.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				fill="none"
 			></path></svg
 		>
 		<input

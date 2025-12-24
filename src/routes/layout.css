@@ -11,6 +11,10 @@ body {
 	box-sizing: border-box;
 	scrollbar-width: none;
 	-ms-overflow-style: none;
+	font-family: 'Plus Jakarta Sans', sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
 }
 
 ::-webkit-scrollbar {
