@@ -4,8 +4,7 @@
 </script>
 
 <nav
-	class="flex items-center justify-between border-[#DCDCDC] bg-white p-3
-	md:border-b lg:px-20 xl:px-40"
+	class="flex items-center justify-between border-[#DCDCDC] bg-white px-3 pt-3 md:border-b md:p-3 lg:px-20 xl:px-40"
 >
 	<div>
 		<a href="/" class="text-xl font-semibold focus:outline-none">TEKER</a>
@@ -59,7 +58,7 @@
 			</a>
 		</div>
 		<div
-			class="hidden w-full items-center rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-[7.5px] pl-4 focus:border-[#2B2A2A] focus:outline-none md:flex"
+			class="hidden w-full items-center rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-1.75 pl-4 focus:border-[#2B2A2A] focus:outline-none md:flex"
 		>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -125,11 +124,12 @@
 		{/if}
 	</div>
 </nav>
+
 <div
-	class="flex border-b border-[#DCDCDC] bg-white p-3 pt-0 md:hidden md:border-b-0 md:px-20 lg:px-40 xl:px-60"
+	class="flex border-b border-[#DCDCDC] bg-white p-3 md:hidden md:border-b-0 md:px-20 lg:px-40 xl:px-60"
 >
 	<div
-		class="flex w-full items-center rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-[7.5px] pl-4 focus:border-[#2B2A2A] focus:outline-none md:hidden"
+		class="flex w-full items-center rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-1.75 pl-4 focus:border-[#2B2A2A] focus:outline-none md:hidden"
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"

@@ -29,7 +29,7 @@
 	<div
 		class="w-full max-w-md space-y-12 rounded-2xl border border-[#DCDCDC] bg-white p-6 text-center"
 	>
-		<div class="p space-y-2 pt-3">
+		<div class="p space-y-2">
 			<a href="/" class="text-xl font-semibold focus:outline-none">TEKER</a>
 			<p class="text-[#707070]">Sign in to your account</p>
 		</div>
@@ -41,7 +41,7 @@
 				id="email"
 				placeholder="Email"
 				required
-				class="w-full rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-[7.5px] pl-4 font-medium focus:border-[#2B2A2A] focus:outline-none"
+				class="w-full rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-1.75 pl-4 font-medium focus:border-[#2B2A2A] focus:outline-none"
 			/>
 			<div class="relative w-full">
 				<input
@@ -50,7 +50,7 @@
 					id="password"
 					placeholder="Password"
 					required
-					class="w-full rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-[7.5px] pl-4 font-medium focus:border-[#2B2A2A] focus:outline-none"
+					class="w-full rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-1.75 pl-4 font-medium focus:border-[#2B2A2A] focus:outline-none"
 				/>
 				<button
 					type="button"
@@ -59,6 +59,19 @@
 					tabindex="-1"
 				>
 					{#if showPassword}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							x="0px"
+							y="0px"
+							width="16px"
+							height="16px"
+							viewBox="0 0 18 18"
+							><path
+								d="M16.666,6.734c-.295-.29-.77-.285-1.061,.011-1.754,1.789-4.1,2.774-6.605,2.774s-4.851-.985-6.605-2.774c-.29-.295-.765-.3-1.061-.011-.296,.29-.301,.765-.011,1.061,.515,.525,1.074,.99,1.669,1.393l-.881,1.441c-.216,.353-.105,.815,.249,1.031,.122,.075,.257,.11,.391,.11,.252,0,.499-.127,.64-.359l.906-1.482c.678,.331,1.388,.588,2.124,.769l-.333,1.655c-.082,.406,.182,.802,.587,.883,.05,.01,.1,.015,.149,.015,.35,0,.663-.246,.734-.602l.339-1.685c.364,.037,.732,.057,1.103,.057s.739-.02,1.103-.057l.339,1.685c.072,.356,.385,.602,.734,.602,.049,0,.099-.005,.149-.015,.406-.082,.669-.477,.587-.883l-.333-1.655c.736-.181,1.446-.438,2.124-.769l.906,1.482c.141,.231,.388,.359,.64,.359,.134,0,.269-.036,.391-.11,.354-.216,.465-.678,.249-1.031l-.881-1.441c.594-.403,1.154-.867,1.669-1.393,.29-.295,.285-.771-.011-1.061Z"
+								fill="rgba(112, 112, 112, 1)"
+							></path></svg
+						>
+					{:else}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							x="0px"
@@ -76,19 +89,6 @@
 								fill="rgba(112, 112, 112, 1)"
 								data-color="color-2"
 							></circle></svg
-						>
-					{:else}
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							x="0px"
-							y="0px"
-							width="16px"
-							height="16px"
-							viewBox="0 0 18 18"
-							><path
-								d="M16.666,6.734c-.295-.29-.77-.285-1.061,.011-1.754,1.789-4.1,2.774-6.605,2.774s-4.851-.985-6.605-2.774c-.29-.295-.765-.3-1.061-.011-.296,.29-.301,.765-.011,1.061,.515,.525,1.074,.99,1.669,1.393l-.881,1.441c-.216,.353-.105,.815,.249,1.031,.122,.075,.257,.11,.391,.11,.252,0,.499-.127,.64-.359l.906-1.482c.678,.331,1.388,.588,2.124,.769l-.333,1.655c-.082,.406,.182,.802,.587,.883,.05,.01,.1,.015,.149,.015,.35,0,.663-.246,.734-.602l.339-1.685c.364,.037,.732,.057,1.103,.057s.739-.02,1.103-.057l.339,1.685c.072,.356,.385,.602,.734,.602,.049,0,.099-.005,.149-.015,.406-.082,.669-.477,.587-.883l-.333-1.655c.736-.181,1.446-.438,2.124-.769l.906,1.482c.141,.231,.388,.359,.64,.359,.134,0,.269-.036,.391-.11,.354-.216,.465-.678,.249-1.031l-.881-1.441c.594-.403,1.154-.867,1.669-1.393,.29-.295,.285-.771-.011-1.061Z"
-								fill="rgba(112, 112, 112, 1)"
-							></path></svg
 						>
 					{/if}
 				</button>
@@ -120,7 +120,7 @@
 		<div class="space-y-2">
 			<button
 				aria-label="Apple Signin"
-				class="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-[#DCDCDC] px-4 py-1.5 font-medium text-[#707070] transition-colors duration-200 hover:bg-[#f3f2f2]"
+				class="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-[#DCDCDC] p-1.75 font-medium text-[#707070] transition-colors duration-200 hover:bg-[#f3f2f2]"
 				><svg
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
@@ -136,7 +136,7 @@
 			</button>
 			<button
 				aria-label="Google Signin"
-				class="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-[#DCDCDC] px-4 py-1.5 font-medium text-[#707070] transition-colors duration-200 hover:bg-[#f3f2f2]"
+				class="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-[#DCDCDC] p-1.75 font-medium text-[#707070] transition-colors duration-200 hover:bg-[#f3f2f2]"
 				><svg
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
