@@ -8,7 +8,7 @@
 			fetchOptions: {
 				onSuccess: () => {
 					$userStore = null;
-					goto('/login');
+					goto('/auth/signin');
 				}
 			}
 		});
@@ -17,7 +17,7 @@
 
 <button
 	onclick={handleSignOut}
-	class="cursor-pointer items-center justify-center rounded-[12px] border border-[#B80000] bg-[#E52020]/30 px-4.5 py-1.5 text-white transition-all duration-300 hover:bg-[#C40C0C]/40 disabled:cursor-not-allowed disabled:opacity-50"
+	class="cursor-pointer items-center justify-center rounded-xl border border-[#B80000] bg-[#E52020]/30 px-4.5 py-1.5 text-white transition-all duration-300 hover:bg-[#C40C0C]/40 disabled:cursor-not-allowed disabled:opacity-50"
 >
 	Sign Out
 </button>

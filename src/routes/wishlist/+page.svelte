@@ -5,4 +5,4 @@
 
 <Navbar />
 <MobileNav />
-<div class="p-4">Wishlist Page</div>
+<div class="p-3">Wishlist Page</div>

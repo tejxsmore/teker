@@ -5,4 +5,4 @@
 
 <Navbar />
 <MobileNav />
-<div class="p-4">Categories Page</div>
+<div class="p-3">Categories Page</div>
