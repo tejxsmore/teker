@@ -6,8 +6,16 @@
 <nav
 	class="flex items-center justify-between border-[#DCDCDC] bg-white px-3 pt-3 md:border-b md:p-3 lg:px-20 xl:px-40"
 >
-	<div>
+	<div class="flex items-center gap-6">
 		<a href="/" class="text-xl font-semibold focus:outline-none">TEKER</a>
+
+		<div
+			class="hidden items-center gap-6 font-medium text-[#707070] transition-colors duration-200 hover:text-[#2B2A2A] md:flex"
+		>
+			<a href="/categories">Categories</a>
+			<a href="/brands">Brands</a>
+			<a href="/feed">Feed</a>
+		</div>
 	</div>
 
 	<div class="flex items-center gap-3">
