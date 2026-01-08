@@ -15,13 +15,17 @@
 			xmlns="http://www.w3.org/2000/svg"
 			x="0px"
 			y="0px"
-			width="20px"
-			height="20px"
+			width="16px"
+			height="16px"
 			viewBox="0 0 18 18"
-			><path
-				d="M11.5,16c-.192,0-.384-.073-.53-.22l-6.25-6.25c-.293-.293-.293-.768,0-1.061L10.97,2.22c.293-.293,.768-.293,1.061,0s.293,.768,0,1.061l-5.72,5.72,5.72,5.72c.293,.293,.293,.768,0,1.061-.146,.146-.338,.22-.53,.22Z"
-				fill="rgba(43, 42, 42, 1)"
-			></path></svg
+			><polyline
+				points="11.5 15.25 5.25 9 11.5 2.75"
+				fill="none"
+				stroke="rgba(43, 42, 42, 1)"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				stroke-width="1.5"
+			></polyline></svg
 		>
 	</a>
 

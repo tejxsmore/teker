@@ -9,12 +9,14 @@
 	<div class="flex items-center gap-6">
 		<a href="/" class="text-xl font-semibold focus:outline-none">TEKER</a>
 
-		<div
-			class="hidden items-center gap-6 font-medium text-[#707070] transition-colors duration-200 hover:text-[#2B2A2A] md:flex"
-		>
-			<a href="/categories">Categories</a>
-			<a href="/brands">Brands</a>
-			<a href="/feed">Feed</a>
+		<div class="hidden items-center font-medium text-[#707070] md:flex">
+			<a href="/categories" class="px-4 transition-colors duration-200 hover:text-[#2B2A2A]"
+				>Categories
+			</a>
+			<a href="/brands" class="h-full px-4 transition-colors duration-200 hover:text-[#2B2A2A]"
+				>Brands</a
+			>
+			<a href="/feed" class="px-4 transition-colors duration-200 hover:text-[#2B2A2A]">Feed</a>
 		</div>
 	</div>
 
@@ -38,7 +40,7 @@
 					></path></svg
 				>
 			</a>
-			<a href="/bag" aria-label="Bag icon">
+			<a href="/cart" aria-label="Cart icon">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					x="0px"
@@ -134,10 +136,10 @@
 </nav>
 
 <div
-	class="flex border-b border-[#DCDCDC] bg-white p-3 md:hidden md:border-b-0 md:px-20 lg:px-40 xl:px-60"
+	class="sticky top-0 flex border-b border-[#DCDCDC] bg-white p-3 md:hidden md:border-b-0 md:px-20 lg:px-40 xl:px-60"
 >
 	<div
-		class="flex w-full items-center rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-1.75 pl-4 focus:border-[#2B2A2A] focus:outline-none md:hidden"
+		class=" flex w-full items-center rounded-xl border border-[#DCDCDC] bg-[#f1f0f0] p-1.75 pl-4 focus:border-[#2B2A2A] focus:outline-none md:hidden"
 	>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
