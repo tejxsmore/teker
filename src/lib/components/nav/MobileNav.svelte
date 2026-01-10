@@ -11,7 +11,7 @@
 	}
 </script>
 
-<div class="fixed bottom-0 w-full border-t border-[#DCDCDC] bg-white md:hidden">
+<div class="fixed bottom-0 z-20 w-full border-t border-[#DCDCDC] bg-white md:hidden">
 	<div class="flex justify-around p-3">
 		<a href="/" aria-label="home icon" class="flex flex-col items-center gap-1 text-sm">
 			<svg
@@ -149,7 +149,7 @@
 			>
 		</a>
 
-		<a href="/user/profile" aria-label="user profile icon" class="flex flex-col items-center gap-1">
+		<a href="/cart" aria-label="Cart icon" class="flex flex-col items-center gap-1">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				x="0px"
@@ -157,31 +157,27 @@
 				width="20px"
 				height="20px"
 				viewBox="0 0 18 18"
-			>
-				<circle
-					cx="9"
-					cy="4.5"
-					r="2.75"
-					fill={isActive('/user') ? '#fedfe5' : 'none'}
-					stroke={isActive('/user') ? '#F21B3F' : '#707070'}
+				><path
+					d="M6.75,4.75v-1.75c0-1.243,1.007-2.25,2.25-2.25h0c1.243,0,2.25,1.007,2.25,2.25v1.75"
+					fill={isActive('/cart') ? '#fedfe5' : 'none'}
+					stroke={isActive('/cart') ? '#F21B3F' : '#707070'}
 					stroke-linecap="round"
 					stroke-linejoin="round"
 					stroke-width="1.5"
 					data-color="color-2"
-				></circle>
-				<path
-					d="M13.762,15.516c.86-.271,1.312-1.221,.947-2.045-.97-2.191-3.159-3.721-5.709-3.721s-4.739,1.53-5.709,3.721c-.365,.825,.087,1.774,.947,2.045,1.225,.386,2.846,.734,4.762,.734s3.537-.348,4.762-.734Z"
-					fill={isActive('/user') ? '#fedfe5' : 'none'}
-					stroke={isActive('/user') ? '#F21B3F' : '#707070'}
+				></path><path
+					d="M5.334,4.75h7.333c1.037,0,1.903,.793,1.992,1.827l.652,7.5c.102,1.169-.82,2.173-1.992,2.173H4.681c-1.173,0-2.094-1.005-1.992-2.173l.652-7.5c.09-1.034,.955-1.827,1.992-1.827Z"
+					fill={isActive('/cart') ? '#fedfe5' : 'none'}
+					stroke={isActive('/cart') ? '#F21B3F' : '#707070'}
 					stroke-linecap="round"
 					stroke-linejoin="round"
 					stroke-width="1.5"
-				></path>
-			</svg>
+				></path></svg
+			>
 			<span
 				class="mt-0.5 text-xs font-semibold"
-				class:text-[#F21B3F]={isActive('/user')}
-				class:text-[#707070]={!isActive('/user')}>Profile</span
+				class:text-[#F21B3F]={isActive('/cart')}
+				class:text-[#707070]={!isActive('/cart')}>Cart</span
 			>
 		</a>
 	</div>
